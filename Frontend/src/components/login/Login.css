@@ -4,7 +4,6 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: #003d00; /* Dark green background */
   }
   
   .login-box {
@@ -14,12 +13,60 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 100%;
     max-width: 400px;
+    position: relative; /* To position elements inside it */
   }
   
   .login-box h2 {
     color: #f4d03f; /* Yellowish text color */
     margin-bottom: 1rem;
     text-align: center;
+  }
+  
+  .role-selection {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem; /* Space between role options */
+  }
+  
+  .role-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #f4d03f; /* Yellowish text color */
+    font-weight: bold;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .role-option:hover {
+    transform: scale(1.05); /* Slightly enlarge the option on hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Add shadow on hover */
+  }
+  
+  .check-circle {
+    width: 30px; /* Larger size for better visibility */
+    height: 30px; /* Larger size for better visibility */
+    border: 3px solid #f4d03f; /* Yellowish border */
+    border-radius: 50%;
+    margin-right: 0.75rem; /* Adjust spacing */
+    position: relative;
+    background-color: #003d00; /* Dark green background */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .check-circle.checked {
+    background-color: #f4d03f; /* Yellowish background when selected */
+    border-color: #f4d03f; /* Yellowish border when selected */
+  }
+  
+  .check-circle.checked::after {
+    content: '✔'; /* Checkmark symbol */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #003d00; /* Dark green checkmark */
+    font-size: 16px;
   }
   
   .textbox {
@@ -54,5 +101,13 @@
     color: #ff4d4d; /* Red color for errors */
     text-align: center;
     margin-top: 1rem;
+  }
+  
+  .forgot-password {
+    margin-top: 1rem;
+  }
+  
+  .forgot-password a {
+    color: #f4d03f; /* Change to your link color */
   }
   

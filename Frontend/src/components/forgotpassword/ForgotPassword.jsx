@@ -17,7 +17,7 @@ const ForgotPassword = () => {
     //   await requestPasswordReset(email);
     //   setMessage('If this email is associated with an account, a reset link has been sent.');
     //   setError('');
-      navigate('/reset-password');
+      navigate('/verify-otp');
     // } catch (err) {
     //   setError(err.message || 'An error occurred while sending the reset link.');
     //   setMessage('');

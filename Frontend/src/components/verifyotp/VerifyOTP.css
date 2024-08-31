@@ -1,12 +1,12 @@
-/* src/components/ResetPassword.css */
-.reset-password-container {
+/* src/components/VerifyOTP.css */
+.verify-otp-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
   }
   
-  .reset-password-box {
+  .verify-otp-box {
     background: #005700; /* Slightly lighter green */
     padding: 2rem;
     border-radius: 8px;
@@ -15,7 +15,7 @@
     max-width: 400px;
   }
   
-  .reset-password-box h2 {
+  .verify-otp-box h2 {
     color: #f4d03f; /* Yellowish text color */
     margin-bottom: 1rem;
     text-align: center;
@@ -49,8 +49,8 @@
     background: #f1c40f; /* Slightly darker yellow on hover */
   }
   
-  .message {
-    color: #2ecc71; /* Green color for success messages */
+  .success {
+    color: #4caf50; /* Green color for success messages */
     text-align: center;
     margin-top: 1rem;
   }
