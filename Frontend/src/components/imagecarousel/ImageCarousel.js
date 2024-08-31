@@ -1,11 +1,13 @@
 // src/components/ImageCarousel.js
 import React, { useState, useEffect } from 'react';
 import './ImageCarousel.css'; // Make sure to create this CSS file
+import Image from "../image.jpg";
 
 const images = [
-  '../image.jpg',
-  '../image.jpg',
-  '../image.jpg',
+  Image,
+  Image,
+  Image,
+  Image,
   // Add more images as needed
 ];
 

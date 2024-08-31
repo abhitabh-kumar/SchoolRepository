@@ -8,6 +8,10 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import VerifyOTP from './components/verifyotp/VerifyOTP';
 import ResetPassword from './components/resetpassword/ResetPassword';
+import Admin from './components/admin/Admin';
+import CreateStudentPage from './components/createstudentform/CreateStudentForm';
+import CreateTeacherPage from './components/createteacherform/CreateTeacherForm';
+import CreateExamPage from './components/createexamform/CreateExamForm';
 
 
 
@@ -21,6 +25,10 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/verify-otp" element={<VerifyOTP />} />
+          <Route path="/admin" element={<Admin />}/>
+          <Route path="/admin/create-teacher" element={<CreateTeacherPage />} />
+        <Route path="/admin/create-student" element={<CreateStudentPage />} />
+        <Route path="/admin/create-exam" element={<CreateExamPage />} />
         </Route>
       </Routes>
     </Router>

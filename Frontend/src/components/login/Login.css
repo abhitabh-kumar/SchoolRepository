@@ -36,11 +36,14 @@
     color: #f4d03f; /* Yellowish text color */
     font-weight: bold;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding: 4px 10px;
+    border-radius: 10px;
   }
   
   .role-option:hover {
     transform: scale(1.05); /* Slightly enlarge the option on hover */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Add shadow on hover */
+    background-color: #0cab0c;
   }
   
   .check-circle {

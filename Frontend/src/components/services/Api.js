@@ -57,3 +57,33 @@ export const verifyOtp = async (token, otp) => {
       throw new Error(error.response?.data?.message || 'Error verifying OTP');
     }
   };
+
+// Function to create a teacher
+export const createTeacher = async (teacherData) => {
+  try {
+    const response = await axios.post(`${API_URL}/teachers`, teacherData);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to create teacher.');
+  }
+};
+
+// Function to create a student
+export const createStudent = async (studentData) => {
+  try {
+    const response = await axios.post(`${API_URL}/students`, studentData);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to create student.');
+  }
+};
+
+// Function to create an exam
+export const createExam = async (examData) => {
+  try {
+    const response = await axios.post(`${API_URL}/exams`, examData);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to create exam.');
+  }
+};
