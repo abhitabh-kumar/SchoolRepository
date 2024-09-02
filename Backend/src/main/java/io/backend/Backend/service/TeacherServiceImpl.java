@@ -26,6 +26,11 @@ public class TeacherServiceImpl implements TeacherService {
         return teacherentityrepository.findById(id).orElse(null);
     }
 
+
+    @Override
+    public TeacherEntity getTeacherEntityByEmail(String email) {
+        return teacherentityrepository.findAllByEmailNative(email);
+    }
     @Override
     public TeacherEntity updateStudentById(Long id, TeacherEntity teacherentity) {
         return null;

@@ -69,10 +69,21 @@ export const createTeacher = async (teacherData) => {
   }
 };
 
+export const getTeacher = async (type, criteria, value) => {
+  console.log(type);
+  try{
+    const response =await axios.get('http://localhost:8080/api/teacher/all',criteria);
+    return response;
+  }
+  catch(error){
+    throw new Error(error.response?.data?.message || 'Failed to serach teacher.');
+  }
+};
+
 // Function to create a student
 export const createStudent = async (studentData) => {
   try {
-    const response = await axios.post(`${API_URL}/studententity/create`, studentData);
+    const response = await axios.post(`${API_URL}/student/create`, studentData);
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Failed to create student.');

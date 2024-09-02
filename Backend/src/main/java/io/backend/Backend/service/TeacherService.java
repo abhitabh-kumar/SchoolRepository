@@ -10,6 +10,8 @@ public interface TeacherService {
     TeacherEntity createTeacher(TeacherEntity teacherentity);
     TeacherEntity getTeacherEntityById(Long id);
     TeacherEntity updateStudentById(Long id, TeacherEntity teacherentity);
+
+    TeacherEntity getTeacherEntityByEmail(String email);
     List<TeacherEntity> getallteacher();
     void deleteteacherEntity(Long id);
 }

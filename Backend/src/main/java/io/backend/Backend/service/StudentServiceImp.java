@@ -33,6 +33,7 @@ public class StudentServiceImp implements StudentService {
 //       return studententityrepository.save(thestudententity);
 //    }
 
+
     @Override
     public List<StudentEntity> getallstudent() {
         return studententityrepository.findAll();

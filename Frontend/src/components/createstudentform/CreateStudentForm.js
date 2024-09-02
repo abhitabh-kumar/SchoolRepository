@@ -33,17 +33,17 @@ const CreateStudentPage = () => {
     // if (!/^\d{10}$/.test(formData.mobileNumber)) {
     //   return 'Mobile number must be 10 digits.';
     // }
-    if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      return 'Email ID is invalid.';
-    }
-    if (!/\S+@\S+\.\S+/.test(formData.parentEmailId)) {
-      return 'Parent Email ID is invalid.';
-    }
-    if (formData.age <= 0) {
-      return 'Age must be a positive number.';
-    }
-    // Add more validation as needed
-    return '';
+    // if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    //   return 'Email ID is invalid.';
+    // }
+    // if (!/\S+@\S+\.\S+/.test(formData.parentEmailId)) {
+    //   return 'Parent Email ID is invalid.';
+    // }
+    // if (formData.age <= 0) {
+    //   return 'Age must be a positive number.';
+    // }
+    // // Add more validation as needed
+    // return '';
   };
 
   const handleSubmit = (e) => {

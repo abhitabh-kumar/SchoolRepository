@@ -15,7 +15,7 @@ import java.util.List;
 @CrossOrigin(origins="*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/studententity")
+@RequestMapping("/api/student")
 public class StudentEntityController {
 
     @Autowired

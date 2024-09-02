@@ -15,7 +15,7 @@ import java.util.List;
 @CrossOrigin(origins="*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/teacherentity")
+@RequestMapping("/api/teacher")
 public class TeacherEntityController {
 
     @Autowired
@@ -64,20 +64,15 @@ public class TeacherEntityController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-//    @GetMapping("/email")
-//    public ResponseEntity<List<TeacherEntity>> getallTeacherEntity()
-//    {
-//        try {
-//            List<TeacherEntity> teacherentities = teacherserviceimpl.getallteacher();
-//
-//            if (!teacherentities.isEmpty()) {
-//                return new ResponseEntity<>(teacherentities, HttpStatus.OK);
-//            } else {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//        } catch (Exception e) {
-//            logger.error("Error occurred while fetching teacher entities: ", e);
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    @GetMapping("/email")
+    public ResponseEntity<TeacherEntity> getallTeacherEntityByEmail(@RequestBody String email)
+    {
+        try {
+            TeacherEntity teacherentities = teacherserviceimpl.getTeacherEntityByEmail(email);
+            return new ResponseEntity<>(teacherentities, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Error occurred while fetching teacher entities: ", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
