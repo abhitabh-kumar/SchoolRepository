@@ -1,7 +1,7 @@
 // src/services/api.js
 import axios from 'axios';
 
-const API_URL = 'https://your-api-endpoint'; // Base URL for your API
+const API_URL = 'http://localhost:8080/api'; // Base URL for your API
 
 // Function to log in a user
 export const loginUser = async (username, password, role) => {
@@ -59,9 +59,10 @@ export const verifyOtp = async (token, otp) => {
   };
 
 // Function to create a teacher
+
 export const createTeacher = async (teacherData) => {
   try {
-    const response = await axios.post(`${API_URL}/teachers`, teacherData);
+    const response = await axios.post(`${API_URL}/teacher/create`, teacherData);
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Failed to create teacher.');
@@ -71,7 +72,7 @@ export const createTeacher = async (teacherData) => {
 // Function to create a student
 export const createStudent = async (studentData) => {
   try {
-    const response = await axios.post(`${API_URL}/students`, studentData);
+    const response = await axios.post(`${API_URL}/studententity/create`, studentData);
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Failed to create student.');

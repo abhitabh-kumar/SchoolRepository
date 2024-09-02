@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @Entity
@@ -21,7 +23,7 @@ public class TeacherEntity {
     private String age;
     private String mobile_number;
     private String address;
-    private String dateofBirth;
+    private Date dateofBirth;
     private String qualification;
     private String discription;
 }

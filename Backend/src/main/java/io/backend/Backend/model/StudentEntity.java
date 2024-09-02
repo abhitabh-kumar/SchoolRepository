@@ -7,6 +7,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,13 +22,15 @@ public class StudentEntity {
     private String lastName;
     private String password;
     private String email;
-    private String roll_no;
-    private long classname;
-    private String mother_name;
-    private String father_name;
+    private String rollNo;
+    private String classname;
+    private String motherName;
+    private String fatherName;
     private String age;
-    private String mobile_number;
+    private String mobileNumber;
     private String parentEmailId;
+    private String bloodGroup;
     private String address;
     private String dateofBirth;
+    private String dateOfJoining;
 }

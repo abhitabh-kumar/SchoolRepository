@@ -11,31 +11,13 @@ const Admin = () => {
         <Link to="/admin/create-teacher">
           <button>Create Teacher</button>
         </Link>
-        <Link to="/admin/update-teacher">
-          <button>Update Teacher</button>
-        </Link>
-        <Link to="/admin/delete-teacher">
-          <button>Delete Teacher</button>
-        </Link>
         <Link to="/admin/create-student">
           <button>Create Student</button>
-        </Link>
-        <Link to="/admin/update-student">
-          <button>Update Student</button>
-        </Link>
-        <Link to="/admin/delete-student">
-          <button>Delete Student</button>
         </Link>
         <Link to="/admin/create-exam">
           <button>Create Exam</button>
         </Link>
-        <Link to="/admin/update-exam">
-          <button>Update Exam</button>
-        </Link>
-        <Link to="/admin/delete-exam">
-          <button>Delete Exam</button>
-        </Link>
-        <Link to="search-by">
+        <Link to="/admin/search-by">
             <button>Search-By</button>
         </Link>
       </div>

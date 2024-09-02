@@ -1,17 +1,20 @@
 // src/components/CreateTeacherPage.js
 import React, { useState } from 'react';
 import { createTeacher } from '../services/Api';
-import '../formstyle/FormStyle.css'// Ensure this CSS file includes the styles provided below
+import '../formstyle/FormStyle.css'; // Ensure this CSS file includes the styles provided below
 
 const CreateTeacherPage = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
+    password: '',
     email: '',
-    phone: '',
+    age: '',
+    mobile_number: '',
     address: '',
+    dateOfBirth: '',
     qualification: '',
-    dob: ''
+    description: '',
   });
 
   const [error, setError] = useState('');
@@ -64,6 +67,18 @@ const CreateTeacherPage = () => {
           />
         </div>
         <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="********"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
           <label htmlFor="email">Email ID</label>
           <input
             type="email"
@@ -76,13 +91,25 @@ const CreateTeacherPage = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="phone">Phone Number</label>
+          <label htmlFor="age">Age</label>
+          <input
+            type="number"
+            id="age"
+            name="age"
+            placeholder="30"
+            value={formData.age}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="mobile_number">Mobile Number</label>
           <input
             type="tel"
-            id="phone"
-            name="phone"
+            id="mobile_number"
+            name="mobile_number"
             placeholder="+1234567890"
-            value={formData.phone}
+            value={formData.mobile_number}
             onChange={handleChange}
             required
           />
@@ -112,12 +139,24 @@ const CreateTeacherPage = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="dob">Date of Birth</label>
+          <label htmlFor="dateOfBirth">Date of Birth</label>
           <input
             type="date"
-            id="dob"
-            name="dob"
-            value={formData.dob}
+            id="dateOfBirth"
+            name="dateOfBirth"
+            value={formData.dateOfBirth}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="description">Description</label>
+          <textarea
+            type="text"
+            id="description"
+            name="description"
+            placeholder="Describe the teacher"
+            value={formData.description}
             onChange={handleChange}
             required
           />

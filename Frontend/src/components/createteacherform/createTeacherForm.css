@@ -1,0 +1,90 @@
+/* General Container Styles */
+.form-container {
+    background-color: #2e7d32; /* Dark Green Background */
+    color: #fff; /* White Text */
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Header Style */
+  .form-container h2 {
+    text-align: center;
+    color: #fdd835; /* Yellow Header */
+    margin-bottom: 20px;
+  }
+  
+  /* Form Styles */
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Form Group Styles */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #fdd835; /* Yellow Labels */
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #fff; /* White Border */
+    border-radius: 4px;
+    background-color: #fff; /* White Background for Inputs */
+    color: #333; /* Dark Text */
+    box-sizing: border-box;
+  }
+  
+  .form-group textarea {
+    resize: vertical; /* Allow vertical resizing */
+    height: 100px;
+  }
+  
+  /* Button Styles */
+  .submit-button {
+    background-color: #fdd835; /* Yellow Background */
+    color: #2e7d32; /* Dark Green Text */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-button:hover {
+    background-color: #fbc02d; /* Darker Yellow on Hover */
+  }
+  
+  .submit-button:active {
+    background-color: #f9a825; /* Even Darker Yellow on Click */
+  }
+  
+  .submit-button:disabled {
+    background-color: #a4baf4; /* Light Blue when Disabled */
+    cursor: not-allowed;
+  }
+  
+  /* Error and Success Messages */
+  .error-message,
+  .success-message {
+    color: #f44336; /* Red for Error */
+    text-align: center;
+    margin: 10px 0;
+  }
+  
+  .success-message {
+    color: #4caf50; /* Green for Success */
+  }
+  
