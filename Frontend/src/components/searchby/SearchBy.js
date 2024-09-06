@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { getAllTeacher, getTeacherByEmail } from '../services/Api';
+import { getAllTeacher, getTeacherByEmail, getAllStudent } from '../services/Api';
 import './SearchBy.css'; // Ensure this CSS file includes card styles
 
 const SearchBy = () => {
@@ -22,17 +22,20 @@ const SearchBy = () => {
         // const r= searchType;
         // console.log(r);
         let response;
-        if(searchCriteria=="all"){
+        if(searchType=="teacher" && searchCriteria=="all"){
           console.log("Line No. 26");
         response= await getAllTeacher();
         }
-        else if(searchCriteria=="email"){
+        else if(searchType=="teacher" && searchCriteria=="email"){
           console.log(searchValue);
         const response= await getTeacherByEmail(searchValue);
         }
         // else{
         //   const res =await getteacherByName();
         // }
+        if(searchType=="student" && searchCriteria=="all"){
+          response= await getAllStudent();
+        }
       // const response=getAllTeacher(searchType,searchCriteria,searchValue);
       console.log(response);
       setResults(response.data);

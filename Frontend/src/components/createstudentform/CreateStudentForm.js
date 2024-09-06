@@ -192,8 +192,8 @@ const CreateStudentPage = () => {
             placeholder="+1234567890"
             value={formData.mobileNumber}
             onChange={handleChange}
-            pattern="\d{10}"
-            required
+            // pattern="\d{10}"
+            // required
           />
         </div>
         <div className="form-group">

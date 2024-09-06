@@ -80,7 +80,7 @@ export const getAllTeacher = async () => {
   }
 };
 
-// Function to get Teacher By Email
+// Function to get Teacher By Email No working
 export const getTeacherByEmail = async (searchValue) => {
   try{
     console.log(searchValue);
@@ -99,6 +99,17 @@ export const createStudent = async (studentData) => {
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Failed to create student.');
+  }
+};
+
+export const getAllStudent = async () => {
+  // console.log(type);
+  try{
+    const response =await axios.get('http://localhost:8080/api/student/all');
+    return response;
+  }
+  catch(error){
+    throw new Error(error.response?.data?.message || 'Failed to serach teacher.');
   }
 };
 
