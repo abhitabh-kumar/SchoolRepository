@@ -25,7 +25,6 @@ public class DashBoardController {
     @GetMapping("/manager-message")
     public ResponseEntity<String> getManagerData(Principal principal){
         return ResponseEntity.ok("Manager::"+principal.getName());
-
     }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -33,7 +32,6 @@ public class DashBoardController {
     @PostMapping("/admin-message")
     public ResponseEntity<String> getAdminData(@RequestParam("message") String message, Principal principal){
         return ResponseEntity.ok("Admin::"+principal.getName()+" has this message:"+message);
-
     }
 
 }
