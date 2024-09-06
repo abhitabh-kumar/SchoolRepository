@@ -65,7 +65,7 @@ public class TeacherEntityController {
         }
     }
     @GetMapping("/email")
-    public ResponseEntity<TeacherEntity> getallTeacherEntityByEmail(@RequestBody String email)
+    public ResponseEntity<TeacherEntity> getallTeacherEntityByEmail(@RequestParam String email)
     {
         try {
             TeacherEntity teacherentities = teacherserviceimpl.getTeacherEntityByEmail(email);

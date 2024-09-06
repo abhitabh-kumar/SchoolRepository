@@ -15,7 +15,7 @@ public interface TeacherEntityRepository extends JpaRepository<TeacherEntity, Lo
 //    @Query("SELECT * FROM TeacherEntity T WHERE T.email=:email")
 //    TeacherEntity findAllByEmail(@Param("email") String email);
 
-    @Query(value = "SELECT * FROM TeacherEntity WHERE email = :email", nativeQuery = true)
+    @Query(value = "SELECT * FROM teacher_entity WHERE email = :email", nativeQuery = true)
     TeacherEntity findAllByEmailNative(@Param("email") String email);
 
 //    TeacherEntity findByEmail(String email);

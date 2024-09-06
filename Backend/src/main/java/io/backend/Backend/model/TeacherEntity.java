@@ -16,6 +16,7 @@ public class TeacherEntity {
     private String firstName;
     private String lastName;
     private String password;
+    @Column(unique = true)
     private String email;
     private String age;
     private String mobile_number;

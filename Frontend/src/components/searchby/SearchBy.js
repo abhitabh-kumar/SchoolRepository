@@ -18,17 +18,11 @@ const SearchBy = () => {
         console.log(searchType);
         // const r= searchType;
         // console.log(r);
-      const response = await axios.get('http://localhost:8080/api/teacher/all', {
-        params: {
-          type: searchType,
-          criteria: searchCriteria,
-          value: searchValue
-        }
-      });
-      console.log(response);
-      setResults(response.data);
+      const response = await axios.get(`http://localhost:8080/api/teacher/email?email=${searchValue}`);
+      console.log(response.data);
+      setResults([response.data]);
     // const response = getTeacher(searchType, searchCriteria, searchValue);
-    setResults(response.data);
+    // setResults(response.data);
     } catch (error) {
       console.error('Error fetching search results:', error);
       setError('Failed to fetch data. Please try again later.');
