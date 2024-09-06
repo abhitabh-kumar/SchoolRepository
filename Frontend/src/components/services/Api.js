@@ -69,16 +69,28 @@ export const createTeacher = async (teacherData) => {
   }
 };
 
-export const getTeacher = async (type, criteria, value) => {
-  console.log(type);
+export const getAllTeacher = async () => {
+  // console.log(type);
   try{
-    const response =await axios.get('http://localhost:8080/api/teacher/all',criteria);
+    const response =await axios.get('http://localhost:8080/api/teacher/all');
     return response;
   }
   catch(error){
     throw new Error(error.response?.data?.message || 'Failed to serach teacher.');
   }
 };
+
+// Function to get Teacher By Email
+export const getTeacherByEmail = async (searchValue) => {
+  try{
+    console.log(searchValue);
+    const response =await axios.get('http://localhost:8080/api/teacher/email?email=${searchValue}');
+    return response;
+  }
+  catch(error){
+    throw new Error(error.response?.data?.message || 'Failed to serach teacher.');
+  }
+}
 
 // Function to create a student
 export const createStudent = async (studentData) => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { getTeacher } from '../services/Api';
+import { getAllTeacher, getTeacherByEmail } from '../services/Api';
 import './SearchBy.css'; // Ensure this CSS file includes card styles
 
 const SearchBy = () => {
@@ -15,20 +15,29 @@ const SearchBy = () => {
     setLoading(true);
     setError('');
     try {
+      console.log("Line No. 18");
         console.log(searchType);
+        console.log(searchCriteria);
+        console.log(searchValue);
         // const r= searchType;
         // console.log(r);
-      const response = await axios.get('http://localhost:8080/api/teacher/all', {
-        params: {
-          type: searchType,
-          criteria: searchCriteria,
-          value: searchValue
+        let response;
+        if(searchCriteria=="all"){
+          console.log("Line No. 26");
+        response= await getAllTeacher();
         }
-      });
+        else if(searchCriteria=="email"){
+          console.log(searchValue);
+        const response= await getTeacherByEmail(searchValue);
+        }
+        // else{
+        //   const res =await getteacherByName();
+        // }
+      // const response=getAllTeacher(searchType,searchCriteria,searchValue);
       console.log(response);
       setResults(response.data);
     // const response = getTeacher(searchType, searchCriteria, searchValue);
-    setResults(response.data);
+    // setResults(response.data);
     } catch (error) {
       console.error('Error fetching search results:', error);
       setError('Failed to fetch data. Please try again later.');
