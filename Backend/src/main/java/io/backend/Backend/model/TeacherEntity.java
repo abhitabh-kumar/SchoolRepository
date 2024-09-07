@@ -12,7 +12,7 @@ import java.util.Date;
 public class TeacherEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long teacherId;
+    private Long id;
     private String firstName;
     private String lastName;
     private String password;

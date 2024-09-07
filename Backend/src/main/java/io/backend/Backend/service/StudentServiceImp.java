@@ -26,12 +26,25 @@ public class StudentServiceImp implements StudentService {
         return studententityrepository.findById(id).orElse(null);
     }
 
-//   @Override
-//    public studentEntity updateStudentById(Long id, studentEntity studententity) {
-//        studentEntity  thestudententity = studententityrepository.findById(id).orElse(null);
-//        thestudententity.set
-//       return studententityrepository.save(thestudententity);
-//    }
+   @Override
+    public StudentEntity updateStudentById(Long id, StudentEntity studententity) {
+        StudentEntity  thestudententity = studententityrepository.findById(id).orElse(null);
+        thestudententity.setAddress(studententity.getAddress());
+        thestudententity.setAge(studententity.getAge());
+        thestudententity.setEmail(studententity.getEmail());
+        thestudententity.setClassname(studententity.getClassname());
+        thestudententity.setBloodGroup(studententity.getBloodGroup());
+        thestudententity.setDateofBirth(studententity.getDateofBirth());
+        thestudententity.setDateOfJoining(studententity.getDateOfJoining());
+        thestudententity.setFatherName(studententity.getFatherName());
+        thestudententity.setFirstName(studententity.getFirstName());
+        thestudententity.setLastName(studententity.getLastName());
+        thestudententity.setMobileNumber(studententity.getMobileNumber());
+        thestudententity.setPassword(studententity.getPassword());
+        thestudententity.setParentEmailId(studententity.getParentEmailId());
+        thestudententity.setMotherName(studententity.getMotherName());
+       return studententityrepository.save(thestudententity);
+    }
 
 
     @Override

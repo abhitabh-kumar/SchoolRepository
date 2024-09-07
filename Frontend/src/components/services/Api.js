@@ -90,7 +90,18 @@ export const getTeacherByEmail = async (searchValue) => {
   catch(error){
     throw new Error(error.response?.data?.message || 'Failed to serach teacher.');
   }
-}
+};
+
+// Function to delete a teacher by ID
+export const deleteTeacher = async (id) => {
+  try {
+    const response = await axios.delete(`${API_URL}/teacher/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting teacher:', error);
+    throw new Error('Failed to delete teacher');
+  }
+};
 
 // Function to create a student
 export const createStudent = async (studentData) => {
@@ -110,6 +121,41 @@ export const getAllStudent = async () => {
   }
   catch(error){
     throw new Error(error.response?.data?.message || 'Failed to serach teacher.');
+  }
+};
+
+// Function to get student by ID
+export const getStudentById = async (studentId) => {
+  console.log(studentId);
+  try {
+    const response = await axios.get(`${API_URL}/student/${studentId}`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching student data:', error);
+    throw new Error('Failed to fetch student data.');
+  }
+};
+
+// Function to update a student by ID
+export const updateStudent = async (id, updatedData) => {
+  try {
+    const response = await axios.put(`${API_URL}/student/update/${id}`, updatedData);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating student:', error);
+    throw new Error('Failed to update student');
+  }
+};
+
+// Function to delete a student by ID
+export const deleteStudent = async (id) => {
+  try {
+    const response = await axios.delete(`${API_URL}/student/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting teacher:', error);
+    throw new Error('Failed to delete teacher');
   }
 };
 

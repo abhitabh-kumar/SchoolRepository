@@ -17,7 +17,7 @@ import java.util.Date;
 public class StudentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long studentId;
+    private Long id;
     private String firstName;
     private String lastName;
     private String password;

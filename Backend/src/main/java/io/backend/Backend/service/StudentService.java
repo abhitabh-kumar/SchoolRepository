@@ -10,7 +10,7 @@ public interface StudentService {
 
     StudentEntity createStudent(StudentEntity studententity);
     StudentEntity getStudentEntityById(Long id);
-//    studentEntity updateStudentById(Long id, studentEntity studententity);
+    StudentEntity updateStudentById(Long id, StudentEntity studententity);
     List<StudentEntity> getallstudent();
      void deleteStudentEntity(Long id);
 

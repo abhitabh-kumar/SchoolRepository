@@ -75,4 +75,9 @@ public class TeacherEntityController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @DeleteMapping("/{id}")
+    public void deleteTeacherById(@PathVariable("id") Long id){
+        TeacherEntity theTeacherEntity = teacherserviceimpl.getTeacherEntityById(id);
+        if(theTeacherEntity!=null) teacherserviceimpl.deleteteacherEntity(id);
+    }
 }

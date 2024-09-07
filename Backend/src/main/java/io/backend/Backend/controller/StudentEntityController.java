@@ -69,4 +69,9 @@ public class StudentEntityController {
          if(thestudententity!=null) studentserviceimp.deleteStudentEntity(id);
      }
 
+     @PutMapping("/update/{id}")
+    public void updateStudentEntity(@PathVariable("id") Long id, @RequestBody StudentEntity studentEntity){
+        StudentEntity thestudententity = studentserviceimp.getStudentEntityById(id);
+        if(thestudententity!=null) studentserviceimp.updateStudentById(id, studentEntity);
+     }
 }
