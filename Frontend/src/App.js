@@ -32,7 +32,7 @@ function App() {
         <Route path="/admin/create-student" element={<CreateStudentPage />} />
         <Route path="/admin/create-exam" element={<CreateExamPage />} />
         <Route path="/admin/search-by" element={<SearchBy />} />
-        <Route path="/admin/search-by/update" element={<UpdateStudentForm />} />
+        <Route path="/admin/search-by/update/:studentId" element={<UpdateStudentForm />} />
         </Route>
       </Routes>
     </Router>

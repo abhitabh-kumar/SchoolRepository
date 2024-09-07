@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { updateStudent, getStudentById } from '../services/Api'; // Ensure these imports are correct
 import '../formstyle/FormStyle.css'; // Ensure this CSS file includes the styles
 
-const UpdateStudentForm = ({ studentId }) => {
+const UpdateStudentForm = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -21,6 +22,8 @@ const UpdateStudentForm = ({ studentId }) => {
     dateOfJoining: ''
   });
   
+  const {studentId} = useParams();
+  console.log('Student ID:', studentId);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   
@@ -28,7 +31,8 @@ const UpdateStudentForm = ({ studentId }) => {
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
-        const response = await getStudentById(2); // Use studentId prop
+        console.log("fdgdgdg");
+        const response = await getStudentById(studentId); // Use studentId prop
         console.log("Line No. 999");
         console.log(response);
         const data = response;
@@ -82,7 +86,7 @@ const UpdateStudentForm = ({ studentId }) => {
     }
     
     try {
-      await updateStudent(2, formData);
+      await updateStudent(studentId, formData);
       setSuccess('Student updated successfully!');
       setError('');
     } catch (err) {
