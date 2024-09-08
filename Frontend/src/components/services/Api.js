@@ -99,4 +99,3 @@ export const createExam = async (examData) => {
     throw new Error(error.response?.data?.message || 'Failed to create exam.');
   }
 };
-

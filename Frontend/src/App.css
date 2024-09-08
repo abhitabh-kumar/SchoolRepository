@@ -1,0 +1,13 @@
+/* src/App.css */
+.App {
+  font-family: Arial, sans-serif;
+}
+
+.forgot-password a {
+  color: #f4d03f; /* Yellowish color for links */
+  text-decoration: none;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}

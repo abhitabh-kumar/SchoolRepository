@@ -168,4 +168,3 @@ const CreateTeacherPage = () => {
 };
 
 export default CreateTeacherPage;
-

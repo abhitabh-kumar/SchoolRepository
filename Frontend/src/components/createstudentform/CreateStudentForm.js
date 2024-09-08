@@ -261,4 +261,3 @@ const CreateStudentPage = () => {
 };
 
 export default CreateStudentPage;
-
