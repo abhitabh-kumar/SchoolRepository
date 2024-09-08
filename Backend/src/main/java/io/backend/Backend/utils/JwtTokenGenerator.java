@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
+import javax.naming.AuthenticationException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
@@ -24,20 +25,23 @@ public class JwtTokenGenerator {
 
     private final JwtEncoder jwtEncoder;
 
-    public String generateAccessToken(Authentication authentication) {
+    public String generateAccessToken(Authentication authentication) throws AuthenticationException{
+
+        if(authentication == null) {
+            throw new AuthenticationException("Authentication Object is null");
+        }
 
         log.info("[JwtTokenGenerator:generateAccessToken] Token Creation Started for:{}", authentication.getName());
 
         String roles = getRolesOfUser(authentication);
-
-        String permissions = getPermissionsFromRoles(roles);
+//        String permissions = getPermissionsFromRoles(roles);
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuer("abhitabh")
+                .issuer("self")
                 .issuedAt(Instant.now())
-                .expiresAt(Instant.now().plus(15 , ChronoUnit.MINUTES))
+                .expiresAt(Instant.now().plus(40 , ChronoUnit.MINUTES))
                 .subject(authentication.getName())
-                .claim("scope", permissions)
+                .claim("scope", roles)
                 .build();
 
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
@@ -49,20 +53,20 @@ public class JwtTokenGenerator {
                 .collect(Collectors.joining(" "));
     }
 
-    private String getPermissionsFromRoles(String roles) {
-        Set<String> permissions = new HashSet<>();
-
-        if (roles.contains("ROLE_ADMIN")) {
-            permissions.addAll(List.of("READ", "WRITE", "DELETE"));
-        }
-        if (roles.contains("ROLE_MANAGER")) {
-            permissions.add("READ");
-        }
-        if (roles.contains("ROLE_USER")) {
-            permissions.add("READ");
-        }
-
-        return String.join(" ", permissions);
-    }
+//    private String getPermissionsFromRoles(String roles) {
+//        Set<String> permissions = new HashSet<>();
+//
+//        if (roles.contains("ROLE_ADMIN")) {
+//            permissions.addAll(List.of("READ", "WRITE", "DELETE"));
+//        }
+//        if (roles.contains("ROLE_MANAGER")) {
+//            permissions.add("READ");
+//        }
+//        if (roles.contains("ROLE_USER")) {
+//            permissions.add("READ");
+//        }
+//
+//        return String.join(" ", permissions);
+//    }
 
 }

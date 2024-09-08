@@ -16,10 +16,10 @@ public class UserInfoManagerConfig implements UserDetailsService {
 
     private final UserInfoRepo userInfoRepo;
     @Override
-    public UserDetails loadUserByUsername(String emailId) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         return userInfoRepo
-                .findByEmailId(emailId)
+                .findByUserName(userName)
                 .map(UserInfoConfig::new)
-                .orElseThrow(()-> new UsernameNotFoundException("UserEmail: "+emailId+" does not exist"));
+                .orElseThrow(()-> new UsernameNotFoundException("UserEmail: "+userName+" does not exist"));
     }
 }

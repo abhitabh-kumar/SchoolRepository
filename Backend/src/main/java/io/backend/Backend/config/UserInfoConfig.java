@@ -35,7 +35,7 @@ public class UserInfoConfig implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userInfoEntity.getEmailId();
+        return userInfoEntity.getUserName();
     }
 
     @Override

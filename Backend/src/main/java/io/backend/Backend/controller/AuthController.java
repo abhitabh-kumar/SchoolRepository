@@ -1,10 +1,12 @@
 package io.backend.Backend.controller;
 
+import io.backend.Backend.dto.ResponseDetails;
 import io.backend.Backend.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,9 +17,8 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/sign-in")
-    public ResponseEntity<?> authenticateUser(Authentication authentication){
-
+    @GetMapping("/sign-in")
+    public ResponseEntity<ResponseDetails> authenticateUser(Authentication authentication){
         return ResponseEntity.ok(authService.getJwtTokensAfterAuthentication(authentication));
     }
 }

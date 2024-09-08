@@ -1,18 +1,18 @@
 package io.backend.Backend.entity;
 
+import io.backend.Backend.dto.Qualification;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="STUDENT")
-public class StudentEntity extends UserInfoEntity{
-
-    @Column(name = "ROll_NO", nullable = false,unique = true)
-    private String rollNo;
+@Table(name="Teacher")
+public class TeacherEntity extends UserInfoEntity{
 
     @Column(name = "NAME", nullable = false)
     private String name;
@@ -21,14 +21,8 @@ public class StudentEntity extends UserInfoEntity{
     @Email(regexp = "^[a-zA-Z0-9_!#$%&amp;'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$",message = "Invalid email format")
     private String emailId;
 
-    @Column(name = "FATHER_NAME", nullable = false)
-    private String fatherName;
-
-    @Column(name = "MOTHER_NAME")
-    private String motherName;
-
-    @Column(name = "GRADE", nullable = false)
-    private Integer grade;
+    @Enumerated(EnumType.STRING)
+    private Qualification qualification;
 
     @Column(name = "MOBILE_NUMBER", nullable = false)
     private String mobileNumber;
@@ -39,5 +33,5 @@ public class StudentEntity extends UserInfoEntity{
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private AddressEntity address;
-}
 
+}

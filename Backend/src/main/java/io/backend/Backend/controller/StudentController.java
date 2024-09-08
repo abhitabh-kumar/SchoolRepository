@@ -6,7 +6,10 @@ import io.backend.Backend.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @RestController
 @RequestMapping("/student")
@@ -16,16 +19,28 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    @PostMapping("/create")
-    public ResponseEntity<StudentEntity> createStudent(@RequestBody StudentEntity student) {
-        StudentEntity newStudent = studentService.createStudent(student);
-        return ResponseEntity.ok(newStudent);
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    @PostMapping("/createStudent")
+    public ResponseEntity<ResponseDetails> createStudent(@RequestBody StudentEntity student) throws SQLIntegrityConstraintViolationException {
+        log.info("Creating Student:{}", student);
+        ResponseDetails responseDetails = studentService.createStudent(student);
+        return ResponseEntity.ok(responseDetails);
     }
 
-    @GetMapping("/get")
-    public ResponseDetails getStudent(@RequestParam String email) {
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_STUDENT','SCOPE_TEACHER')")
+    @GetMapping("/getStudentByRollNo")
+    public ResponseEntity<ResponseDetails> getStudentRollNo(@RequestParam String rollNo) {
+        log.info("Fetching Student with rollNo : {} ", rollNo);
+        ResponseDetails responseDetails = studentService.getStudentByRollNo(rollNo);
+        return ResponseEntity.ok(responseDetails);
+    }
+
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_TEACHER')")
+    @GetMapping("/getStudentsByEmail")
+    public ResponseEntity<ResponseDetails> getStudentsByEmailId(@RequestParam String email) {
         log.info("Fetching Student with email : {} ", email);
-        return studentService.getStudent(email);
+        ResponseDetails responseDetails = studentService.getStudentsByEmailId(email);
+        return ResponseEntity.ok(responseDetails);
     }
 
 }

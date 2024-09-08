@@ -15,19 +15,13 @@ public class UserInfoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long user_id;
 
-    @Column(name = "USER_NAME")
+    @Column(name = "USER_NAME",unique = true,nullable = false)
     private String userName;
-
-    @Column(nullable = false, name = "EMAIL_ID", unique = true)
-    private String emailId;
 
     @Column(nullable = false, name = "PASSWORD")
     private String password;
-
-    @Column(name = "MOBILE_NUMBER")
-    private String mobileNumber;
 
     @Column(nullable = false, name = "ROLES")
     private String roles;

@@ -11,27 +11,30 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class DashBoardController {
+public class HealthCheckUpController {
 
-//    @PreAuthorize("hasAnyRole('ROLE_MANAGER','ROLE_ADMIN','ROLE_USER')")
-    @PreAuthorize("hasAuthority('SCOPE_READ')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_STUDENT','SCOPE_TEACHER')")
     @GetMapping("/welcome-message")
     public ResponseEntity<String> getFirstWelcomeMessage(Authentication authentication){
-        return ResponseEntity.ok("Welcome to the JWT Tutorial:"+authentication.getName()+"with scope:"+authentication.getAuthorities());
+        return ResponseEntity.ok("Welcome to the Sushila Public School :"+authentication.getName()+"with scope:"+authentication.getAuthorities());
     }
 
-    //@PreAuthorize("hasRole('ROLE_MANAGER')")
-    @PreAuthorize("hasAuthority('SCOPE_READ')")
-    @GetMapping("/manager-message")
+    @PreAuthorize("hasAuthority('SCOPE_TEACHER')")
+    @GetMapping("/teacher-message")
     public ResponseEntity<String> getManagerData(Principal principal){
-        return ResponseEntity.ok("Manager::"+principal.getName());
+        return ResponseEntity.ok("Teacher::"+principal.getName());
     }
 
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PreAuthorize("hasAuthority('SCOPE_WRITE')")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @PostMapping("/admin-message")
     public ResponseEntity<String> getAdminData(@RequestParam("message") String message, Principal principal){
         return ResponseEntity.ok("Admin::"+principal.getName()+" has this message:"+message);
+    }
+
+    @PreAuthorize("hasAuthority('SCOPE_STUDENT')")
+    @PostMapping("/student-message")
+    public ResponseEntity<String> getStudentData(Principal principal){
+        return ResponseEntity.ok("Student::"+principal.getName());
     }
 
 }

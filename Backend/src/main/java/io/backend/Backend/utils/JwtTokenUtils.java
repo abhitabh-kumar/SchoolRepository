@@ -20,11 +20,11 @@ public class JwtTokenUtils {
 
     private final UserInfoRepo useruserInfoRepo;
 
-    public UserDetails userDetails(String emailId){
+    public UserDetails userDetails(String userName){
         return useruserInfoRepo
-                .findByEmailId(emailId)
+                .findByUserName(userName)
                 .map(UserInfoConfig::new)
-                .orElseThrow(()-> new UsernameNotFoundException("UserEmail: "+emailId+" does not exist"));
+                .orElseThrow(()-> new UsernameNotFoundException("UserEmail: "+userName+" does not exist"));
     }
 
     public String getUserName(Jwt jwtToken){
