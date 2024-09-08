@@ -11,7 +11,7 @@ public interface TeacherService {
     TeacherEntity getTeacherEntityById(Long id);
     void updateTeacherById(Long id, TeacherEntity teacherentity);
 
-    TeacherEntity getTeacherEntityByEmail(String email);
+    List<TeacherEntity> getTeacherEntityByEmail(String email);
     List<TeacherEntity> getallteacher();
     void deleteteacherEntity(Long id);
 }

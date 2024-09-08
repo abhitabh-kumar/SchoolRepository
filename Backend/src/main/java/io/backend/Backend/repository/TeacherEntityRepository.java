@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,8 +16,11 @@ public interface TeacherEntityRepository extends JpaRepository<TeacherEntity, Lo
 //    @Query("SELECT * FROM TeacherEntity T WHERE T.email=:email")
 //    TeacherEntity findAllByEmail(@Param("email") String email);
 
-    @Query(value = "SELECT * FROM TeacherEntity WHERE email = :email", nativeQuery = true)
-    TeacherEntity findAllByEmailNative(@Param("email") String email);
+//    @Query(value = "SELECT * FROM teacher_entity WHERE email = :email", nativeQuery = true)
+//    TeacherEntity findAllByEmailNative(@Param("email") String email);
+
+    List<TeacherEntity> findByEmail(String email);
+
 
 //    TeacherEntity findByEmail(String email);
 }

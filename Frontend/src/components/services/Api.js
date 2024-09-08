@@ -88,7 +88,7 @@ export const getTeacherById = async (id) => {
 export const getTeacherByEmail = async (searchValue) => {
   try{
     console.log(searchValue);
-    const response =await axios.get('http://localhost:8080/api/teacher/email?email=${searchValue}');
+    const response =await axios.get(`http://localhost:8080/api/teacher/email?email=${searchValue}`);
     return response;
   }
   catch(error){

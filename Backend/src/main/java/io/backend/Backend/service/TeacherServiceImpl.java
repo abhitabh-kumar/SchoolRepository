@@ -28,8 +28,10 @@ public class TeacherServiceImpl implements TeacherService {
 
 
     @Override
-    public TeacherEntity getTeacherEntityByEmail(String email) {
-        return teacherentityrepository.findAllByEmailNative(email);
+    public List<TeacherEntity> getTeacherEntityByEmail(String email) {
+        List<TeacherEntity> teacherEntities=teacherentityrepository.findByEmail(email);
+        if(!teacherEntities.isEmpty()) return teacherEntities;
+        else return null;
     }
 
     @Override

@@ -66,11 +66,12 @@ public class TeacherEntityController {
         }
     }
     @GetMapping("/email")
-    public ResponseEntity<TeacherEntity> getallTeacherEntityByEmail(@RequestParam String email)
+    public ResponseEntity<List<TeacherEntity>> getallTeacherEntityByEmail(@RequestParam String email)
     {
         try {
-            TeacherEntity teacherentities = teacherserviceimpl.getTeacherEntityByEmail(email);
-            return new ResponseEntity<>(teacherentities, HttpStatus.OK);
+            List<TeacherEntity> teacherentities = teacherserviceimpl.getTeacherEntityByEmail(email);
+            if(!teacherentities.isEmpty()) return new ResponseEntity<>(teacherentities, HttpStatus.OK);
+            else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             logger.error("Error occurred while fetching teacher entities: ", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
