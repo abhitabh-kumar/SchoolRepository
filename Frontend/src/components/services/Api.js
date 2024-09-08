@@ -80,6 +80,10 @@ export const getAllTeacher = async () => {
   }
 };
 
+export const getTeacherById = async (id) => {
+  const response = await axios.get(`${API_URL}/teacher/${id}`);
+  return response;
+};
 // Function to get Teacher By Email No working
 export const getTeacherByEmail = async (searchValue) => {
   try{
@@ -90,6 +94,12 @@ export const getTeacherByEmail = async (searchValue) => {
   catch(error){
     throw new Error(error.response?.data?.message || 'Failed to serach teacher.');
   }
+};
+
+// Function to update the data of teacher
+export const updateTeacher = async (id, data) => {
+  const response = await axios.put(`${API_URL}/teacher/update/${id}`, data);
+  return response.data;
 };
 
 // Function to delete a teacher by ID

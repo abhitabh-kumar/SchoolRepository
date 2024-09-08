@@ -1,5 +1,6 @@
 package io.backend.Backend.controller;
 
+import io.backend.Backend.model.StudentEntity;
 import io.backend.Backend.model.TeacherEntity;
 import io.backend.Backend.service.TeacherServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -79,5 +80,10 @@ public class TeacherEntityController {
     public void deleteTeacherById(@PathVariable("id") Long id){
         TeacherEntity theTeacherEntity = teacherserviceimpl.getTeacherEntityById(id);
         if(theTeacherEntity!=null) teacherserviceimpl.deleteteacherEntity(id);
+    }
+    @PutMapping("/update/{id}")
+    public void updateTeaherEntity(@PathVariable("id") Long id, @RequestBody TeacherEntity teacherEntity){
+        TeacherEntity theteacherentity = teacherserviceimpl.getTeacherEntityById(id);
+        if(theteacherentity!=null) teacherserviceimpl.updateTeacherById(id, teacherEntity);
     }
 }

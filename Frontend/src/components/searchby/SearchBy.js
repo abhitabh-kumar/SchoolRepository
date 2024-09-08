@@ -147,7 +147,7 @@ const SearchBy = () => {
     }
   };
 
-  const handleUpdate = async (studentId) => {
+  const handleUpdate = async (id) => {
     // // Implement update functionality. Here we'll just use a placeholder.
     // const updatedData = { /* data to update */ };
 
@@ -156,13 +156,13 @@ const SearchBy = () => {
     //     await updateTeacher(id, updatedData);
     //   }
      if (searchType === 'student') {
-      console.log("Line No. 157" + {studentId});
-      console.log("gsgshshh")
-      console.log(studentId);
-        // await updateStudent(id, updatedData);
-        // <UpdateStudentForm studentId={id} />
-        navigate(`/admin/search-by/update/${studentId}`);
-        // Navigate={(`/admin/search-by/update/${id}`)}
+        navigate(`/admin/search-by/update/student/${id}`);
+      }
+      if (searchType === "teacher"){
+        console.log("Line No. 162");
+        console.log(id);
+        navigate(`/admin/search-by/update/teacher/${id}`);
+
       }
     //   // Refresh results after update
     //   await handleSearch();
@@ -244,9 +244,7 @@ const SearchBy = () => {
                   </>
                 )}
                 <div className="card-actions">
-                {/* <Link to={`/admin/search-by/update`}> */}
                   <button onClick={() => handleUpdate(result.id)}>Update</button>
-                  {/* </Link>   */}
                   <button onClick={() => handleDelete(result.id)}>Delete</button>
                 </div>
               </div>

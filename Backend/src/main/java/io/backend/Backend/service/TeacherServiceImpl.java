@@ -31,10 +31,6 @@ public class TeacherServiceImpl implements TeacherService {
     public TeacherEntity getTeacherEntityByEmail(String email) {
         return teacherentityrepository.findAllByEmailNative(email);
     }
-    @Override
-    public TeacherEntity updateStudentById(Long id, TeacherEntity teacherentity) {
-        return null;
-    }
 
     @Override
     public List<TeacherEntity> getallteacher() {
@@ -48,5 +44,21 @@ public class TeacherServiceImpl implements TeacherService {
         {
             teacherentityrepository.deleteById(id);
         }
+    }
+
+    @Override
+    public void updateTeacherById(Long id, TeacherEntity teacherEntity){
+        TeacherEntity theteacherEntity = teacherentityrepository.findById(id).orElse(null);
+        theteacherEntity.setAddress(teacherEntity.getAddress());
+        theteacherEntity.setAge(teacherEntity.getAge());
+        theteacherEntity.setEmail(teacherEntity.getEmail());
+        theteacherEntity.setDateofBirth(teacherEntity.getDateofBirth());
+        theteacherEntity.setFirstName(teacherEntity.getFirstName());
+        theteacherEntity.setLastName(teacherEntity.getLastName());
+        theteacherEntity.setMobile_number(teacherEntity.getMobile_number());
+        theteacherEntity.setQualification(teacherEntity.getQualification());
+        theteacherEntity.setDiscription(teacherEntity.getDiscription());
+        theteacherEntity.setPassword(teacherEntity.getPassword());
+        teacherentityrepository.save(theteacherEntity);
     }
 }

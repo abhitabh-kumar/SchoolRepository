@@ -22,8 +22,8 @@ const UpdateStudentForm = () => {
     dateOfJoining: ''
   });
   
-  const {studentId} = useParams();
-  console.log('Student ID:', studentId);
+  const {id} = useParams();
+//   console.log('Student ID:', studentId);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   
@@ -32,7 +32,7 @@ const UpdateStudentForm = () => {
     const fetchStudentData = async () => {
       try {
         console.log("fdgdgdg");
-        const response = await getStudentById(studentId); // Use studentId prop
+        const response = await getStudentById(id); // Use studentId prop
         console.log("Line No. 999");
         console.log(response);
         const data = response;
@@ -65,7 +65,7 @@ const UpdateStudentForm = () => {
     };
     
     fetchStudentData();
-  }, [studentId]);
+  }, [id]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -86,7 +86,7 @@ const UpdateStudentForm = () => {
     }
     
     try {
-      await updateStudent(studentId, formData);
+      await updateStudent(id, formData);
       setSuccess('Student updated successfully!');
       setError('');
     } catch (err) {
