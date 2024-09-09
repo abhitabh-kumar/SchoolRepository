@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 
+
+@CrossOrigin(origins="*")
 @RestController
 @RequestMapping("/student")
 @RequiredArgsConstructor
@@ -19,7 +21,7 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+//    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @PostMapping("/createStudent")
     public ResponseEntity<ResponseDetails> createStudent(@RequestBody StudentEntity student) throws SQLIntegrityConstraintViolationException {
         log.info("Creating Student:{}", student);
