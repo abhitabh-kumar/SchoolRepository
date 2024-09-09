@@ -1,49 +1,45 @@
-// src/components/CreateStudentPage.js
 import React, { useState } from 'react';
 import { createStudent } from '../services/Api';
 import '../formstyle/FormStyle.css'; // Ensure this CSS file includes the styles provided below
 
 const CreateStudentPage = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    userName: '',
+    name: '',
     password: '',
-    email: '',
+    emailId: '',
     rollNo: '',
-    className: '',
+    grade: '', // Default grade
     motherName: '',
     fatherName: '',
     age: '',
     mobileNumber: '',
-    parentEmailId: '',
-    bloodGroup: '',
-    address: '',
+    address: { state: '', zipCode: '', city: '' },
     dateOfBirth: '',
-    dateOfJoining: ''
+    dateOfJoining: '',
+    roles: 'STUDENT' // Default role
   });
 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    
+    if (name.startsWith('address.')) {
+      const [key] = name.split('.').slice(1); // Remove 'address' from name
+      setFormData(prevData => ({
+        ...prevData,
+        address: { ...prevData.address, [key]: value }
+      }));
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const validateForm = () => {
-    // if (!/^\d{10}$/.test(formData.mobileNumber)) {
-    //   return 'Mobile number must be 10 digits.';
-    // }
-    // if (!/\S+@\S+\.\S+/.test(formData.email)) {
-    //   return 'Email ID is invalid.';
-    // }
-    // if (!/\S+@\S+\.\S+/.test(formData.parentEmailId)) {
-    //   return 'Parent Email ID is invalid.';
-    // }
-    // if (formData.age <= 0) {
-    //   return 'Age must be a positive number.';
-    // }
-    // // Add more validation as needed
-    // return '';
+    // Add validation logic if needed
+    return '';
   };
 
   const handleSubmit = (e) => {
@@ -75,25 +71,25 @@ const CreateStudentPage = () => {
         {success && <div className="success-message">{success}</div>}
         
         <div className="form-group">
-          <label htmlFor="firstName">First Name</label>
+          <label htmlFor="userName">User Name</label>
           <input
             type="text"
-            id="firstName"
-            name="firstName"
-            placeholder="John"
-            value={formData.firstName}
+            id="userName"
+            name="userName"
+            placeholder="john_doe"
+            value={formData.userName}
             onChange={handleChange}
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="lastName">Last Name</label>
+          <label htmlFor="name">Full Name</label>
           <input
             type="text"
-            id="lastName"
-            name="lastName"
-            placeholder="Doe"
-            value={formData.lastName}
+            id="name"
+            name="name"
+            placeholder="John Doe"
+            value={formData.name}
             onChange={handleChange}
             required
           />
@@ -111,13 +107,13 @@ const CreateStudentPage = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="email">Email ID</label>
+          <label htmlFor="emailId">Email ID</label>
           <input
             type="email"
-            id="email"
-            name="email"
+            id="emailId"
+            name="emailId"
             placeholder="john.doe@example.com"
-            value={formData.email}
+            value={formData.emailId}
             onChange={handleChange}
             required
           />
@@ -135,14 +131,15 @@ const CreateStudentPage = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="className">Class</label>
+          <label htmlFor="grade">Grade</label>
           <input
-            type="text"
-            id="className"
-            name="className"
-            placeholder="10th Grade"
-            value={formData.className}
+            type="number"
+            id="grade"
+            name="grade"
+            placeholder="12"
+            value={formData.grade}
             onChange={handleChange}
+            min="1"
             required
           />
         </div>
@@ -155,7 +152,6 @@ const CreateStudentPage = () => {
             placeholder="Jane Doe"
             value={formData.motherName}
             onChange={handleChange}
-            required
           />
         </div>
         <div className="form-group">
@@ -197,37 +193,37 @@ const CreateStudentPage = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="parentEmailId">Parent's Email ID</label>
+          <label htmlFor="address.state">State</label>
           <input
-            type="email"
-            id="parentEmailId"
-            name="parentEmailId"
-            placeholder="parent@example.com"
-            value={formData.parentEmailId}
+            type="text"
+            id="address.state"
+            name="address.state"
+            placeholder="Bihar"
+            value={formData.address.state}
             onChange={handleChange}
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="bloodGroup">Blood Group</label>
+          <label htmlFor="address.city">City</label>
           <input
             type="text"
-            id="bloodGroup"
-            name="bloodGroup"
-            placeholder="A+"
-            value={formData.bloodGroup}
+            id="address.city"
+            name="address.city"
+            placeholder="Arrah"
+            value={formData.address.city}
             onChange={handleChange}
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="address">Address</label>
+          <label htmlFor="address.zipCode">Zip Code</label>
           <input
             type="text"
-            id="address"
-            name="address"
-            placeholder="123 Main St"
-            value={formData.address}
+            id="address.zipCode"
+            name="address.zipCode"
+            placeholder="802301"
+            value={formData.address.zipCode}
             onChange={handleChange}
             required
           />
