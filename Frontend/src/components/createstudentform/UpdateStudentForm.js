@@ -1,16 +1,16 @@
-// src/components/CreateStudentPage.js
-import React, { useState } from 'react';
-import { createStudent } from '../services/Api';
-import '../formstyle/FormStyle.css'; // Ensure this CSS file includes the styles provided below
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { updateStudent, getStudentById } from '../services/Api'; // Ensure these imports are correct
+import '../formstyle/FormStyle.css'; // Ensure this CSS file includes the styles
 
-const CreateStudentPage = () => {
+const UpdateStudentForm = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     password: '',
     email: '',
     rollNo: '',
-    className: '',
+    className: '', // Adjusted to match the response key
     motherName: '',
     fatherName: '',
     age: '',
@@ -18,35 +18,65 @@ const CreateStudentPage = () => {
     parentEmailId: '',
     bloodGroup: '',
     address: '',
-    dateOfBirth: '',
+    dateOfBirth: '', // Handle null values
     dateOfJoining: ''
   });
-
+  
+  const {id} = useParams();
+//   console.log('Student ID:', studentId);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  
+  // Fetch the existing student data when component mounts
+  useEffect(() => {
+    const fetchStudentData = async () => {
+      try {
+        console.log("fdgdgdg");
+        const response = await getStudentById(id); // Use studentId prop
+        console.log("Line No. 999");
+        console.log(response);
+        const data = response;
+        console.log("Line No. 33");
+        console.log(data);
+        console.log(data.firstName);
+
+        // Handle null values
+        setFormData({
+          firstName: data.firstName || '',
+          lastName: data.lastName || '',
+          password: data.password || '',
+          email: data.email || '',
+          rollNo: data.rollNo || '',
+          className: data.classname || '', // Adjusted to match the response key
+          motherName: data.motherName || '',
+          fatherName: data.fatherName || '',
+          age: data.age || '',
+          mobileNumber: data.mobileNumber || '',
+          parentEmailId: data.parentEmailId || '',
+          bloodGroup: data.bloodGroup || '',
+          address: data.address || '',
+          dateOfBirth: data.dateofBirth || '', // Adjusted to match the response key
+          dateOfJoining: data.dateOfJoining || ''
+        });
+      } catch (err) {
+        console.error('Error fetching student data:', err);
+        setError('Failed to fetch student data.');
+      }
+    };
+    
+    fetchStudentData();
+  }, [id]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const validateForm = () => {
-    // if (!/^\d{10}$/.test(formData.mobileNumber)) {
-    //   return 'Mobile number must be 10 digits.';
-    // }
-    // if (!/\S+@\S+\.\S+/.test(formData.email)) {
-    //   return 'Email ID is invalid.';
-    // }
-    // if (!/\S+@\S+\.\S+/.test(formData.parentEmailId)) {
-    //   return 'Parent Email ID is invalid.';
-    // }
-    // if (formData.age <= 0) {
-    //   return 'Age must be a positive number.';
-    // }
-    // // Add more validation as needed
-    // return '';
+    // Add validation logic if needed
+    return '';
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationError = validateForm();
     if (validationError) {
@@ -55,21 +85,19 @@ const CreateStudentPage = () => {
       return;
     }
     
-    console.log('Student Created:', formData);
-    // Call API to create student
     try {
-      createStudent(formData);
-      setSuccess('Student created successfully!');
+      await updateStudent(id, formData);
+      setSuccess('Student updated successfully!');
       setError('');
     } catch (err) {
-      setError(err.message);
+      setError('Failed to update student.');
       setSuccess('');
     }
   };
 
   return (
     <div className="form-container">
-      <h2>Create Student</h2>
+      <h2>Update Student</h2>
       <form onSubmit={handleSubmit} className="form">
         {error && <div className="error-message">{error}</div>}
         {success && <div className="success-message">{success}</div>}
@@ -107,7 +135,6 @@ const CreateStudentPage = () => {
             placeholder="********"
             value={formData.password}
             onChange={handleChange}
-            required
           />
         </div>
         <div className="form-group">
@@ -192,8 +219,6 @@ const CreateStudentPage = () => {
             placeholder="+1234567890"
             value={formData.mobileNumber}
             onChange={handleChange}
-            // pattern="\d{10}"
-            // required
           />
         </div>
         <div className="form-group">
@@ -240,7 +265,6 @@ const CreateStudentPage = () => {
             name="dateOfBirth"
             value={formData.dateOfBirth}
             onChange={handleChange}
-            required
           />
         </div>
         <div className="form-group">
@@ -254,10 +278,10 @@ const CreateStudentPage = () => {
             required
           />
         </div>
-        <button type="submit" className="submit-button">Create Student</button>
+        <button type="submit" className="submit-button">Update Student</button>
       </form>
     </div>
   );
 };
 
-export default CreateStudentPage;
+export default UpdateStudentForm;

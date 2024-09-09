@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { getTeacher } from '../services/Api';
+import { getAllTeacher, getTeacherByEmail, getAllStudent, deleteTeacher, deleteStudent, updateTeacher, updateStudent } from '../services/Api';
+
 import './SearchBy.css'; // Ensure this CSS file includes card styles
+import UpdateStudentPage from '../createstudentform/UpdateStudentForm';
+import UpdateStudentForm from '../createstudentform/UpdateStudentForm';
 
 const SearchBy = () => {
   const [searchType, setSearchType] = useState(''); // 'teacher' or 'student'
@@ -11,18 +15,21 @@ const SearchBy = () => {
   const [loading, setLoading] = useState(false); // Loading state
   const [error, setError] = useState(''); // Error state
 
+  const navigate = useNavigate();
+
   const handleSearch = async () => {
     setLoading(true);
     setError('');
     try {
-        console.log(searchType);
-        // const r= searchType;
-        // console.log(r);
-      const response = await axios.get(`http://localhost:8080/api/teacher/email?email=${searchValue}`);
-      console.log(response.data);
-      setResults([response.data]);
-    // const response = getTeacher(searchType, searchCriteria, searchValue);
-    // setResults(response.data);
+      let response;
+      if (searchType === "teacher" && searchCriteria === "all") {
+        response = await getAllTeacher();
+      } else if (searchType === "teacher" && searchCriteria === "email") {
+        response = await getTeacherByEmail(searchValue);
+      } else if (searchType === "student" && searchCriteria === "all") {
+        response = await getAllStudent();
+      }
+      setResults(response.data);
     } catch (error) {
       console.error('Error fetching search results:', error);
       setError('Failed to fetch data. Please try again later.');
@@ -123,6 +130,48 @@ const SearchBy = () => {
     return null;
   };
 
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this item?')) {
+      try {
+        if (searchType === 'teacher') {
+          await deleteTeacher(id);
+        } else if (searchType === 'student') {
+          await deleteStudent(id);
+        }
+        // Refresh results after deletion
+        await handleSearch();
+      } catch (error) {
+        console.error('Error deleting item:', error);
+        setError('Failed to delete item. Please try again later.');
+      }
+    }
+  };
+
+  const handleUpdate = async (id) => {
+    // // Implement update functionality. Here we'll just use a placeholder.
+    // const updatedData = { /* data to update */ };
+
+    // try {
+    //   if (searchType === 'teacher') {
+    //     await updateTeacher(id, updatedData);
+    //   }
+     if (searchType === 'student') {
+        navigate(`/admin/search-by/update/student/${id}`);
+      }
+      if (searchType === "teacher"){
+        console.log("Line No. 162");
+        console.log(id);
+        navigate(`/admin/search-by/update/teacher/${id}`);
+
+      }
+    //   // Refresh results after update
+    //   await handleSearch();
+    // } catch (error) {
+    //   console.error('Error updating item:', error);
+    //   setError('Failed to update item. Please try again later.');
+    // }
+  };
+
   return (
     <div className="search-by">
       <h2>Search</h2>
@@ -174,8 +223,14 @@ const SearchBy = () => {
                 <h3>{searchType === 'student' ? result.firstName : result.firstName + ' ' + result.lastName}</h3>
                 {searchType === 'student' ? (
                   <>
-                    <p><strong>Roll No:</strong> {result.rollNo}</p>
                     <p><strong>Class:</strong> {result.class}</p>
+                    <p><strong>RollNo:</strong> {result.rollNo}</p>
+                    <p><strong>Mother Name:</strong> {result.motherName}</p>
+                    <p><strong>Father Name:</strong> {result.fatherName}</p>
+                    <p><strong>Age:</strong> {result.age}</p>
+                    <p><strong>Mobile Number:</strong> {result.mobileNumber}</p>
+                    <p><strong>Parent Email Id:</strong> {result.parentEmailId}</p>
+                    <p><strong>Address:</strong> {result.address}</p>
                   </>
                 ) : (
                   <>
@@ -185,9 +240,13 @@ const SearchBy = () => {
                     <p><strong>Address:</strong> {result.address}</p>
                     <p><strong>Date of Birth:</strong> {result.dateofBirth}</p>
                     <p><strong>Qualification:</strong> {result.qualification}</p>
-                    <p><strong>Discription:</strong> {result.discription}</p>
+                    <p><strong>Description:</strong> {result.description}</p>
                   </>
                 )}
+                <div className="card-actions">
+                  <button onClick={() => handleUpdate(result.id)}>Update</button>
+                  <button onClick={() => handleDelete(result.id)}>Delete</button>
+                </div>
               </div>
             ))}
           </div>
