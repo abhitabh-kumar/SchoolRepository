@@ -7,13 +7,15 @@ const API_URL = 'http://localhost:8080'; // Base URL for your API
 export const loginUser = async (username, password, role) => {
     try {
       // Make the API request to log in
-      const response = await axios.post(`${API_URL}/login`, {
-        username,
-        password,
-        role
+      const credentials = btoa(`${username}:${password}`);
+      const response = await axios.get(`http://localhost:8080/sign-in`,{
+        headers: {
+          'Authorization': `Basic ${credentials}`
+        }
       });
   
       // Return the response data if needed
+      console.log(response);
       return response.data;
     } catch (error) {
       // Throw an error with a message if the request fails
