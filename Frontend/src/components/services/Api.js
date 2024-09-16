@@ -116,7 +116,7 @@ export const deleteTeacher = async (id) => {
 };
 
 // Function to create a student
-export const createStudent = async (studentData) => {
+export const createStudent = async (studentData)  => {
   try {
     const response = await axios.post(`${API_URL}/student/createStudent`, studentData);
     return response.data;
@@ -128,7 +128,7 @@ export const createStudent = async (studentData) => {
 export const getAllStudent = async () => {
   // console.log(type);
   try{
-    const response =await axios.get('http://localhost:8080/api/student/all');
+    const response =await axios.get('http://localhost:8080/student/all');
     return response;
   }
   catch(error){
@@ -150,9 +150,10 @@ export const getStudentById = async (studentId) => {
 };
 
 // Function to update a student by ID
-export const updateStudent = async (id, updatedData) => {
+export const updateStudent = async (userId, updatedData) => {
+  console.log("I am inside 153");
   try {
-    const response = await axios.put(`${API_URL}/student/update/${id}`, updatedData);
+    const response = await axios.put(`${API_URL}/student/update/${userId}`, updatedData);
     return response.data;
   } catch (error) {
     console.error('Error updating student:', error);

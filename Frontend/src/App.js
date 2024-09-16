@@ -33,8 +33,8 @@ function App() {
         <Route path="/admin/create-student" element={<CreateStudentPage />} />
         <Route path="/admin/create-exam" element={<CreateExamPage />} />
         <Route path="/admin/search-by" element={<SearchBy />} />
-        <Route path="/admin/search-by/update/student/:id" element={<UpdateStudentForm />} />
-        <Route path="/admin/search-by/update/teacher/:id" element={<UpdateTeacherForm />} />
+        <Route path="/admin/search-by/update/student/:userId" element={<UpdateStudentForm />} />
+        <Route path="/admin/search-by/update/teacher/:userId" element={<UpdateTeacherForm />} />
         </Route>
       </Routes>
     </Router>

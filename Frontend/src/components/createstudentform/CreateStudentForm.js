@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
 import { createStudent } from '../services/Api';
 import '../formstyle/FormStyle.css'; // Ensure this CSS file includes the styles provided below
+import authHeader from '../services/authHeader';
+// import { useNavigate } from 'react-router-dom';
 
 const CreateStudentPage = () => {
+
+  // const headers = authHeader();
+  // const navigate = useNavigate();
+  // console.log(headers);
+  // if(headers){
+    // navigate('/login');
+  // }
   const [formData, setFormData] = useState({
     userName: '',
     name: '',

@@ -29,7 +29,9 @@ const SearchBy = () => {
       } else if (searchType === "student" && searchCriteria === "all") {
         response = await getAllStudent();
       }
-      setResults(response.data);
+      console.log(response.data.data);
+      console.log(searchType);
+      setResults(response.data.data);
     } catch (error) {
       console.error('Error fetching search results:', error);
       setError('Failed to fetch data. Please try again later.');
@@ -147,7 +149,7 @@ const SearchBy = () => {
     }
   };
 
-  const handleUpdate = async (id) => {
+  const handleUpdate = async (userId) => {
     // // Implement update functionality. Here we'll just use a placeholder.
     // const updatedData = { /* data to update */ };
 
@@ -156,12 +158,13 @@ const SearchBy = () => {
     //     await updateTeacher(id, updatedData);
     //   }
      if (searchType === 'student') {
-        navigate(`/admin/search-by/update/student/${id}`);
+      console.log(userId);
+        navigate(`/admin/search-by/update/student/${userId}`);
       }
       if (searchType === "teacher"){
         console.log("Line No. 162");
-        console.log(id);
-        navigate(`/admin/search-by/update/teacher/${id}`);
+        console.log(userId);
+        navigate(`/admin/search-by/update/teacher/${userId}`);
 
       }
     //   // Refresh results after update
@@ -216,21 +219,26 @@ const SearchBy = () => {
       )}
       {error && <p className="error-message">{error}</p>}
       <div className="search-results">
-        {results.length > 0 ? (
+        <p>${results.length}</p>
+        {results.length >= 0 ? (
           <div className="cards-container">
             {results.map((result) => (
               <div className="card" key={result.id}>
                 <h3>{searchType === 'student' ? result.firstName : result.firstName + ' ' + result.lastName}</h3>
                 {searchType === 'student' ? (
                   <>
-                    <p><strong>Class:</strong> {result.class}</p>
+                    <p><strong>Name:</strong> {result.userName}</p>
+                    <p><strong>Class:</strong> {result.grade}</p>
                     <p><strong>RollNo:</strong> {result.rollNo}</p>
                     <p><strong>Mother Name:</strong> {result.motherName}</p>
                     <p><strong>Father Name:</strong> {result.fatherName}</p>
                     <p><strong>Age:</strong> {result.age}</p>
                     <p><strong>Mobile Number:</strong> {result.mobileNumber}</p>
-                    <p><strong>Parent Email Id:</strong> {result.parentEmailId}</p>
-                    <p><strong>Address:</strong> {result.address}</p>
+                    <p><strong>Parent Email Id:</strong> {result.fatherName}</p>
+                    <p><strong>City:</strong> {result.address.city}</p>
+                    <p><strong>State:</strong> {result.address.state}</p>
+                    <p><strong>Street:</strong> {result.address.street}</p>
+                    <p><strong>ZipCode:</strong> {result.address.zipCode}</p>
                   </>
                 ) : (
                   <>
@@ -244,7 +252,7 @@ const SearchBy = () => {
                   </>
                 )}
                 <div className="card-actions">
-                  <button onClick={() => handleUpdate(result.id)}>Update</button>
+                  <button onClick={() => handleUpdate(result.userId)}>Update</button>
                   <button onClick={() => handleDelete(result.id)}>Delete</button>
                 </div>
               </div>
