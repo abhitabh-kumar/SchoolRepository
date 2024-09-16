@@ -61,4 +61,44 @@ public class StudentService {
         log.error("Student with email {} not found", email);
         throw new NotFoundException("Student not found");
     }
+
+    public ResponseDetails getAllStudents(){
+        List<StudentEntity> student = studentRepo.findAll();
+        if(!student.isEmpty()){
+            ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
+                    "Student fetched successfully",
+                    student);
+//            log.info("Student with email {} fetched", email);
+            return responseDetails;
+        }
+//        log.error("Student with email {} not found", );
+        throw new NotFoundException("Student not found");
+    }
+
+    public ResponseDetails getStudentById(Long id){
+        StudentEntity student = studentRepo.findByUserId(id);
+        ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
+                "Student fetched successfully",
+                student);
+        return responseDetails;
+    }
+
+    public ResponseDetails updateStudent(StudentEntity student, Long id){
+           StudentEntity studentEntity = studentRepo.findByUserId(id);
+           if(studentEntity != null){
+//               studentEntity.setAddress(student.getAddress());
+               studentEntity.setAge(student.getAge());
+               studentEntity.setGrade(student.getGrade());
+               studentEntity.setName(student.getName());
+               studentEntity.setEmailId(student.getEmailId());
+               studentEntity.setFatherName(student.getFatherName());
+               studentEntity.setMobileNumber(student.getMobileNumber());
+               studentEntity.setMotherName(student.getMotherName());
+               studentEntity.setUserName(student.getUserName());
+           }
+        ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
+                "Student fetched successfully",
+                studentEntity);
+           return responseDetails;
+    }
 }

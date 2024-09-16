@@ -5,40 +5,49 @@ import '../formstyle/FormStyle.css'; // Ensure this CSS file includes the styles
 
 const UpdateStudentForm = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    userName: '',
+    name: '',
     password: '',
-    email: '',
+    emailId: '',
     rollNo: '',
-    className: '', // Adjusted to match the response key
+    grade: '', // Default grade
     motherName: '',
     fatherName: '',
     age: '',
     mobileNumber: '',
-    parentEmailId: '',
-    bloodGroup: '',
-    address: '',
-    dateOfBirth: '', // Handle null values
-    dateOfJoining: ''
+    address: { state: '', zipCode: '', city: '' },
+    dateOfBirth: '',
+    dateOfJoining: '',
+    roles: 'STUDENT' // Default role
   });
   
-  const {id} = useParams();
+  const {userId} = useParams();
+  console.log(userId);
 //   console.log('Student ID:', studentId);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    
+    if (name.startsWith('address.')) {
+      const [key] = name.split('.').slice(1); // Remove 'address' from name
+      setFormData(prevData => ({
+        ...prevData,
+        address: { ...prevData.address, [key]: value }
+      }));
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
   
   // Fetch the existing student data when component mounts
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
-        console.log("fdgdgdg");
-        const response = await getStudentById(id); // Use studentId prop
-        console.log("Line No. 999");
-        console.log(response);
+        const response = await getStudentById(userId); // Use studentId prop
         const data = response;
-        console.log("Line No. 33");
-        console.log(data);
-        console.log(data.firstName);
 
         // Handle null values
         setFormData({
@@ -65,11 +74,11 @@ const UpdateStudentForm = () => {
     };
     
     fetchStudentData();
-  }, [id]);
+  }, [userId]);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  // const handleChange = (e) => {
+  //   setFormData({ ...formData, [e.target.name]: e.target.value });
+  // };
 
   const validateForm = () => {
     // Add validation logic if needed
@@ -86,7 +95,7 @@ const UpdateStudentForm = () => {
     }
     
     try {
-      await updateStudent(id, formData);
+      await updateStudent(userId, formData);
       setSuccess('Student updated successfully!');
       setError('');
     } catch (err) {
@@ -246,13 +255,37 @@ const UpdateStudentForm = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="address">Address</label>
+          <label htmlFor="address.state">State</label>
           <input
             type="text"
-            id="address"
-            name="address"
-            placeholder="123 Main St"
-            value={formData.address}
+            id="address.state"
+            name="address.state"
+            placeholder="Bihar"
+            value={formData.address.state}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="address.city">City</label>
+          <input
+            type="text"
+            id="address.city"
+            name="address.city"
+            placeholder="Arrah"
+            value={formData.address.city}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="address.zipCode">Zip Code</label>
+          <input
+            type="text"
+            id="address.zipCode"
+            name="address.zipCode"
+            placeholder="802301"
+            value={formData.address.zipCode}
             onChange={handleChange}
             required
           />

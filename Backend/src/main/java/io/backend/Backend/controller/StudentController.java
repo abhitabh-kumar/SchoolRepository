@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.tags.Param;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 
@@ -37,11 +38,32 @@ public class StudentController {
         return ResponseEntity.ok(responseDetails);
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_TEACHER')")
+//    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_TEACHER')")
     @GetMapping("/getStudentsByEmail")
     public ResponseEntity<ResponseDetails> getStudentsByEmailId(@RequestParam String email) {
         log.info("Fetching Student with email : {} ", email);
         ResponseDetails responseDetails = studentService.getStudentsByEmailId(email);
+        return ResponseEntity.ok(responseDetails);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseDetails> getStudentId(@PathVariable Long id) {
+        log.info("Fetching Student with email : {} ", id);
+        ResponseDetails responseDetails = studentService.getStudentById(id);
+        return ResponseEntity.ok(responseDetails);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseDetails> updateStudent(@RequestParam StudentEntity student, @PathVariable Long id) {
+        log.info("Fetching Student with id : {} ", id);
+        ResponseDetails responseDetails = studentService.updateStudent(student, id);
+        return ResponseEntity.ok(responseDetails);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<ResponseDetails> getAllStudents() {
+//        log.info("Fetching Student with email : {} ", email);
+        ResponseDetails responseDetails = studentService.getAllStudents();
         return ResponseEntity.ok(responseDetails);
     }
 

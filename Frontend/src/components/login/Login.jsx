@@ -1,7 +1,7 @@
 // src/components/Login.js
 import React, { useState } from 'react';
 import { loginUser } from '../services/Api';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
@@ -9,6 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [role, setRole] = useState(null); // Track selected role
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,9 +21,11 @@ const Login = () => {
 
     try {
       const data = await loginUser(username, password, role); // Include role in login request
-      localStorage.setItem('token', data.token);
+      var token = data.data.access_token;
+      sessionStorage.setItem('token', token);
       // Redirect to dashboard or another page
-      // For example: navigate('/dashboard'); // You may need to import and use useNavigate from 'react-router-dom'
+      // if(role==teacher && data.data.role==tecaher)
+      navigate('/admin'); // You may need to import and use useNavigate from 'react-router-dom'
     } catch (err) {
       setError(err.message || 'Login failed. Please check your credentials.');
     }
