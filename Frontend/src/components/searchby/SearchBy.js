@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { getAllTeacher, getTeacherByEmail, getAllStudent, deleteTeacher, deleteStudent, updateTeacher, updateStudent } from '../services/Api';
+import { getAllTeacher, getTeacherByEmail, getAllStudent, deleteTeacher, deleteStudent, updateTeacher, updateStudent, getStudentByGrade, getStudentByName } from '../services/Api';
 
 import './SearchBy.css'; // Ensure this CSS file includes card styles
 import UpdateStudentPage from '../createstudentform/UpdateStudentForm';
@@ -24,14 +24,20 @@ const SearchBy = () => {
       let response;
       if (searchType === "teacher" && searchCriteria === "all") {
         response = await getAllTeacher();
-      } else if (searchType === "teacher" && searchCriteria === "email") {
-        response = await getTeacherByEmail(searchValue);
+      } else if (searchType === "student" && searchCriteria === "name") {
+        response = await getStudentByName(searchValue);
       } else if (searchType === "student" && searchCriteria === "all") {
         response = await getAllStudent();
+      } else if(searchType === "student" && searchCriteria === "class"){
+        response = await getStudentByGrade(searchValue);
       }
-      console.log(response.data.data);
-      console.log(searchType);
-      setResults(response.data.data);
+      // Ensure response data is set properly
+      if (response && response.data && response.data.data) {
+        // console.log(response.data.data);
+        setResults(response.data.data);
+      } else {
+        setResults([]); // Clear results if response is not as expected
+      } 
     } catch (error) {
       console.error('Error fetching search results:', error);
       setError('Failed to fetch data. Please try again later.');
@@ -96,7 +102,7 @@ const SearchBy = () => {
             />
             Name
           </label>
-          <label>
+          {/* <label>
             <input
               type="radio"
               name="searchCriteria"
@@ -105,7 +111,7 @@ const SearchBy = () => {
               onChange={(e) => setSearchCriteria(e.target.value)}
             />
             Roll Number
-          </label>
+          </label> */}
           <label>
             <input
               type="radio"
@@ -132,13 +138,13 @@ const SearchBy = () => {
     return null;
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (userId) => {
     if (window.confirm('Are you sure you want to delete this item?')) {
       try {
         if (searchType === 'teacher') {
-          await deleteTeacher(id);
+          await deleteTeacher(userId);
         } else if (searchType === 'student') {
-          await deleteStudent(id);
+          await deleteStudent(userId);
         }
         // Refresh results after deletion
         await handleSearch();
@@ -151,12 +157,12 @@ const SearchBy = () => {
 
   const handleUpdate = async (userId) => {
     // // Implement update functionality. Here we'll just use a placeholder.
-    // const updatedData = { /* data to update */ };
+    const updatedData = { /* data to update */ };
 
-    // try {
-    //   if (searchType === 'teacher') {
-    //     await updateTeacher(id, updatedData);
-    //   }
+    try {
+      if (searchType === 'teacher') {
+        await updateTeacher(userId, updatedData);
+      }
      if (searchType === 'student') {
       console.log(userId);
         navigate(`/admin/search-by/update/student/${userId}`);
@@ -167,12 +173,12 @@ const SearchBy = () => {
         navigate(`/admin/search-by/update/teacher/${userId}`);
 
       }
-    //   // Refresh results after update
-    //   await handleSearch();
-    // } catch (error) {
-    //   console.error('Error updating item:', error);
-    //   setError('Failed to update item. Please try again later.');
-    // }
+      // Refresh results after update
+      await handleSearch();
+    } catch (error) {
+      console.error('Error updating item:', error);
+      setError('Failed to update item. Please try again later.');
+    }
   };
 
   return (
@@ -219,11 +225,11 @@ const SearchBy = () => {
       )}
       {error && <p className="error-message">{error}</p>}
       <div className="search-results">
-        <p>${results.length}</p>
+        <p>Total results: {results.length}</p>
         {results.length >= 0 ? (
           <div className="cards-container">
             {results.map((result) => (
-              <div className="card" key={result.id}>
+              <div className="card" key={result.userId}>
                 <h3>{searchType === 'student' ? result.firstName : result.firstName + ' ' + result.lastName}</h3>
                 {searchType === 'student' ? (
                   <>
@@ -253,7 +259,7 @@ const SearchBy = () => {
                 )}
                 <div className="card-actions">
                   <button onClick={() => handleUpdate(result.userId)}>Update</button>
-                  <button onClick={() => handleDelete(result.id)}>Delete</button>
+                  <button onClick={() => handleDelete(result.userId)}>Delete</button>
                 </div>
               </div>
             ))}

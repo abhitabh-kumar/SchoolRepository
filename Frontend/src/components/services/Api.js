@@ -3,6 +3,13 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:8080'; // Base URL for your API
 
+const config = {
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+  }
+};
+
 // Function to log in a user
 export const loginUser = async (username, password, role) => {
     try {
@@ -140,9 +147,22 @@ export const getAllStudent = async () => {
 export const getStudentById = async (studentId) => {
   console.log(studentId);
   try {
-    const response = await axios.get(`${API_URL}/student/${studentId}`);
+    const response = await axios.get(`${API_URL}/student/get/${studentId}`);
     console.log(response);
     return response.data;
+  } catch (error) {
+    console.error('Error fetching student data:', error);
+    throw new Error('Failed to fetch student data.');
+  }
+};
+
+// Function to get student by name
+export const getStudentByName = async (name) => {
+  console.log("hdjdjdj");
+  try {
+    const response = await axios.get(`${API_URL}/student/name/${name}`);
+    console.log(response);
+    return response;
   } catch (error) {
     console.error('Error fetching student data:', error);
     throw new Error('Failed to fetch student data.');
@@ -153,13 +173,26 @@ export const getStudentById = async (studentId) => {
 export const updateStudent = async (userId, updatedData) => {
   console.log("I am inside 153");
   try {
-    const response = await axios.put(`${API_URL}/student/update/${userId}`, updatedData);
+    const response = await axios.put(`${API_URL}/student/${userId}`, updatedData);
     return response.data;
   } catch (error) {
     console.error('Error updating student:', error);
     throw new Error('Failed to update student');
   }
 };
+
+export const getStudentByGrade = async (grade) => {
+  console.log(grade);
+  try {
+    const response = await axios.get(`${API_URL}/student/${grade}`);
+    // console.log(response);
+    return response;
+  } catch (error) {
+    console.error('Error fetching student data:', error);
+    throw new Error('Failed to fetch student data.');
+  }
+};
+
 
 // Function to delete a student by ID
 export const deleteStudent = async (id) => {
