@@ -30,23 +30,23 @@ public class StudentController {
         return ResponseEntity.ok(responseDetails);
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_STUDENT','SCOPE_TEACHER')")
-    @GetMapping("/getStudentByRollNo")
-    public ResponseEntity<ResponseDetails> getStudentRollNo(@RequestParam String rollNo) {
-        log.info("Fetching Student with rollNo : {} ", rollNo);
-        ResponseDetails responseDetails = studentService.getStudentByRollNo(rollNo);
+//    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_STUDENT','SCOPE_TEACHER')")
+    @GetMapping("/{grade}")
+    public ResponseEntity<ResponseDetails> getStudentGrade(@PathVariable Integer grade) {
+        log.info("Fetching Student with rollNo : {} ", grade);
+        ResponseDetails responseDetails = studentService.getStudentGrade(grade);
         return ResponseEntity.ok(responseDetails);
     }
 
 //    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_TEACHER')")
-    @GetMapping("/getStudentsByEmail")
-    public ResponseEntity<ResponseDetails> getStudentsByEmailId(@RequestParam String email) {
-        log.info("Fetching Student with email : {} ", email);
-        ResponseDetails responseDetails = studentService.getStudentsByEmailId(email);
+    @GetMapping("/name/{name}")
+    public ResponseEntity<ResponseDetails> getStudentsByName(@PathVariable String name) {
+        log.info("Fetching Student with email : {} ", name);
+        ResponseDetails responseDetails = studentService.getStudentsByName(name);
         return ResponseEntity.ok(responseDetails);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<ResponseDetails> getStudentId(@PathVariable Long id) {
         log.info("Fetching Student with email : {} ", id);
         ResponseDetails responseDetails = studentService.getStudentById(id);
@@ -54,7 +54,7 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDetails> updateStudent(@RequestParam StudentEntity student, @PathVariable Long id) {
+    public ResponseEntity<ResponseDetails> updateStudent(@RequestBody StudentEntity student, @PathVariable Long id) {
         log.info("Fetching Student with id : {} ", id);
         ResponseDetails responseDetails = studentService.updateStudent(student, id);
         return ResponseEntity.ok(responseDetails);
@@ -65,6 +65,11 @@ public class StudentController {
 //        log.info("Fetching Student with email : {} ", email);
         ResponseDetails responseDetails = studentService.getAllStudents();
         return ResponseEntity.ok(responseDetails);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteStudent(@PathVariable Long id){
+        studentService.deleteStudent(id);
     }
 
 }

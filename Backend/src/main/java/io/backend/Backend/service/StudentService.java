@@ -36,12 +36,12 @@ public class StudentService {
         return responseDetails;
     }
 
-    public ResponseDetails getStudentByRollNo(String rollNo){
-        Optional<StudentEntity> student = studentRepo.findByRollNo(rollNo);
-        if(student.isPresent()){
+    public ResponseDetails getStudentGrade(Integer rollNo){
+        List<StudentEntity> student = studentRepo.findByGrade(rollNo);
+        if(!student.isEmpty()){
             ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
                     "Student fetched successfully",
-                    student.get());
+                    student);
             log.info("Student with rollNo {} fetched", rollNo);
             return responseDetails;
         }
@@ -49,20 +49,20 @@ public class StudentService {
         throw new NotFoundException("Student not found");
     }
 
-    public ResponseDetails getStudentsByEmailId(String email){
-        List<StudentEntity> student = studentRepo.findByEmailId(email);
+    public ResponseDetails getStudentsByName(String name){
+        List<StudentEntity> student = studentRepo.findByName(name);
         if(!student.isEmpty()){
             ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
                     "Student fetched successfully",
                     student);
-            log.info("Student with email {} fetched", email);
+            log.info("Student with email {} fetched", name);
             return responseDetails;
         }
-        log.error("Student with email {} not found", email);
+        log.error("Student with email {} not found", name);
         throw new NotFoundException("Student not found");
     }
 
-    public ResponseDetails getAllStudents(){
+    public ResponseDetails  getAllStudents(){
         List<StudentEntity> student = studentRepo.findAll();
         if(!student.isEmpty()){
             ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
@@ -84,9 +84,8 @@ public class StudentService {
     }
 
     public ResponseDetails updateStudent(StudentEntity student, Long id){
-           StudentEntity studentEntity = studentRepo.findByUserId(id);
+           StudentEntity studentEntity = studentRepo.findById(id).get();
            if(studentEntity != null){
-//               studentEntity.setAddress(student.getAddress());
                studentEntity.setAge(student.getAge());
                studentEntity.setGrade(student.getGrade());
                studentEntity.setName(student.getName());
@@ -95,10 +94,15 @@ public class StudentService {
                studentEntity.setMobileNumber(student.getMobileNumber());
                studentEntity.setMotherName(student.getMotherName());
                studentEntity.setUserName(student.getUserName());
+               studentRepo.save(studentEntity);
            }
         ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
                 "Student fetched successfully",
                 studentEntity);
            return responseDetails;
+    }
+
+    public void deleteStudent(Long id){
+        studentRepo.deleteById(id);
     }
 }

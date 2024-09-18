@@ -11,9 +11,11 @@ import java.util.Optional;
 
 @Repository
 public interface StudentRepo extends JpaRepository<StudentEntity,Long> {
-    List<StudentEntity> findByEmailId(String emailId);
-    Optional<StudentEntity> findByRollNo(String rollNo);
+    List<StudentEntity> findByName(String name);
+    List<StudentEntity> findByGrade(Integer grade);
     List<StudentEntity> findAll();
 
    StudentEntity findByUserId(Long id);
+
+   void deleteByUserId(Long id);
 }
