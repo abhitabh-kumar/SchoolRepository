@@ -9,16 +9,20 @@ const UpdateTeacherForm = () => {
   console.log(id);
   const navigate = useNavigate(); // For navigation
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     password: '',
-    email: '',
+    emailId: '',
     age: '',
-    mobile_number: '',
-    address: '',
-    dateOfBirth: '',
+    roles:"student",
+    mobileNumber: '',
+    address: {
+      street: '',
+      city: '',
+      state: '',
+      zipCode: ''
+    },
     qualification: '',
-    description: '',
+    description: ''
   });
 
   const [error, setError] = useState('');

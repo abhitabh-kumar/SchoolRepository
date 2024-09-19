@@ -71,7 +71,7 @@ export const verifyOtp = async (token, otp) => {
 
 export const createTeacher = async (teacherData) => {
   try {
-    const response = await axios.post(`${API_URL}/teacher/create`, teacherData);
+    const response = await axios.post(`${API_URL}/teacher/createTeacher`, teacherData);
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Failed to create teacher.');
@@ -81,7 +81,8 @@ export const createTeacher = async (teacherData) => {
 export const getAllTeacher = async () => {
   // console.log(type);
   try{
-    const response =await axios.get('http://localhost:8080/api/teacher/all');
+    const response =await axios.get('http://localhost:8080/teacher/all');
+    // console.log(response.data);
     return response;
   }
   catch(error){
@@ -94,10 +95,11 @@ export const getTeacherById = async (id) => {
   return response;
 };
 // Function to get Teacher By Email No working
-export const getTeacherByEmail = async (searchValue) => {
+export const getTeacherByName = async (searchValue) => {
   try{
     console.log(searchValue);
-    const response =await axios.get(`http://localhost:8080/api/teacher/email?email=${searchValue}`);
+    const response =await axios.get(`http://localhost:8080/teacher/name/${searchValue}`);
+    console.log(response);  
     return response;
   }
   catch(error){
@@ -108,7 +110,8 @@ export const getTeacherByEmail = async (searchValue) => {
 // Function to update the data of teacher
 export const updateTeacher = async (id, data) => {
   const response = await axios.put(`${API_URL}/teacher/update/${id}`, data);
-  return response.data;
+  
+  return response;
 };
 
 // Function to delete a teacher by ID

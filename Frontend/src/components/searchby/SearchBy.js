@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { getAllTeacher, getTeacherByEmail, getAllStudent, deleteTeacher, deleteStudent, updateTeacher, updateStudent, getStudentByGrade, getStudentByName } from '../services/Api';
+import { getAllTeacher, getTeacherByEmail, getAllStudent, deleteTeacher, deleteStudent, updateTeacher, updateStudent, getStudentByGrade, getStudentByName, getTeacherByName } from '../services/Api';
 
 import './SearchBy.css'; // Ensure this CSS file includes card styles
 import UpdateStudentPage from '../createstudentform/UpdateStudentForm';
@@ -24,7 +24,9 @@ const SearchBy = () => {
       let response;
       if (searchType === "teacher" && searchCriteria === "all") {
         response = await getAllTeacher();
-      } else if (searchType === "student" && searchCriteria === "name") {
+      } else if (searchType === "teacher" && searchCriteria === "name") {
+        response = await getTeacherByName(searchValue);
+      }  else if (searchType === "student" && searchCriteria === "name") {
         response = await getStudentByName(searchValue);
       } else if (searchType === "student" && searchCriteria === "all") {
         response = await getAllStudent();
@@ -32,8 +34,7 @@ const SearchBy = () => {
         response = await getStudentByGrade(searchValue);
       }
       // Ensure response data is set properly
-      if (response && response.data && response.data.data) {
-        // console.log(response.data.data);
+      if (response && response.data) {
         setResults(response.data.data);
       } else {
         setResults([]); // Clear results if response is not as expected
@@ -67,7 +68,7 @@ const SearchBy = () => {
             />
             Name
           </label>
-          <label>
+          {/* <label>
             <input
               type="radio"
               name="searchCriteria"
@@ -76,7 +77,7 @@ const SearchBy = () => {
               onChange={(e) => setSearchCriteria(e.target.value)}
             />
             Email
-          </label>
+          </label> */}
           <label>
             <input
               type="radio"
@@ -230,10 +231,10 @@ const SearchBy = () => {
           <div className="cards-container">
             {results.map((result) => (
               <div className="card" key={result.userId}>
-                <h3>{searchType === 'student' ? result.firstName : result.firstName + ' ' + result.lastName}</h3>
+                {/* <h3>{searchType === 'student' ? result.firstName : result.firstName + ' ' + result.lastName}</h3> */}
                 {searchType === 'student' ? (
                   <>
-                    <p><strong>Name:</strong> {result.userName}</p>
+                    <p><strong>Name:</strong> {result.name}</p>
                     <p><strong>Class:</strong> {result.grade}</p>
                     <p><strong>RollNo:</strong> {result.rollNo}</p>
                     <p><strong>Mother Name:</strong> {result.motherName}</p>
@@ -248,11 +249,12 @@ const SearchBy = () => {
                   </>
                 ) : (
                   <>
-                    <p><strong>Email:</strong> {result.email}</p>
-                    <p><strong>Mobile Number:</strong> {result.mobile_number}</p>
+                    <p><strong>Name:</strong> {result.name}</p>
+                    <p><strong>Email:</strong> {result.emailId}</p>
+                    <p><strong>Mobile Number:</strong> {result.mobileNumber}</p>
                     <p><strong>Age:</strong> {result.age}</p>
-                    <p><strong>Address:</strong> {result.address}</p>
-                    <p><strong>Date of Birth:</strong> {result.dateofBirth}</p>
+                    {/* <p><strong>Address:</strong> {result.address}</p> */}
+                    {/* <p><strong>Date of Birth:</strong> {result.dateofBirth}</p> */}
                     <p><strong>Qualification:</strong> {result.qualification}</p>
                     <p><strong>Description:</strong> {result.description}</p>
                   </>
