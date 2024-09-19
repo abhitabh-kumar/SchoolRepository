@@ -22,12 +22,28 @@ public class TeacherController {
 
     private final TeacherService teacherService;
 
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+//    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @PostMapping("/createTeacher")
     public ResponseEntity<ResponseDetails> createTeacher(@RequestBody TeacherEntity teacher) throws SQLIntegrityConstraintViolationException {
         log.info("Creating Teacher:{}", teacher);
         ResponseDetails responseDetails = teacherService.createTeacher(teacher);
         return ResponseEntity.ok(responseDetails);
     }
+
+
+    @GetMapping("/all")
+    public ResponseEntity<ResponseDetails> getAllStudents() {
+//        log.info("Fetching Student with email : {} ", email);
+        ResponseDetails responseDetails = teacherService.getAllTeachers();
+        return ResponseEntity.ok(responseDetails);
+    }
+
+    @GetMapping("/name/{name}")
+    public ResponseEntity<ResponseDetails> getTeachersByName(@PathVariable String name) {
+        log.info("Fetching Student with email : {} ", name);
+        ResponseDetails responseDetails = teacherService.getTeacherByName(name);
+        return ResponseEntity.ok(responseDetails);
+    }
+
 
 }
