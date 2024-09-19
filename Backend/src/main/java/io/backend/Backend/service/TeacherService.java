@@ -63,4 +63,37 @@ public class TeacherService {
 
     }
 
+    public ResponseDetails getTeacherById(Long id){
+        TeacherEntity teacher = teacherRepo.findByUserId(id);
+        ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
+                "Stude fetched successfully",
+                teacher);
+        return responseDetails;
+    }
+
+
+    public ResponseDetails updateTeacher(TeacherEntity teacher, Long id){
+        TeacherEntity studentEntity = teacherRepo.findById(id).get();
+        if(studentEntity != null){
+            studentEntity.setAge(teacher.getAge());
+//            studentEntity.setGrade(teacher.getGrade());
+            studentEntity.setName(teacher.getName());
+            studentEntity.setEmailId(teacher.getEmailId());
+//            studentEntity.setFatherName(teacher.getFatherName());
+            studentEntity.setMobileNumber(teacher.getMobileNumber());
+//            studentEntity.setMotherName(teacher.getMotherName());
+            studentEntity.setUserName(teacher.getUserName());
+            teacherRepo.save(studentEntity);
+        }
+        ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
+                "Student fetched successfully",
+                studentEntity);
+        return responseDetails;
+    }
+
+
+    public void deleteTeacher(Long id){
+        teacherRepo.deleteById(id);
+    }
 }
+

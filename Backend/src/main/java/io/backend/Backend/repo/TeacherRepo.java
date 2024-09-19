@@ -11,4 +11,6 @@ import java.util.List;
 public interface TeacherRepo extends JpaRepository<TeacherEntity,Long> {
 
     List<TeacherEntity> findByName(String name);
+
+    TeacherEntity findByUserId(Long id);
 }

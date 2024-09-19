@@ -91,7 +91,7 @@ export const getAllTeacher = async () => {
 };
 
 export const getTeacherById = async (id) => {
-  const response = await axios.get(`${API_URL}/teacher/${id}`);
+  const response = await axios.get(`${API_URL}/teacher/get/${id}`);
   return response;
 };
 // Function to get Teacher By Email No working
@@ -99,7 +99,7 @@ export const getTeacherByName = async (searchValue) => {
   try{
     console.log(searchValue);
     const response =await axios.get(`http://localhost:8080/teacher/name/${searchValue}`);
-    console.log(response);  
+    console.log(response);
     return response;
   }
   catch(error){
@@ -109,13 +109,14 @@ export const getTeacherByName = async (searchValue) => {
 
 // Function to update the data of teacher
 export const updateTeacher = async (id, data) => {
-  const response = await axios.put(`${API_URL}/teacher/update/${id}`, data);
+  const response = await axios.put(`${API_URL}/teacher/${id}`, data);
   
   return response;
 };
 
 // Function to delete a teacher by ID
 export const deleteTeacher = async (id) => {
+  console.log(id);
   try {
     const response = await axios.delete(`${API_URL}/teacher/${id}`);
     return response.data;

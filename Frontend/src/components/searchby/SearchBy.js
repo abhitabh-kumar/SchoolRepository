@@ -143,12 +143,13 @@ const SearchBy = () => {
     if (window.confirm('Are you sure you want to delete this item?')) {
       try {
         if (searchType === 'teacher') {
+          console.log("jdjdjdHIHiHI")
           await deleteTeacher(userId);
         } else if (searchType === 'student') {
           await deleteStudent(userId);
         }
         // Refresh results after deletion
-        await handleSearch();
+        // await handleSearch();
       } catch (error) {
         console.error('Error deleting item:', error);
         setError('Failed to delete item. Please try again later.');
@@ -161,9 +162,9 @@ const SearchBy = () => {
     const updatedData = { /* data to update */ };
 
     try {
-      if (searchType === 'teacher') {
-        await updateTeacher(userId, updatedData);
-      }
+      // if (searchType === 'teacher') {
+      //   await updateTeacher(userId, updatedData);
+      // }
      if (searchType === 'student') {
       console.log(userId);
         navigate(`/admin/search-by/update/student/${userId}`);

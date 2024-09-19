@@ -4,9 +4,9 @@ import { getTeacherById, updateTeacher } from '../services/Api'; // Import API f
 import '../formstyle/FormStyle.css'; // Ensure this CSS file includes the styles
 
 const UpdateTeacherForm = () => {
-  const { id } = useParams(); // Get ID from URL parameters
+  const { userId } = useParams(); // Get ID from URL parameters
   console.log("gdgdgdgd");
-  console.log(id);
+  console.log(userId);
   const navigate = useNavigate(); // For navigation
   const [formData, setFormData] = useState({
     name: '',
@@ -31,10 +31,10 @@ const UpdateTeacherForm = () => {
   useEffect(() => {
     const fetchTeacherData = async () => {
       try {
-        console.log(id);
-        const response = await getTeacherById(id); // Fetch teacher data by ID
+        console.log(userId);
+        const response = await getTeacherById(userId); // Fetch teacher data by ID
         console.log("Line No. 29")
-        setFormData(response.data);
+        setFormData(response.data.data);
       } catch (err) {
         console.error('Error fetching teacher data:', err);
         setError('Failed to fetch teacher data.');
@@ -42,7 +42,7 @@ const UpdateTeacherForm = () => {
     };
 
     fetchTeacherData();
-  }, [id]);
+  }, [userId]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -51,10 +51,10 @@ const UpdateTeacherForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await updateTeacher(id, formData); // Update teacher data by ID
+      await updateTeacher(userId, formData); // Update teacher data by ID
       setSuccess('Teacher updated successfully!');
       setError('');
-      navigate('/admin/teachers'); // Redirect to teachers list or any other page
+      // navigate('/admin/teachers'); // Redirect to teachers list or any other page
     } catch (err) {
       setError('Failed to update teacher.');
       setSuccess('');
@@ -69,29 +69,29 @@ const UpdateTeacherForm = () => {
         {success && <div className="success-message">{success}</div>}
 
         <div className="form-group">
-          <label htmlFor="firstName">First Name</label>
-          <input
-            type="text"
-            id="firstName"
-            name="firstName"
-            placeholder="John"
-            value={formData.firstName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="lastName">Last Name</label>
-          <input
-            type="text"
-            id="lastName"
-            name="lastName"
-            placeholder="Doe"
-            value={formData.lastName}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        <label htmlFor="userName">User Name</label>
+        <input
+          type="text"
+          id="userName"
+          name="userName"
+          placeholder="JohnDoe"
+          value={formData.userName}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="John Doe"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
+      </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
@@ -141,17 +141,41 @@ const UpdateTeacherForm = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="address">Address</label>
-          <input
-            type="text"
-            id="address"
-            name="address"
-            placeholder="123 Main St"
-            value={formData.address}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        <label htmlFor="address.state">State</label>
+        <input
+          type="text"
+          id="address.state"
+          name="address.state"
+          placeholder="Bihar"
+          value={formData.address.state}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="address.city">City</label>
+        <input
+          type="text"
+          id="address.city"
+          name="address.city"
+          placeholder="Arrah"
+          value={formData.address.city}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="address.zipCode">Zip Code</label>
+        <input
+          type="text"
+          id="address.zipCode"
+          name="address.zipCode"
+          placeholder="802301"
+          value={formData.address.zipCode}
+          onChange={handleChange}
+          required
+        />
+      </div>
         <div className="form-group">
           <label htmlFor="qualification">Qualification</label>
           <input
