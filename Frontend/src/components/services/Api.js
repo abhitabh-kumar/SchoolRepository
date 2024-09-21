@@ -1,20 +1,16 @@
 // src/services/api.js
 import axios from 'axios';
 import authHeader from './authHeader';
-// import { updateStudent, getStudentById } from '../services/Api';
-// import jwtDecode from 'jwt-decode';
-
 
 const API_URL = 'http://localhost:8080'; // Base URL 
+
+const token = authHeader();
 
 // Function to log in a user
 export const loginUser = async (username, password, role) => {
     try {
       // Make the API request to log in
       const credentials = btoa(`${username}:${password}`);
-      console.log(credentials);
-      console.log(username);
-      console.log(password);
       const response = await axios.get(`http://localhost:8080/sign-in`,{
         headers: {
           'Authorization': `Basic ${credentials}`
@@ -71,7 +67,9 @@ export const verifyOtp = async (token, otp) => {
 
 export const createTeacher = async (teacherData) => {
   try {
-    const response = await axios.post(`${API_URL}/teacher/createTeacher`, teacherData);
+    const response = await axios.post(`${API_URL}/teacher/createTeacher`, teacherData, { headers: {
+      "Authorization": token,
+    }});
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Failed to create teacher.');
@@ -81,7 +79,9 @@ export const createTeacher = async (teacherData) => {
 export const getAllTeacher = async () => {
   // console.log(type);
   try{
-    const response =await axios.get('http://localhost:8080/teacher/all');
+    const response =await axios.get('http://localhost:8080/teacher/all', { headers: {
+      "Authorization": token,
+    }});
     // console.log(response.data);
     return response;
   }
@@ -91,14 +91,17 @@ export const getAllTeacher = async () => {
 };
 
 export const getTeacherById = async (id) => {
-  const response = await axios.get(`${API_URL}/teacher/get/${id}`);
+  const response = await axios.get(`${API_URL}/teacher/get/${id}`, { headers: {
+    "Authorization": token,
+  }});
   return response;
 };
 // Function to get Teacher By Email No working
 export const getTeacherByName = async (searchValue) => {
   try{
-    console.log(searchValue);
-    const response =await axios.get(`http://localhost:8080/teacher/name/${searchValue}`);
+    const response =await axios.get(`http://localhost:8080/teacher/name/${searchValue}`, { headers: {
+      "Authorization": token,
+    }});
     console.log(response);
     return response;
   }
@@ -109,16 +112,19 @@ export const getTeacherByName = async (searchValue) => {
 
 // Function to update the data of teacher
 export const updateTeacher = async (id, data) => {
-  const response = await axios.put(`${API_URL}/teacher/${id}`, data);
+  const response = await axios.put(`${API_URL}/teacher/${id}`, data, { headers: {
+    "Authorization": token,
+  }});
   
   return response;
 };
 
 // Function to delete a teacher by ID
 export const deleteTeacher = async (id) => {
-  console.log(id);
   try {
-    const response = await axios.delete(`${API_URL}/teacher/${id}`);
+    const response = await axios.delete(`${API_URL}/teacher/${id}`, { headers: {
+      "Authorization": token,
+    }});
     return response.data;
   } catch (error) {
     console.error('Error deleting teacher:', error);
@@ -129,14 +135,10 @@ export const deleteTeacher = async (id) => {
 // Function to create a student
 export const createStudent = async (studentData)  => {
   try {
-    const token = authHeader();
-    console.log(token);
-
     if (!token) {
       throw new Error('Authorization token is missing');
     }
-    console.log(token);
-    const response = await axios.post(`${API_URL}/student/createStudent`, studentData,{ Headers: {
+    const response = await axios.post(`${API_URL}/student/createStudent`, studentData,{ headers: {
       "Authorization": token,
     }});
     return response.data;
@@ -147,12 +149,9 @@ export const createStudent = async (studentData)  => {
 };
 
 export const getAllStudent = async () => {
-  const token = authHeader();
-
   if (!token) {
     throw new Error('Authorization token is missing');
   }
-
   try{
     const response =await axios.get('http://localhost:8080/student/all',{
       headers: {
@@ -169,10 +168,10 @@ export const getAllStudent = async () => {
 
 // Function to get student by ID
 export const getStudentById = async (studentId) => {
-  console.log(studentId);
   try {
-    const response = await axios.get(`${API_URL}/student/get/${studentId}`);
-    console.log(response);
+    const response = await axios.get(`${API_URL}/student/get/${studentId}`,{ headers: {
+      "Authorization": token,
+    }});
     return response.data;
   } catch (error) {
     console.error('Error fetching student data:', error);
@@ -182,7 +181,6 @@ export const getStudentById = async (studentId) => {
 
 // Function to get student by name
 export const getStudentByName = async (name) => {
-  const token = authHeader();
   try {
     const response = await axios.get(`${API_URL}/student/name/${name}`,{
       headers: {
@@ -199,9 +197,10 @@ export const getStudentByName = async (name) => {
 
 // Function to update a student by ID
 export const updateStudent = async (userId, updatedData) => {
-  console.log("I am inside 153");
   try {
-    const response = await axios.put(`${API_URL}/student/${userId}`, updatedData);
+    const response = await axios.put(`${API_URL}/student/${userId}`, updatedData, { headers: {
+      "Authorization": token,
+    }});
     return response.data;
   } catch (error) {
     console.error('Error updating student:', error);
@@ -210,9 +209,10 @@ export const updateStudent = async (userId, updatedData) => {
 };
 
 export const getStudentByGrade = async (grade) => {
-  console.log(grade);
   try {
-    const response = await axios.get(`${API_URL}/student/${grade}`);
+    const response = await axios.get(`${API_URL}/student/${grade}`, { headers: {
+      "Authorization": token,
+    }});
     // console.log(response);
     return response;
   } catch (error) {
@@ -225,7 +225,9 @@ export const getStudentByGrade = async (grade) => {
 // Function to delete a student by ID
 export const deleteStudent = async (id) => {
   try {
-    const response = await axios.delete(`${API_URL}/student/${id}`);
+    const response = await axios.delete(`${API_URL}/student/${id}`, { headers: {
+      "Authorization": token,
+    }});
     return response.data;
   } catch (error) {
     console.error('Error deleting teacher:', error);
@@ -235,18 +237,10 @@ export const deleteStudent = async (id) => {
 
 // Function to create an exam
 export const createExam = async (examData) => {
-  
   try {
-    const token = authHeader();
-    console.log(token);
-
     if (!token) {
       throw new Error('Authorization token is missing');
     }
-    console.log(token);
-
-    // const stringToken = String(token);
-
     const response = await axios.post(`${API_URL}/question/createQuestion`, examData, {
       headers: {
         Authorization: token,

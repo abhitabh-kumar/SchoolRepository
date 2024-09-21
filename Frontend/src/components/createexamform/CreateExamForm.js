@@ -6,10 +6,11 @@ const CreateExamPage = () => {
   const [formData, setFormData] = useState({
     subject: '',
     topics: '',
-    duration: ''
+    duration: '',
   });
 
-  const [questions, setQuestions] = useState([]); // State for questions
+  const [questions, setQuestions] = useState([]);
+  const [numQuestions, setNumQuestions] = useState(0);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -23,20 +24,26 @@ const CreateExamPage = () => {
     setQuestions(updatedQuestions);
   };
 
-  const addQuestion = () => {
-    setQuestions([...questions, { question: '', options: ['', '', '', ''] }]);
-  };
-
   const handleOptionChange = (qIndex, oIndex, value) => {
     const updatedQuestions = [...questions];
     updatedQuestions[qIndex].options[oIndex] = value;
     setQuestions(updatedQuestions);
   };
 
+  const handleAnswerChange = (qIndex, value) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[qIndex].answer = value;
+    setQuestions(updatedQuestions);
+  };
+
+  const handleMarksChange = (qIndex, value) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[qIndex].marks = value;
+    setQuestions(updatedQuestions);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Exam Created:', { ...formData, questions });
-    // Call API to create exam
     try {
       createExam({ ...formData, questions });
       setSuccess('Exam created successfully!');
@@ -47,57 +54,99 @@ const CreateExamPage = () => {
     }
   };
 
+  const handleNumQuestionsChange = (e) => {
+    const value = parseInt(e.target.value, 10);
+    setNumQuestions(value);
+
+    const newQuestions = Array.from({ length: value }, () => ({
+      question: '',
+      options: ['', '', '', ''],
+      answer: '',
+      marks: ''
+    }));
+    setQuestions(newQuestions);
+  };
+
   return (
     <div className="form-container">
       <h2>Create Exam</h2>
       <form onSubmit={handleSubmit} className="form">
-        <div className="form-group">
-          <label htmlFor="subject">Subject</label>
-          <input
-            type="text"
-            id="subject"
-            name="subject"
-            placeholder="Mathematics"
-            value={formData.subject}
-            onChange={handleChange}
-            required
-          />
+        {/* Form Fields in Horizontal Layout */}
+        <div className="form-horizontal">
+          <div className="form-group">
+            <label htmlFor="subject">Subject</label>
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              placeholder="Mathematics"
+              value={formData.subject}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="topics">Topics</label>
+            <input
+              type="text"
+              id="topics"
+              name="topics"
+              placeholder="Algebra, Geometry"
+              value={formData.topics}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="duration">Duration</label>
+            <input
+              type="text"
+              id="duration"
+              name="duration"
+              placeholder="2 hours"
+              value={formData.duration}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
+
+        {/* Input for number of questions */}
         <div className="form-group">
-          <label htmlFor="topics">Topics</label>
+          <label htmlFor="numQuestions">Number of Questions</label>
           <input
-            type="text"
-            id="topics"
-            name="topics"
-            placeholder="Algebra, Geometry"
-            value={formData.topics}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="duration">Duration</label>
-          <input
-            type="text"
-            id="duration"
-            name="duration"
-            placeholder="2 hours"
-            value={formData.duration}
-            onChange={handleChange}
+            type="number"
+            id="numQuestions"
+            name="numQuestions"
+            value={numQuestions}
+            onChange={handleNumQuestionsChange}
+            min="1"
+            max="100"
+            placeholder="Enter number of questions"
             required
           />
         </div>
 
-        {/* Button to add a new question */}
-        <button type="button" onClick={addQuestion} className="add-question-button">
-          Add Question
-        </button>
-
-        {/* Dynamic Question Fields */}
+        {/* Dynamically Generated Questions */}
         {questions.map((q, qIndex) => (
-          <div key={qIndex} className="question-container">
+          <div key={qIndex} className="question-card hover-glow">
+            <h4>Question {qIndex + 1}</h4>
+
             <div className="form-group">
-              <label htmlFor={`question-${qIndex}`}>Question {qIndex + 1}</label>
+              <label htmlFor={`marks-${qIndex}`}>Marks for this Question</label>
+              <input
+                type="number"
+                id={`marks-${qIndex}`}
+                name="marks"
+                placeholder="Enter marks"
+                value={q.marks}
+                onChange={(e) => handleMarksChange(qIndex, e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor={`question-${qIndex}`}>Enter Question</label>
               <input
                 type="text"
                 id={`question-${qIndex}`}
@@ -108,13 +157,14 @@ const CreateExamPage = () => {
                 required
               />
             </div>
+
+            {/* Options Input Fields */}
             {q.options.map((option, oIndex) => (
               <div key={oIndex} className="form-group">
                 <label htmlFor={`option-${qIndex}-${oIndex}`}>Option {oIndex + 1}</label>
                 <input
                   type="text"
                   id={`option-${qIndex}-${oIndex}`}
-                  name={`option-${oIndex}`}
                   placeholder={`Option ${oIndex + 1}`}
                   value={option}
                   onChange={(e) => handleOptionChange(qIndex, oIndex, e.target.value)}
@@ -122,6 +172,20 @@ const CreateExamPage = () => {
                 />
               </div>
             ))}
+
+            {/* Answer Input Field */}
+            <div className="form-group">
+              <label htmlFor={`answer-${qIndex}`}>Answer</label>
+              <input
+                type="text"
+                id={`answer-${qIndex}`}
+                name="answer"
+                placeholder="Enter correct answer"
+                value={q.answer}
+                onChange={(e) => handleAnswerChange(qIndex, e.target.value)}
+                required
+              />
+            </div>
           </div>
         ))}
 

@@ -27,5 +27,11 @@ public class QuestionEntity implements Serializable {
     @Column(name = "OPTIONS", nullable = false)
     private List<String> options;
 
+    @Column(name = "ANSWER", nullable = false)
+    private String answer;
+
+    @Column(name = "MARKS", nullable = false)
+    private Integer marks;
+
 
 }
