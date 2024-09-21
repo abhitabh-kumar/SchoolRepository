@@ -7,10 +7,12 @@ import io.backend.Backend.repo.StudentRepo;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +61,18 @@ public class StudentService {
             return responseDetails;
         }
         log.error("Student with email {} not found", email);
+        throw new NotFoundException("Student not found");
+    }
+    public ResponseDetails getStudentId(Long id){
+        Optional<StudentEntity> student = studentRepo.findByUserId(id);
+        if(student.isPresent()){
+            ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
+                    "Student fetched successfully",
+                    student.get());
+            log.info("Student with id {} fetched", id);
+            return responseDetails;
+        }
+        log.error("Student with id {} not found", id);
         throw new NotFoundException("Student not found");
     }
 }

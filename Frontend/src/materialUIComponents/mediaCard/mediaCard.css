@@ -1,0 +1,25 @@
+.cardDetails{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.cardBoxHeading{
+    font-size: 0.9rem;
+    padding: 5px 18px;
+    margin: 0px;
+}
+.cardBoxHeadingDetails{
+    font-size: 0.95rem;
+    font-weight: bold;
+    padding: 5px 18px;
+    margin: 0px;
+}
+.bookClass{
+    background-color: #f34b4b !important;
+    color: white !important;
+    margin: 0px 20px 10px 20px !important;
+}
+.bookClass:hover{
+    background-color: #ef1818 !important;
+}

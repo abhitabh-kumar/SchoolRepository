@@ -1,0 +1,117 @@
+.HomePageContainer{
+    width: 100%;
+    height: 100%;
+    font-family: "Nunito", sans-serif;
+    position: absolute;
+    background-color: #fff6f1;
+}
+.landingPage{
+    margin-top: 4rem;
+    width: 100%;
+    height: calc((100vw / 1612)*757);;
+    background-image: url("../../assests/landingPage.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    font-weight: 100;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.landedPara{
+    font-weight: bold;
+    padding: 0px;
+    margin: 0px;
+    font-size: 2.2rem;
+}
+.joinUs{
+    width: fit-content;
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+}
+#joinNow{
+    background-color: #fd2841;
+    color: white;
+    min-width: 150px;
+}
+#joinNow:hover{
+    background-color: #d73649;
+}
+#viewSchool{
+    min-width: 170px;
+    display: flex;
+    justify-content: space-around;
+    background-color: rgba(230, 230, 230, 0.393);
+    border: 1px solid rgba(197, 197, 197, 0.772);
+}
+.exploreMore{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    padding: 3rem 0rem;
+}
+.exploreDesc{
+    flex-grow: 1;
+    flex-basis: 50%;
+    max-width: 600px;
+    padding: 0px 80px;
+}
+.exploreDesc h1,p{
+    text-align: left;
+    margin: 10px;
+}
+.explorePhoto{
+    background-image: url("../../assests/explore.png");
+    background-repeat: no-repeat;
+    min-height: 520px;
+    background-size: 100% 100%;
+    flex-grow: 1;
+    flex-basis: 50%; 
+    max-width: 600px;
+    flex-direction: column;
+    justify-content: center; 
+}
+#learnMore{
+    background-color: #fd2841;
+    color: white;
+    max-width: 150px;
+    margin-top: 1.7rem;
+}
+.navigation{
+    position: fixed !important;
+    bottom: 30px;
+    right: 30px;
+    transition: all 0.5 ease;
+    color: #ff001e !important;
+    background-color: rgb(241, 241, 241) !important;
+    box-shadow: 0px 0px 2px 0px black !important;
+}
+.homeCoursel{
+    background-color: #d8f6ff;
+    padding: 2rem 0rem;
+}
+
+
+/* ----------- School Activity component ------------------ */
+.SchoolActivityHeading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+.SchoolActivityButtonGroup{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+.SchoolActivityButton{
+    font-size: 0.8rem !important;
+    min-width:130px !important;
+    padding: 2px !important;
+}
+.SchoolActivityButton:hover{
+    color: white;
+    background-color: black;
+}

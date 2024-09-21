@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface StudentRepo extends JpaRepository<StudentEntity,Long> {
     List<StudentEntity> findByEmailId(String emailId);
     Optional<StudentEntity> findByRollNo(String rollNo);
+    Optional<StudentEntity> findByUserId(Long user_id);
 }
