@@ -49,10 +49,9 @@ public class JwtAccessTokenFilter extends OncePerRequestFilter {
 
             JwtDecoder jwtDecoder =  NimbusJwtDecoder.withPublicKey(rsaKeyRecord.rsaPublicKey()).build();
 
-            log.info("Line No. 50", authHeader);
+            log.info("Line No. 50"+ authHeader);
 
-
-            if(!authHeader.startsWith(TokenType.Bearer.name())){
+            if(authHeader == null || !authHeader.startsWith(TokenType.Bearer.name())){
                 filterChain.doFilter(request,response);
                 return;
             }

@@ -48,7 +48,7 @@ public class StudentController {
 
     @GetMapping("/get/{id}")
     public ResponseEntity<ResponseDetails> getStudentId(@PathVariable Long id) {
-        log.info("Fetching Student with email : {} ", id);
+        log.info("Fetching Student with Id : {} ", id);
         ResponseDetails responseDetails = studentService.getStudentById(id);
         return ResponseEntity.ok(responseDetails);
     }

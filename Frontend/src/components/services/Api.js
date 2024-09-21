@@ -2,11 +2,10 @@
 import axios from 'axios';
 import authHeader from './authHeader';
 // import { updateStudent, getStudentById } from '../services/Api';
-import jwtDecode from 'jwt-decode';
+// import jwtDecode from 'jwt-decode';
 
 
-const API_URL = 'http://localhost:8080'; // Base URL for your API
-
+const API_URL = 'http://localhost:8080'; // Base URL 
 
 // Function to log in a user
 export const loginUser = async (username, password, role) => {
@@ -154,14 +153,16 @@ export const getAllStudent = async () => {
     throw new Error('Authorization token is missing');
   }
 
-  // console.log(token);
   try{
-    const response =await axios.get('http://localhost:8080/student/all', {headers: {
-      Authorization: token
-  }});
+    const response =await axios.get('http://localhost:8080/student/all',{
+      headers: {
+        Authorization: `${token}`
+      }
+    });
     return response;
   }
   catch(error){
+    console.log(error);
     throw new Error(error.response?.data?.message || 'Failed to serach teacher.');
   }
 };
@@ -181,9 +182,13 @@ export const getStudentById = async (studentId) => {
 
 // Function to get student by name
 export const getStudentByName = async (name) => {
-  console.log("hdjdjdj");
+  const token = authHeader();
   try {
-    const response = await axios.get(`${API_URL}/student/name/${name}`);
+    const response = await axios.get(`${API_URL}/student/name/${name}`,{
+      headers: {
+        Authorization: `${token}`  // Send the token in Authorization header
+      }
+    });
     console.log(response);
     return response;
   } catch (error) {

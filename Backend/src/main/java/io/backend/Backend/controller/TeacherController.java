@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 
-@CrossOrigin(origins="*")
 @RestController
 @RequestMapping("/teacher")
 @RequiredArgsConstructor
@@ -27,7 +26,6 @@ public class TeacherController {
         ResponseDetails responseDetails = teacherService.createTeacher(teacher);
         return ResponseEntity.ok(responseDetails);
     }
-
 
     @GetMapping("/all")
     public ResponseEntity<ResponseDetails> getAllStudents() {
