@@ -19,8 +19,12 @@ public class AuthController {
 
     private final AuthService authService;
 
+
+    @CrossOrigin(origins = "*")
     @GetMapping("/sign-in")
     public ResponseEntity<ResponseDetails> authenticateUser(Authentication authentication){
+        log.info("This is credentials");
+        log.info(authentication.getPrincipal().toString());
         return ResponseEntity.ok(authService.getJwtTokensAfterAuthentication(authentication));
     }
 }

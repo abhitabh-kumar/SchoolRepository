@@ -1,20 +1,21 @@
 // src/services/api.js
 import axios from 'axios';
+import authHeader from './authHeader';
+// import { updateStudent, getStudentById } from '../services/Api';
+import jwtDecode from 'jwt-decode';
+
 
 const API_URL = 'http://localhost:8080'; // Base URL for your API
 
-const config = {
-  headers: {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
-  }
-};
 
 // Function to log in a user
 export const loginUser = async (username, password, role) => {
     try {
       // Make the API request to log in
       const credentials = btoa(`${username}:${password}`);
+      console.log(credentials);
+      console.log(username);
+      console.log(password);
       const response = await axios.get(`http://localhost:8080/sign-in`,{
         headers: {
           'Authorization': `Basic ${credentials}`
@@ -129,17 +130,35 @@ export const deleteTeacher = async (id) => {
 // Function to create a student
 export const createStudent = async (studentData)  => {
   try {
-    const response = await axios.post(`${API_URL}/student/createStudent`, studentData);
+    const token = authHeader();
+    console.log(token);
+
+    if (!token) {
+      throw new Error('Authorization token is missing');
+    }
+    console.log(token);
+    const response = await axios.post(`${API_URL}/student/createStudent`, studentData,{ Headers: {
+      "Authorization": token,
+    }});
     return response.data;
   } catch (error) {
+    console.log(error);
     throw new Error(error.response?.data?.message || 'Failed to create student.');
   }
 };
 
 export const getAllStudent = async () => {
-  // console.log(type);
+  const token = authHeader();
+
+  if (!token) {
+    throw new Error('Authorization token is missing');
+  }
+
+  // console.log(token);
   try{
-    const response =await axios.get('http://localhost:8080/student/all');
+    const response =await axios.get('http://localhost:8080/student/all', {headers: {
+      Authorization: token
+  }});
     return response;
   }
   catch(error){
@@ -211,10 +230,27 @@ export const deleteStudent = async (id) => {
 
 // Function to create an exam
 export const createExam = async (examData) => {
+  
   try {
-    const response = await axios.post(`${API_URL}/exams`, examData);
+    const token = authHeader();
+    console.log(token);
+
+    if (!token) {
+      throw new Error('Authorization token is missing');
+    }
+    console.log(token);
+
+    // const stringToken = String(token);
+
+    const response = await axios.post(`${API_URL}/question/createQuestion`, examData, {
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json', 
+      }
+    });
     return response.data;
   } catch (error) {
+    console.log(error);
     throw new Error(error.response?.data?.message || 'Failed to create exam.');
   }
 };

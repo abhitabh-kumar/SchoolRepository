@@ -143,13 +143,12 @@ const SearchBy = () => {
     if (window.confirm('Are you sure you want to delete this item?')) {
       try {
         if (searchType === 'teacher') {
-          console.log("jdjdjdHIHiHI")
           await deleteTeacher(userId);
         } else if (searchType === 'student') {
           await deleteStudent(userId);
         }
-        // Refresh results after deletion
-        // await handleSearch();
+         // Refresh results after update
+      await handleSearch();
       } catch (error) {
         console.error('Error deleting item:', error);
         setError('Failed to delete item. Please try again later.');

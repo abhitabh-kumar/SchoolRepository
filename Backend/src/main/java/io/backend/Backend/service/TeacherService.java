@@ -40,12 +40,11 @@ public class TeacherService {
         List<TeacherEntity> teacher = teacherRepo.findAll();
         if(!teacher.isEmpty()){
             ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
-                    "Teacher fetched successfully",
+                    "Teachers fetched successfully",
                     teacher);
-//            log.info("Student with email {} fetched", email);
             return responseDetails;
         }
-//        log.error("Student with email {} not found", );
+        log.error("Teacher fetched successfully");
         throw new NotFoundException("Teacher not found");
     }
 
@@ -58,15 +57,15 @@ public class TeacherService {
             log.info("Teacher with email {} fetched", name);
             return responseDetails;
         }
-        log.error("Teacher with email {} not found", name);
-        throw new NotFoundException("Student not found");
+        log.error("Teacher fetched successfully");
+        throw new NotFoundException("Teacher not found");
 
     }
 
     public ResponseDetails getTeacherById(Long id){
         TeacherEntity teacher = teacherRepo.findByUserId(id);
         ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
-                "Stude fetched successfully",
+                "Teacher fetched successfully",
                 teacher);
         return responseDetails;
     }
