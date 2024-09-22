@@ -1,0 +1,30 @@
+.footerButton{
+    width: 35px;
+    height: 35px;
+    color: white !important;
+    text-align: center;
+    font-size: 0.9rem !important;
+    background-color: rgb(220, 36, 73) !important;
+}
+.footerItem *{
+    color: rgba(255, 255, 255, 0.612) !important;
+}
+.footerSubscribeButton{
+    max-width: 350px !important;
+    height: 35px;
+    background-color: rgb(84, 138, 51) !important;
+}
+.girlImage{
+    position: relative;
+    height: 180px;
+    top:13px;
+}
+.footerEdu{
+    position: relative;
+    top:-70px;
+}
+.footerJoinButton{
+    background-color: red !important;
+    max-width: 180px;
+    color: white !important;
+}

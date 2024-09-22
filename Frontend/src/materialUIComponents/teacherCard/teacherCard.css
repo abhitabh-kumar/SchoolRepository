@@ -1,0 +1,13 @@
+.socialHandle{
+    position: absolute !important;
+    top: 0px;   
+    right: 0px;
+    padding: 0px;
+}
+.socialHandleIcon{
+   background-color: rgb(227, 24, 24);
+    padding: 4px;
+    color: white;
+    border-radius: 50%;
+    font-size: 18px;
+}

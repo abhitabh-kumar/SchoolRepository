@@ -1,0 +1,11 @@
+.faq{
+    display: flex;
+    justify-content: space-between;
+}
+.askedQuestion{
+    width: 200px;
+    padding: 0px;
+    margin: 0px;
+    height: 40px;
+    background-color: #ffb504 !important;
+}
