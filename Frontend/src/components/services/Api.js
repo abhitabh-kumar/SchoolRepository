@@ -149,6 +149,7 @@ export const createStudent = async (studentData)  => {
 };
 
 export const getAllStudent = async () => {
+  console.log(token);
   if (!token) {
     throw new Error('Authorization token is missing');
   }
@@ -244,7 +245,6 @@ export const createExam = async (examData) => {
     const response = await axios.post(`${API_URL}/question/createQuestion`, examData, {
       headers: {
         Authorization: token,
-        'Content-Type': 'application/json', 
       }
     });
     return response.data;
