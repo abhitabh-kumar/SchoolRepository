@@ -22,7 +22,7 @@ const Footer = () => {
           }}
           className="footerEdu"
         >
-          <img src={girl} alt="404" srcset={girl} className='girlImage'/>
+          <img src={girl} alt="404" srcSet={girl} className='girlImage'/>
           <Box sx={{ textAlign: 'left', flex: 1, maxWidth:'700px' }}>
             <Typography variant="h1" fontWeight="bold" textAlign='left' mb={1}>
               Get the best education

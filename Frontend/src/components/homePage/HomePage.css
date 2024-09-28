@@ -1,6 +1,6 @@
 .HomePageContainer{
     width: 100%;
-    height: 100%;
+    height: 100vh;
     font-family: "Nunito", sans-serif;
     position: absolute;
     background-color: #fff6f1;
@@ -8,10 +8,12 @@
 .landingPage{
     margin-top: 4rem;
     width: 100%;
-    height: calc((100vw / 1612)*757);;
+    height: 100vh;
     background-image: url("../../assests/landingPage.png");
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-position: center;
+    background-size: cover;
+    /* background-size: 100% 100%; */
     font-weight: 100;
     display: flex;
     align-items: center;
@@ -22,6 +24,7 @@
     padding: 0px;
     margin: 0px;
     font-size: 2.2rem;
+    text-align: center;
 }
 .joinUs{
     width: fit-content;
@@ -49,13 +52,12 @@
     justify-content: space-around;
     align-items: center;
     flex-direction: row;
+    flex-wrap: wrap;
     padding: 3rem 0rem;
 }
 .exploreDesc{
-    flex-grow: 1;
-    flex-basis: 50%;
     max-width: 600px;
-    padding: 0px 80px;
+    padding: 0px 20px;
 }
 .exploreDesc h1,p{
     text-align: left;
@@ -64,13 +66,12 @@
 .explorePhoto{
     background-image: url("../../assests/explore.png");
     background-repeat: no-repeat;
-    min-height: 520px;
+    width: 450px;
+    height: 450px;
     background-size: 100% 100%;
-    flex-grow: 1;
-    flex-basis: 50%; 
-    max-width: 600px;
     flex-direction: column;
     justify-content: center; 
+    align-items: center;
 }
 #learnMore{
     background-color: #fd2841;

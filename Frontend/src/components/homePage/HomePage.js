@@ -41,7 +41,7 @@ const HomePage = () => {
             <ResponsiveAppBar />
             <div className="HomePageContainer">
                 <div className="landingPage">
-                    <p className='landedPara' style={{ marginTop: '25px' }}>Unleash Creativity,</p>
+                    <p className='landedPara' style={{ marginTop: '60px' }}>Unleash Creativity,</p>
                     <p className='landedPara'>Foster Growth, Build Friendships</p>
                     <div className="joinUs">
                         <Button id="joinNow">Join Now</Button>
@@ -84,7 +84,7 @@ const HomePage = () => {
                     <Grid2 container mt={3}>
                         {blogPosts &&
                             blogPosts.map((item, index) => {
-                                return <Grid2 item size={6} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                return <Grid2 item size={6} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} key={`grid909${index}`}>
                                     <BlogCard item={item} key={`blog001${index}`} />
                                 </Grid2>
                             })}

@@ -18,14 +18,13 @@ const BeliefsComponent = () => {
                 p: 4,
             }}
         >
-            <Grid container spacing={2}>
-                <Grid item size={{ md: 8 }}>
-                    <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 4, textAlign:'left' }} pl={3}>
+            <Grid container justifyContent={"space-around"}>
+                <Grid item size={{md:5}}>
+                    <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 4, textAlign:'left' }}>
                         What we believe in Sushila Public School
                     </Typography>
-
                 </Grid>
-                <Grid item size="grow">
+                <Grid item size={{md:4}}>
                     <Typography variant="body1" sx={{ mb: 4,justifyContent:'flex-end'}}>
                         Discover how our kindergarten fosters a love for learning through innovative early education.
                     </Typography>

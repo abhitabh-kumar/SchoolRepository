@@ -33,7 +33,7 @@ const CarouselComponent = ({ items }) => {
             >
 
                 {items && items.map((item, index) => (
-                    <StyledCarouselItem>
+                    <StyledCarouselItem key={`carousel900${index}`}>
                         {item}
                     </StyledCarouselItem>
                 ))}

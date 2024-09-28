@@ -7,12 +7,13 @@ import { Button, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import { Box } from '@mui/system';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import logo from '../../assests/logo.png'
 import './NavBar.css'
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const menuItems = ['About', 'Classes', 'Events', 'Teachers', 'Blog'];
+  const menuItems = ['About', 'Classes', 'Events', 'Teachers', 'Blog', 'Contact'];
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -61,13 +62,16 @@ const Navbar = () => {
       backgroundColor: scrolled ? '#ffffff' : 'transparent',
       transition: 'background-color 0.2s ease',
       boxShadow: scrolled ? 2 : 'none',
-      zIndex:'1000',
-      top:'0px'
+      zIndex: '1000',
+      top: '0px'
     }}>
       <Toolbar>
+        <Box sx={{ flexGrow: 1.1, display: 'flex', justifyContent: 'flex-start' }}>
+          <img src={logo} srcSet={logo} alt='SPS' id='schoolLogo'/>
+        </Box>
         {isMobile ? (
           <>
-            <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleDrawerToggle}>
+            <IconButton edge="center" color="black" aria-label="menu" onClick={handleDrawerToggle} sx={{width:"40px"}}>
               <MenuIcon />
             </IconButton>
             {drawer}
@@ -82,8 +86,8 @@ const Navbar = () => {
           </Box>
         )}
         <Box sx={{ flexGrow: 1.1, display: 'flex', justifyContent: 'flex-end' }}>
-          <Button sx={{ width: 'fit-content', backgroundColor:"#333333",color:'white', padding:"4px 25px"}} className='contactUsNav'>
-            Contact
+          <Button sx={{ width: 'fit-content', backgroundColor: "#333333", color: 'white', padding: "4px 25px" }} className='contactUsNav'>
+            login / signup
           </Button>
         </Box>
 
