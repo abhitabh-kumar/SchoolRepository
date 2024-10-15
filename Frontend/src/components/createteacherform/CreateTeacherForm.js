@@ -1,7 +1,7 @@
 // src/components/CreateTeacherPage.js
 import React, { useState } from 'react';
 import { createTeacher } from '../services/Api';
-import '../formstyle/FormStyle.css'; // Ensure this CSS file includes the styles provided below
+import './createTeacherForm.css'; // Ensure this CSS file includes the styles provided below
 
 const CreateTeacherPage = () => {
   const [formData, setFormData] = useState({

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; // Import useParams and useNavigate
 import { getTeacherById, updateTeacher } from '../services/Api'; // Import API functions
-import '../formstyle/FormStyle.css'; // Ensure this CSS file includes the styles
+import './createTeacherForm.css'; // Ensure this CSS file includes the styles
 
 const UpdateTeacherForm = () => {
   const { userId } = useParams(); // Get ID from URL parameters
@@ -54,7 +54,7 @@ const UpdateTeacherForm = () => {
       await updateTeacher(userId, formData); // Update teacher data by ID
       setSuccess('Teacher updated successfully!');
       setError('');
-      // navigate('/admin/teachers'); // Redirect to teachers list or any other page
+      navigate(-1);
     } catch (err) {
       setError('Failed to update teacher.');
       setSuccess('');

@@ -91,6 +91,7 @@ export const getAllTeacher = async () => {
 };
 
 export const getTeacherById = async (id) => {
+  console.log("Hello Ji Line no. 94");
   const response = await axios.get(`${API_URL}/teacher/get/${id}`, { headers: {
     "Authorization": token,
   }});

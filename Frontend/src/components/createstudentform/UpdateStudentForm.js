@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { updateStudent, getStudentById } from '../services/Api'; // Ensure these imports are correct
-import '../formstyle/FormStyle.css'; // Ensure this CSS file includes the styles
+import './CreateStudentForm.css'; // Ensure this CSS file includes the styles
 
 const UpdateStudentForm = () => {
   const [formData, setFormData] = useState({
@@ -25,6 +25,7 @@ const UpdateStudentForm = () => {
 //   console.log('Student ID:', studentId);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const navigate = useNavigate(); // For navigation
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,7 +56,7 @@ const UpdateStudentForm = () => {
           password: data.password || '',
           emailId: data.emailId || '',
           rollNo: data.rollNo || '',
-          grade: data.grade || '', // Adjusted to match the response key
+          grade: data.grade || '', 
           motherName: data.motherName || '',
           fatherName: data.fatherName || '',
           age: data.age || '',
@@ -63,7 +64,7 @@ const UpdateStudentForm = () => {
           parentEmailId: data.parentEmailId || '',
           bloodGroup: data.bloodGroup || '',
           address: data.address || '',
-          dateOfBirth: data.dateofBirth || '', // Adjusted to match the response key
+          dateOfBirth: data.dateofBirth || '', 
           dateOfJoining: data.dateOfJoining || '',
           roles: 'STUDENT'
         });
@@ -98,6 +99,7 @@ const UpdateStudentForm = () => {
       await updateStudent(userId, formData);
       setSuccess('Student updated successfully!');
       setError('');
+      navigate(-1);
     } catch (err) {
       setError('Failed to update student.');
       setSuccess('');

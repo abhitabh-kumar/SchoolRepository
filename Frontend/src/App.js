@@ -15,6 +15,7 @@ import CreateExamPage from './components/createexamform/CreateExamForm';
 import SearchBy from './components/searchby/SearchBy';
 import UpdateStudentForm from './components/createstudentform/UpdateStudentForm';
 import UpdateTeacherForm from './components/createteacherform/UpdateTeacherForm';
+import SearchResults from './components/searchby/SearchResult';
 
 
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/admin/create-student" element={<CreateStudentPage />} />
         <Route path="/admin/create-exam" element={<CreateExamPage />} />
         <Route path="/admin/search-by" element={<SearchBy />} />
+        <Route path="/admin/search-results" element={<SearchResults />} />
         <Route path="/admin/search-by/update/student/:userId" element={<UpdateStudentForm />} />
         <Route path="/admin/search-by/update/teacher/:userId" element={<UpdateTeacherForm />} />
         </Route>

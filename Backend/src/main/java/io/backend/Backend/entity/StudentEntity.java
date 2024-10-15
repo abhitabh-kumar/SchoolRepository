@@ -3,6 +3,7 @@ package io.backend.Backend.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
+import java.sql.Date;
 
 @Data
 @NoArgsConstructor
@@ -39,5 +40,9 @@ public class StudentEntity extends UserInfoEntity{
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private AddressEntity address;
+
+    private Date dateOfBirth;
+
+    private Date dateOfJoining;
 }
 

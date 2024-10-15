@@ -5,6 +5,7 @@ import io.backend.Backend.entity.StudentEntity;
 import io.backend.Backend.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -47,14 +48,14 @@ public class StudentController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<ResponseDetails> getStudentId(@PathVariable Long id) {
+    public ResponseEntity<ResponseDetails> getStudentId(@PathVariable("id") Long id) {
         log.info("Fetching Student with Id : {} ", id);
         ResponseDetails responseDetails = studentService.getStudentById(id);
         return ResponseEntity.ok(responseDetails);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDetails> updateStudent(@RequestBody StudentEntity student, @PathVariable Long id) {
+    public ResponseEntity<ResponseDetails> updateStudent(@RequestBody StudentEntity student, @PathVariable("id") Long id) {
         log.info("Fetching Student with id : {} ", id);
         ResponseDetails responseDetails = studentService.updateStudent(student, id);
         return ResponseEntity.ok(responseDetails);
@@ -68,8 +69,14 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteStudent(@PathVariable Long id){
-        studentService.deleteStudent(id);
+    public ResponseEntity<String> deleteStudent(@PathVariable("id") Long id){
+        boolean isDeleted = studentService.deleteStudent(id);
+
+        if (isDeleted) {
+            return new ResponseEntity<>("Student deleted successfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Student not found", HttpStatus.NOT_FOUND);
+        }
     }
 
 }

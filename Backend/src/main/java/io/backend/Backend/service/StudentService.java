@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -94,6 +95,9 @@ public class StudentService {
                studentEntity.setMobileNumber(student.getMobileNumber());
                studentEntity.setMotherName(student.getMotherName());
                studentEntity.setUserName(student.getUserName());
+               studentEntity.setDateOfBirth(student.getDateOfBirth());
+               studentEntity.setDateOfJoining(student.getDateOfJoining());
+               studentEntity.setAddress(student.getAddress());
                studentRepo.save(studentEntity);
            }
         ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
@@ -102,7 +106,12 @@ public class StudentService {
            return responseDetails;
     }
 
-    public void deleteStudent(Long id){
-        studentRepo.deleteById(id);
+    public boolean deleteStudent(Long id){
+        if (studentRepo.existsById(id)) {
+            studentRepo.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
