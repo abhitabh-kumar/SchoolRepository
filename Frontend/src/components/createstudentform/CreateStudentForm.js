@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { createStudent } from '../services/Api';
 import './CreateStudentForm.css';
+import authHeader from '../services/authHeader';
+import { useNavigate } from 'react-router-dom'; // Import useHistory
 
 const CreateStudentPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     userName: '',
     name: '',
@@ -51,7 +54,8 @@ const CreateStudentPage = () => {
     }
 
     try {
-      createStudent(formData);
+      const token = authHeader();
+      createStudent(formData, token);
       setSuccess('Student created successfully!');
       setError('');
     } catch (err) {
@@ -60,8 +64,36 @@ const CreateStudentPage = () => {
     }
   };
 
+  const handleClose = () => {
+    navigate(-1);
+  };
+
+
   return (
     <div className="form-container">
+      <div
+        onClick={handleClose}
+        style={{
+          cursor: 'pointer',
+          color: 'white', // Change color of cross sign
+          fontSize: '24px',
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+          width: '40px',
+          height: '40px',
+          borderRadius: '50%', // Circular shape
+          backgroundColor: 'red', // Background color of the circle
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transition: 'background-color 0.3s',
+        }}
+        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'darkred'}
+        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'red'}
+      >
+        &times; {/* Cross sign */}
+      </div>
       <h2>Create Student</h2>
       <form onSubmit={handleSubmit} className="form">
         {error && <div className="error-message">{error}</div>}
@@ -222,6 +254,19 @@ const CreateStudentPage = () => {
             required
           />
         </div>
+
+        <div className="form-group">
+        <label htmlFor="address.street">Street</label>
+        <input
+          type="text"
+          id="address.street"
+          name="address.street"
+          placeholder="Arrah"
+          value={formData.address.street}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
         <div className="form-group">
           <label htmlFor="address.zipCode">Zip Code</label>

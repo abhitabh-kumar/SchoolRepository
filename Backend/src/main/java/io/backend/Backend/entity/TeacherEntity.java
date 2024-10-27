@@ -34,4 +34,7 @@ public class TeacherEntity extends UserInfoEntity{
     @JoinColumn(name = "address_id")
     private AddressEntity address;
 
+    @Column(name="DESCRIPTION", nullable = false)
+    private String description;
+
 }

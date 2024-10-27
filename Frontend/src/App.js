@@ -19,7 +19,6 @@ import SearchResults from './components/searchby/SearchResult';
 
 
 
-
 function App() {
   return (
     <Router>

@@ -72,21 +72,21 @@ public class TeacherService {
 
 
     public ResponseDetails updateTeacher(TeacherEntity teacher, Long id){
-        TeacherEntity studentEntity = teacherRepo.findById(id).get();
-        if(studentEntity != null){
-            studentEntity.setAge(teacher.getAge());
-//            studentEntity.setGrade(teacher.getGrade());
-            studentEntity.setName(teacher.getName());
-            studentEntity.setEmailId(teacher.getEmailId());
-//            studentEntity.setFatherName(teacher.getFatherName());
-            studentEntity.setMobileNumber(teacher.getMobileNumber());
-//            studentEntity.setMotherName(teacher.getMotherName());
-            studentEntity.setUserName(teacher.getUserName());
-            teacherRepo.save(studentEntity);
+        TeacherEntity teacherEntity = teacherRepo.findById(id).get();
+        if(teacherEntity != null){
+            teacherEntity.setAge(teacher.getAge());
+            teacherEntity.setName(teacher.getName());
+            teacherEntity.setEmailId(teacher.getEmailId());
+            teacherEntity.setMobileNumber(teacher.getMobileNumber());
+            teacherEntity.setUserName(teacher.getUserName());
+            teacherEntity.setAddress(teacher.getAddress());
+            teacherEntity.setDescription(teacher.getDescription());
+            teacherEntity.setQualification(teacher.getQualification());
+            teacherRepo.save(teacherEntity);
         }
         ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
                 "Student fetched successfully",
-                studentEntity);
+                teacherEntity);
         return responseDetails;
     }
 

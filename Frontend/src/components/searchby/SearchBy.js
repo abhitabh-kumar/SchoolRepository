@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import authHeader from '../services/authHeader';
+import { useNavigate} from 'react-router-dom';
 import './SearchBy.css'; 
 
 const SearchBy = () => {

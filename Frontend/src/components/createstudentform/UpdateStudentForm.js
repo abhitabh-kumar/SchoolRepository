@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { updateStudent, getStudentById } from '../services/Api'; // Ensure these imports are correct
 import './CreateStudentForm.css'; // Ensure this CSS file includes the styles
+import authHeader from '../services/authHeader';
+
 
 const UpdateStudentForm = () => {
   const [formData, setFormData] = useState({
@@ -15,7 +17,7 @@ const UpdateStudentForm = () => {
     fatherName: '',
     age: '',
     mobileNumber: '',
-    address: { state: '', zipCode: '', city: '' },
+    address: { state: '', zipCode: '', city: '' , street:''},
     dateOfBirth: '',
     dateOfJoining: '',
     roles: 'STUDENT' // Default role
@@ -46,10 +48,11 @@ const UpdateStudentForm = () => {
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
-        const response = await getStudentById(userId); // Use studentId prop
+        const token = authHeader();
+        const response = await getStudentById(userId, token);
+        console.log(response);
         const data = response.data;
 
-        // Handle null values
         setFormData({
           userName: data.userName || '',
           name: data.name || '',
@@ -64,7 +67,7 @@ const UpdateStudentForm = () => {
           parentEmailId: data.parentEmailId || '',
           bloodGroup: data.bloodGroup || '',
           address: data.address || '',
-          dateOfBirth: data.dateofBirth || '', 
+          dateOfBirth: data.dateOfBirth || '', 
           dateOfJoining: data.dateOfJoining || '',
           roles: 'STUDENT'
         });
@@ -106,9 +109,16 @@ const UpdateStudentForm = () => {
     }
   };
 
+  const handleClose = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="form-container">
     <h2>Update Student</h2>
+    <button onClick={handleClose}> 
+        Back{/* Cross sign */}
+      </button>
     <form onSubmit={handleSubmit} className="form">
       {error && <div className="error-message">{error}</div>}
       {success && <div className="success-message">{success}</div>}
@@ -252,6 +262,18 @@ const UpdateStudentForm = () => {
           name="address.city"
           placeholder="Arrah"
           value={formData.address.city}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="address.street">Street</label>
+        <input
+          type="text"
+          id="address.street"
+          name="address.street"
+          placeholder="Arrah"
+          value={formData.address.street}
           onChange={handleChange}
           required
         />

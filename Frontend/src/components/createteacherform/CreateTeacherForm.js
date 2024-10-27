@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { createTeacher } from '../services/Api';
 import './createTeacherForm.css'; // Ensure this CSS file includes the styles provided below
+import { useNavigate } from 'react-router-dom'; // Import useHistory
+
 
 const CreateTeacherPage = () => {
   const [formData, setFormData] = useState({
@@ -24,6 +26,7 @@ const CreateTeacherPage = () => {
 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -73,9 +76,16 @@ const CreateTeacherPage = () => {
     }
   };
 
+  const handleClose = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="form-container">
       <h2>Create Teacher</h2>
+      <button onClick={handleClose}> 
+        Back{/* Cross sign */}
+      </button>
       <form onSubmit={handleSubmit} className="form">
       <div className="form-group">
           <label htmlFor="userName">User Name</label>

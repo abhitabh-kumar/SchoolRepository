@@ -35,7 +35,7 @@ public class TeacherController {
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<ResponseDetails> getTeachersByName(@PathVariable String name) {
+    public ResponseEntity<ResponseDetails> getTeachersByName(@PathVariable("name") String name) {
         log.info("Fetching Student with email : {} ", name);
         ResponseDetails responseDetails = teacherService.getTeacherByName(name);
         return ResponseEntity.ok(responseDetails);

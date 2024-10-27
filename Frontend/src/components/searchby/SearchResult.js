@@ -1,32 +1,36 @@
 import React, { useState, useEffect } from 'react';
+import authHeader from '../services/authHeader';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getAllTeacher, getTeacherByName, getAllStudent, getStudentByName, getStudentByGrade, deleteTeacher, deleteStudent } from '../services/Api';
-import './SearchResults.css'; // CSS file for styling
+import './SearchResults.css';
 
 const SearchResults = () => {
-  const { state } = useLocation(); // Receive the passed state from navigation
+  const { state } = useLocation();
   const { searchType, searchCriteria, searchValue } = state;
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const [token,setToken]=useState(null);
   useEffect(() => {
+    const token=authHeader();
+    setToken(token);
     const fetchData = async () => {
       setLoading(true);
       setError('');
       try {
         let response = null;
         if (searchType === 'teacher' && searchCriteria === 'all') {
-          response = await getAllTeacher();
+          response = await getAllTeacher(token);
         } else if (searchType === 'teacher' && searchCriteria === 'name') {
           response = await getTeacherByName(searchValue);
         } else if (searchType === 'student' && searchCriteria === 'all') {
-          response = await getAllStudent();
+          response = await getAllStudent(token);
         } else if (searchType === 'student' && searchCriteria === 'name') {
-          response = await getStudentByName(searchValue);
+          response = await getStudentByName(searchValue, token);
         } else if (searchType === 'student' && searchCriteria === 'class') {
-          response = await getStudentByGrade(searchValue);
+          response = await getStudentByGrade(searchValue, token);
         }
         if (response && response.data) {
           setResults(response.data.data);
@@ -89,7 +93,7 @@ const SearchResults = () => {
                   {searchType === 'student' ? (
                     <>
                       <div className="result-card-header">
-                        <h3>{result.name}</h3>
+                        <h3>{result.userName}</h3>
                       </div>
                       <div className="result-card-body">
                       <p><strong>Name:</strong> {result.name}</p>
@@ -111,15 +115,17 @@ const SearchResults = () => {
                   ) : (
                     <>
                       <div className="result-card-header">
-                        <h3>{result.name}</h3>
+                        <h3>{result.userName}</h3>
                       </div>
                       <div className="result-card-body">
                       <p><strong>Name:</strong> {result.name}</p>
                     <p><strong>Email:</strong> {result.emailId}</p>
                     <p><strong>Mobile Number:</strong> {result.mobileNumber}</p>
                     <p><strong>Age:</strong> {result.age}</p>
-                    {/* <p><strong>Address:</strong> {result.address}</p> */}
-                    {/* <p><strong>Date of Birth:</strong> {result.dateofBirth}</p> */}
+                    <p><strong>City:</strong> {result.address.city}</p>
+                    <p><strong>State:</strong> {result.address.state}</p>
+                    <p><strong>Street:</strong> {result.address.street}</p>
+                    <p><strong>ZipCode:</strong> {result.address.zipCode}</p>
                     <p><strong>Qualification:</strong> {result.qualification}</p>
                     <p><strong>Description:</strong> {result.description}</p>
                       </div>
@@ -141,5 +147,4 @@ const SearchResults = () => {
     </div>
   );
 };
-
 export default SearchResults;

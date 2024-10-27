@@ -63,7 +63,6 @@ public class StudentController {
 
     @GetMapping("/all")
     public ResponseEntity<ResponseDetails> getAllStudents() {
-//        log.info("Fetching Student with email : {} ", email);
         ResponseDetails responseDetails = studentService.getAllStudents();
         return ResponseEntity.ok(responseDetails);
     }
@@ -71,7 +70,6 @@ public class StudentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable("id") Long id){
         boolean isDeleted = studentService.deleteStudent(id);
-
         if (isDeleted) {
             return new ResponseEntity<>("Student deleted successfully", HttpStatus.OK);
         } else {
