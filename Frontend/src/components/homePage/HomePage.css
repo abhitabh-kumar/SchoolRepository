@@ -1,0 +1,145 @@
+.HomePageContainer{
+    width: 100%;
+    height: 100vh;
+    font-family: "Nunito", sans-serif;
+    position: absolute;
+    background-color: #fff6f1;
+}
+.landingPage{
+    margin-top: 4rem;
+    width: 100%;
+    height: 100vh;
+    background-image: url("../../assests/landingPage.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    /* background-size: 100% 100%; */
+    font-weight: 100;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.landedPara{
+    font-weight: bold;
+    padding: 0px;
+    margin: 0px;
+    font-size: 2.2rem;
+    text-align: center;
+}
+.joinUs{
+    width: fit-content;
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+}
+#joinNow{
+    background-color: #fd2841;
+    color: white;
+    min-width: 150px;
+}
+#joinNow:hover{
+    background-color: #d73649;
+}
+#viewSchool{
+    min-width: 170px;
+    display: flex;
+    justify-content: space-around;
+    background-color: rgba(230, 230, 230, 0.393);
+    border: 1px solid rgba(197, 197, 197, 0.772);
+}
+.exploreMore{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 3rem 0rem;
+}
+.exploreDesc{
+    max-width: 600px;
+    padding: 0px 20px;
+}
+.exploreDesc h1,p{
+    text-align: left;
+    margin: 10px;
+}
+.explorePhoto{
+    background-image: url("../../assests/explore.png");
+    background-repeat: no-repeat;
+    width: 450px;
+    height: 450px;
+    background-size: 100% 100%;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+}
+#learnMore{
+    background-color: #fd2841;
+    color: white;
+    max-width: 150px;
+    margin-top: 1.7rem;
+}
+.navigation{
+    position: fixed !important;
+    bottom: 30px;
+    right: 30px;
+    transition: all 0.5 ease;
+    color: #ff001e !important;
+    background-color: rgb(241, 241, 241) !important;
+    box-shadow: 0px 0px 2px 0px black !important;
+}
+.homeCoursel{
+    background-color: #d8f6ff;
+    padding: 2rem 0rem;
+}
+
+
+/* ----------- School Activity component ------------------ */
+.SchoolActivityButton{
+    font-size: 0.8rem !important;
+    width:130px !important;
+    min-width: 113px !important;
+    max-height: 35px;
+    padding: 4px !important;
+}
+.SchoolActivityButton:hover{
+    color: white;
+    background-color: black;
+}
+
+/* ----------- Our Teachers component ------------------ */
+.ourTeachers{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+    background-color: white;
+}
+#teacherGrid{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#seeAllTeacherbutton{
+    width: 250px;
+    background-color: rgb(42, 40, 40);
+    color: white;
+    margin-top: 20px;
+}
+
+.BlogContent{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap:"20px";
+    flex-wrap: wrap;
+}
+.articleButton{
+    background-color: rgb(70, 70, 70) !important;
+    color: white !important;
+    font-size: 0.9rem;
+    width: 180px;
+    height: 34px;
+    margin-top: 10px !important;
+}
