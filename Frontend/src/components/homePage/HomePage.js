@@ -14,8 +14,7 @@ import BlogCard from '../../materialUIComponents/blogCard/BlogCard';
 import Footer from '../footer/Footer';
 
 const HomePage = () => {
-    const ComponentOne = () => <div>Component One</div>;
-
+    
     const componentsArray = [
         <MediaCard />,
         <MediaCard />,
@@ -38,7 +37,7 @@ const HomePage = () => {
         }]
     return (
         <>
-            <ResponsiveAppBar />
+            <ResponsiveAppBar isTransparent={true}/>
             <div className="HomePageContainer">
                 <div className="landingPage">
                     <p className='landedPara' style={{ marginTop: '60px' }}>Unleash Creativity,</p>
@@ -71,20 +70,20 @@ const HomePage = () => {
                 <SchoolActivity />
                 <BelievableComponent />
                 <OurTeachers />
-                <Box sx={{ padding: '40px 80px', backgroundColor: "#ffeee4" }} mt={3}>
+                <Box sx={{backgroundColor: "#ffeee4"}} mt={3}>
                     <FAQ />
                 </Box>
-                <Box sx={{ padding: '40px 80px' }} mt={2}>
+                <Box p={2}>
                     <div className="BlogContent">
-                        <Typography variant="h2" textAlign="center" mb={3} sx={{ fontWeight: 'bold' }}>
+                        <Typography variant="h2" textAlign="center" sx={{ fontWeight: 'bold' }} mt={1.5}>
                             From our blog
                         </Typography>
                         <Button className='articleButton'>See All Articles</Button>
                     </div>
-                    <Grid2 container mt={3}>
+                    <Grid2 container mt={3} justifyContent={"space-around"}>
                         {blogPosts &&
                             blogPosts.map((item, index) => {
-                                return <Grid2 item size={6} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} key={`grid909${index}`}>
+                                return <Grid2 item sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} key={`grid909${index}`}>
                                     <BlogCard item={item} key={`blog001${index}`} />
                                 </Grid2>
                             })}

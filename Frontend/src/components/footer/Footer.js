@@ -1,20 +1,22 @@
 import React from 'react';
-import { Box, Button, Typography, TextField, IconButton, Avatar, List, ListItem, ListItemText, Link } from '@mui/material';
+import { Box, Button, Typography, TextField, IconButton, List, ListItem, ListItemText, Link, useMediaQuery } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { Facebook, Instagram, Twitter } from '@mui/icons-material';
 import girl from '../../assests/littleGirl.png'
 import './footer.css'
 
 const Footer = () => {
+  const isTablet = useMediaQuery('(min-width:818px)');
+
   const links = ['Homepage v1', 'Homepage v2', 'Homepage v3', 'About', 'Teacher', 'Upcoming Events']
   const classes = ['Toddler Class', 'Early Learning', 'Art & Craft', 'Science & Nature', 'Music', 'Leadership'];
   return (
     <Box mt={10}>
-      <Box sx={{ backgroundColor: '#1B1B3B', color: 'white', mt: 3 ,pb:4}}>
+      <Box sx={{ backgroundColor: '#1B1B3B', color: 'white', pt: 3 ,pb:4}}>
         <Box
           sx={{
             backgroundColor: '#FFC300',
-            display: 'flex',
+            display: isTablet ? 'flex': 'none',
             justifyContent: 'space-around',
             alignItems: 'center',
             borderRadius: 2,

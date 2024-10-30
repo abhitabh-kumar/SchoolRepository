@@ -1,0 +1,15 @@
+.loginCard{
+    background-color: #122965 !important;
+    color: #fff !important;
+    width: 300px ;
+    border-radius: 9px !important;
+    margin-left: 0px !important;
+}
+.loginCard:hover{
+    color: rgb(37, 37, 37) !important;
+}
+.loginSubmit{
+    border-radius: 5px !important;
+    background-color: #122965 !important;
+    font-size: 1.2rem !important;
+}

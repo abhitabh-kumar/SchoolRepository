@@ -14,18 +14,19 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 
 const SchoolActivity = () => {
     return (
-        <Box sx={{padding:'10px 20px 50px 20px'}}>
-            <div className="SchoolActivityHeading">
-                <Typography variant="h4" mb={3} ml={4} fontWeight="bold" fontSize={30}>
-                    Inside Sushila Public School
-                </Typography>
-
-                <div className="SchoolActivityButtonGroup">
+        <Box sx={{ padding: '20px 20px 50px 20px' }}>
+            <Grid container justifyContent={"space-around"}>
+                <Grid item size={{ md: 5 }}>
+                    <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 4, textAlign: 'left' }}>
+                        Inside Sushila Public School
+                    </Typography>
+                </Grid>
+                <Grid item size={{ md: 5 }} sx={{"display":"flex","gap":"10px","flexWrap":"wrap","justifyContent":"center"}} mb={3}>
                     <Button variant="outlined" className="SchoolActivityButton">Class Activities</Button>
                     <Button variant="outlined" className="SchoolActivityButton">Events</Button>
-                    <Button variant="outlined" className="SchoolActivityButton" style={{backgroundColor:"black",color:"white"}}>Daily Fun</Button>
-                </div>
-            </div>
+                    <Button variant="outlined" className="SchoolActivityButton" style={{ backgroundColor: "black", color: "white" }}>Daily Fun</Button>
+                </Grid>
+            </Grid>
 
             <Grid container spacing={2}>
                 <Grid item size={{ xs: 12, md: 8 }}>
@@ -33,28 +34,28 @@ const SchoolActivity = () => {
                         <img
                             src={image1}
                             alt="Large"
-                            style={{ width: "100%", height: "100%" }}
+                            style={{ width: "100%", height: "100%" ,objectFit: "cover"}}
                         />
                     </StyledPaper>
                 </Grid>
 
-                <Grid item flex={true} size={{ xs: 12, md: 4 }}>
+                <Grid item size={{ md: 4, xs:12 }}>
                     <Grid container spacing={2}>
-                        <Grid item size={{ xs: 4 }}>
+                        <Grid item sx={{width:"100%"}}>
                             <StyledPaper style={{ height: "242px" }}>
                                 <img
                                     src={image2}
                                     alt="Small Top"
-                                    style={{ width: "100%", height: "100%" }}
+                                    style={{ width: "100%", height: "100%",objectFit: "cover" }}
                                 />
                             </StyledPaper>
                         </Grid>
-                        <Grid item size={{ xs: 5}}>
+                        <Grid item sx={{width:"100%"}}>
                             <StyledPaper style={{ height: "242px" }}>
                                 <img
                                     src={image3}
                                     alt="Small Bottom"
-                                    style={{ width: "100%", height: "100%" }}
+                                    style={{ width: "100%", height: "100%",objectFit: "cover"}}
                                 />
                             </StyledPaper>
                         </Grid>

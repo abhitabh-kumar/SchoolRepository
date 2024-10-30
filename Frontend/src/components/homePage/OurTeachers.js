@@ -29,9 +29,9 @@ export default function OurTeachers() {
       <Typography variant="h4" textAlign="center" fontWeight="bold" fontSize={30} mb={3}>
         Meet Our Expert Teacher
       </Typography>
-      <Grid2 container size={12}>
+      <Grid2 container size={12} justifyContent={"space-around"} rowSpacing={3} columnSpacing={2}>
         {teachers && teachers.map((item, index) => {
-          return <Grid2 item size={4} key={index + " " + item.name} id='teacherGrid'>
+          return <Grid2 item key={index + " " + item.name} id='teacherGrid'>
             <TeacherCard details={item} />
           </Grid2>
         })}

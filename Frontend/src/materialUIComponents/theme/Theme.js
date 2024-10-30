@@ -4,16 +4,16 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#00000', // Yellow/Gold
+      main: '#00000',
     },
     secondary: {
-      main: '#28347E', // Dark Blue
+      main: '#28347E', 
     },
     error: {
-      main: '#FF6347', // Red (for buttons or highlights)
+      main: '#FF6347',
     },
     success: {
-      main: '#32CD32', // Green (for successful buttons or sections)
+      main: '#32CD32', 
     },
     text: {
       primary: '#000', // Black for text

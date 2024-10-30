@@ -1,9 +1,8 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import React from "react";
 import { Carousel } from "react-responsive-carousel";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { styled } from "@mui/system";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./carousel.css";
 
 const StyledCarouselItem = styled(Box)(({ theme }) => ({
@@ -18,6 +17,27 @@ const StyledCarouselItem = styled(Box)(({ theme }) => ({
 }));
 
 const CarouselComponent = ({ items }) => {
+
+    const isDesktop = useMediaQuery('(min-width:1024px)');
+    const isTablet = useMediaQuery('(min-width:768px) and (max-width:1023px)');
+    const isMobile = useMediaQuery('(max-width:767px)');
+
+    // Set the `centerSlidePercentage` based on screen size
+    const getSlidePercentage = () => {
+        if (isDesktop) {
+            return 33.33; // Show 3 items on desktop
+        }
+        else if (isTablet) {
+            return 50; // Show 2 items on tablets
+        }
+        else if (isMobile) {
+            return 100; // Show 1 item on mobile
+        }
+    };
+
+    const getCenterMode = () => {
+        return isDesktop ? true : false; // Enable centerMode only on desktops
+    };
     return (
         <Box sx={{ margin: "auto" }}>
             <Carousel
@@ -27,8 +47,8 @@ const CarouselComponent = ({ items }) => {
                 autoPlay={true}
                 interval={3000}
                 showStatus={false}
-                centerMode={true}
-                centerSlidePercentage={33.33} // Shows 3 items at once
+                centerMode={getCenterMode}
+                centerSlidePercentage={getSlidePercentage()} // Shows items at once
                 swipeable={true}
             >
 

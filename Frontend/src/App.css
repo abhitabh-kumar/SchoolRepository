@@ -12,3 +12,31 @@
 .forgot-password a:hover {
   text-decoration: underline;
 }
+/* Global Scrollbar Styles */
+* {
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: #122965 #f1f1f1; /* For Firefox: Thumb (scroll) color and track color */
+}
+
+*::-webkit-scrollbar {
+  width: 8px; /* Width of vertical scrollbar */
+  height: 8px; /* Height of horizontal scrollbar */
+}
+
+*::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Scrollbar track background */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #122965; /* Scrollbar thumb (scroll) color */
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #7d8cb3; /* Scrollbar thumb hover color */
+}
+
+/* Optional: Add smooth scrolling for a better UX */
+html {
+  scroll-behavior: smooth;
+}

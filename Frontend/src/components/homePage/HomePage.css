@@ -95,21 +95,11 @@
 
 
 /* ----------- School Activity component ------------------ */
-.SchoolActivityHeading{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 30px;
-}
-.SchoolActivityButtonGroup{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 10px;
-}
 .SchoolActivityButton{
     font-size: 0.8rem !important;
-    min-width:130px !important;
+    width:130px !important;
+    min-width: 113px !important;
+    max-height: 35px;
     padding: 4px !important;
 }
 .SchoolActivityButton:hover{
@@ -140,8 +130,10 @@
 
 .BlogContent{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
+    gap:"20px";
+    flex-wrap: wrap;
 }
 .articleButton{
     background-color: rgb(70, 70, 70) !important;
@@ -149,4 +141,5 @@
     font-size: 0.9rem;
     width: 180px;
     height: 34px;
+    margin-top: 10px !important;
 }

@@ -22,7 +22,7 @@ const FAQ = () => {
                 </Typography>
                 <Button className='askedQuestion'>Ask a Question</Button>
             </div>
-            <CustomizedAccordions faq={questionsAndAnswers} />
+            <CustomizedAccordions faq={questionsAndAnswers}/>
         </>
     )
 }
