@@ -53,16 +53,16 @@ public class StudentService {
     }
 
     public ResponseDetails getStudentsByName(String name){
-        List<StudentEntity> student = studentRepo.findByName(name);
-        if(!student.isEmpty()){
+        StudentEntity student = studentRepo.findByUserName(name);
+        if(student != null){
             ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
                     "Student fetched successfully",
                     student);
-            log.info("Student with email {} fetched", name);
+            log.info("Student with UserName {} fetched", name);
             return responseDetails;
         }
-        log.error("Student with email {} not found", name);
-        throw new NotFoundException("Student not found");
+        log.error("Student with UserName {} not found", name);
+        throw new NotFoundException("Student with this UserName not found");
     }
 
     public ResponseDetails  getAllStudents(){

@@ -13,21 +13,6 @@ import NotFound from '../../components/pageNotFound/NotFound';
 import SwipeableEdgeDrawer from '../../materialUIComponents/navbar/SwipeableEdgeDrawer';
 import { useMediaQuery } from '@mui/material';
 
-const routes = () => {
-    return (
-        <Routes>
-            <Route path="/" element={<DashHome />} />
-            <Route path="/dashHome" element={<DashHome />} />
-            <Route path="/timeTable" element={<TimeTable />} />
-            <Route path="/attendance" element={<AttendancePage />} />
-            <Route path="/tests" element={<TestsPage />} />
-            <Route path="/announcement" element={<Announcement />} />
-            <Route path="/reportCard" element={<ReportCard />} />
-            <Route path="/myProfile" element={<Profile />} />
-            <Route path="*" element={<NotFound homeLink="/student" />} />
-        </Routes>
-    );
-}
 
 export default function StudentDashBoard() {
 

@@ -44,7 +44,6 @@ public class TeacherService {
                     teacher);
             return responseDetails;
         }
-        log.error("Teacher fetched successfully");
         throw new NotFoundException("Teacher not found");
     }
 
@@ -57,7 +56,7 @@ public class TeacherService {
             log.info("Teacher with email {} fetched", name);
             return responseDetails;
         }
-        log.error("Teacher fetched successfully");
+        log.error("Teacher not fetched successfully");
         throw new NotFoundException("Teacher not found");
 
     }
@@ -92,6 +91,7 @@ public class TeacherService {
 
 
     public void deleteTeacher(Long id){
+
         teacherRepo.deleteById(id);
     }
 }

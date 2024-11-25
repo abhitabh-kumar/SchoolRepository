@@ -41,8 +41,8 @@ public class StudentController {
 
 //    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_TEACHER')")
     @GetMapping("/name/{name}")
-    public ResponseEntity<ResponseDetails> getStudentsByName(@PathVariable String name) {
-        log.info("Fetching Student with email : {} ", name);
+    public ResponseEntity<ResponseDetails> getStudentsByUserName(@PathVariable String name) {
+        log.info("Fetching Student with UserName : {} ", name);
         ResponseDetails responseDetails = studentService.getStudentsByName(name);
         return ResponseEntity.ok(responseDetails);
     }
@@ -77,13 +77,13 @@ public class StudentController {
         }
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_TEACHER')")
-    @GetMapping("/getStudentById/{id}")
-    public ResponseEntity<ResponseDetails> getStudentId(@PathVariable Long id) {
-        log.info("Fetching Student with id : {} ", id);
-        ResponseDetails responseDetails = studentService.getStudentId(id);
-        return ResponseEntity.ok(responseDetails);
-    }
+//    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_TEACHER')")
+//    @GetMapping("/getStudentById/{id}")
+//    public ResponseEntity<ResponseDetails> getStudentId(@PathVariable Long id) {
+//        log.info("Fetching Student with id : {} ", id);
+//        ResponseDetails responseDetails = studentService.getStudentId(id);
+//        return ResponseEntity.ok(responseDetails);
+//    }
 
 
 }

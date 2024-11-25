@@ -1,10 +1,9 @@
 package io.backend.Backend.entity;
 
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.aspectj.weaver.patterns.TypePatternQuestions;
 
 import java.io.Serializable;
@@ -14,10 +13,11 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
-@Table(name="Exam")
-public class ExamEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Table(name="exam")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "examId")
+public class ExamEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,9 @@ public class ExamEntity implements Serializable {
     @Column(name="SUBJECT", nullable = false)
     private String subject;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "exam_id") // Foreign key in Question table
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinTable(name = "exam_questions", joinColumns = @JoinColumn(name="exam_id"),
+            inverseJoinColumns = @JoinColumn(name="question_id"))
     private List<QuestionEntity> questions;
 }

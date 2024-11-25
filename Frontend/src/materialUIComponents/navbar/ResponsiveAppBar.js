@@ -11,6 +11,7 @@ import logo from '../../assests/logo.png'
 import './NavBar.css'
 import SignIn from '../../components/login/SignIn';
 import { useNavigate } from 'react-router-dom';
+import Login from '../../components/login/Login';
 
 
 const Navbar = ({ isTransparent }) => {
@@ -114,8 +115,8 @@ const Navbar = ({ isTransparent }) => {
           </Box>
         </Toolbar>
       </AppBar>
-
-      <SignIn open={open} handleClose={handleClose} />
+        {open && <Login/>}
+      {/* <SignIn open={open} handleClose={handleClose} /> */}
     </>
   );
 };

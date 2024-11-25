@@ -4,12 +4,14 @@ import io.backend.Backend.dto.Qualification;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name="Teacher")
 public class TeacherEntity extends UserInfoEntity{

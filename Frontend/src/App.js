@@ -23,12 +23,14 @@ import BlogPage from './components/blog/BlogPage';
 import ContactPage from './components/contact/ContactPage';
 import NotFound from './components/pageNotFound/NotFound';
 import StudentDashBoard from './dashBoard/studentDashBoard/StudentDashBoard';
+import SearchResults from './components/searchby/SearchResult';
+import AdminDashBoard from './dashBoard/adminDashBoard/AdminDashBoard';
 
 function App() {
   const [loading, setLoading] = useState(true); 
   const [userType, setUserType] = useState(null);
   useEffect(() => {
-    setUserType('student')
+    setUserType('admin')
     setLoading(false);
   }, [])
   return (
@@ -48,17 +50,18 @@ function App() {
           <Route path="/verify-otp" element={<VerifyOTP />} />
           {
             userType == 'admin' && <>
-              <Route path="/admin" element={<Admin />} />
+              <Route path="/admin" element={<AdminDashBoard />} />
               <Route path="/admin/create-teacher" element={<CreateTeacherPage />} />
               <Route path="/admin/create-student" element={<CreateStudentPage />} />
               <Route path="/admin/create-exam" element={<CreateExamPage />} />
               <Route path="/admin/search-by" element={<SearchBy />} />
               <Route path="/admin/search-by/update/student/:id" element={<UpdateStudentForm />} />
               <Route path="/admin/search-by/update/teacher/:id" element={<UpdateTeacherForm />} />
+              <Route path="/admin/search-results" element={<SearchResults/>} />
             </>
           }
           {
-            userType == 'student' && <>
+            userType == 'admin' && <>
               <Route path="/student/*" element={<StudentDashBoard />} />
             </>
           }
