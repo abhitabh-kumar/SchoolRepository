@@ -1,34 +1,34 @@
-export const data1=[
+export const menu1=[
     {
         'text':'Dashboard',
-        'url':'dashHome',
+        'url':'/student/dashHome',
         
     },
     {
         'text':'Time Table',
-        'url':'timeTable'
+        'url':'/student/timeTable'
     },
     {
         'text':'Attendance',
-        'url':'attendance'
+        'url':'/student/attendance'
     },
     {
         'text':'Tests',
-        'url':'tests'
+        'url':'/student/tests'
     },
 ]
-export const data2=[
+export const menu2=[
     {
         'text':'Announcement',
-        'url':'announcement',
+        'url':'/student/announcement',
         
     },
     {
         'text':'Report Card',
-        'url':'reportCard'
+        'url':'/student/reportCard'
     },
     {
         'text':'My Profile',
-        'url':'myProfile'
+        'url':'/student/myProfile'
     }
 ]

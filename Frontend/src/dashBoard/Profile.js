@@ -1,11 +1,17 @@
 // App.js
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Box, Typography, Grid2, Avatar, Badge, useMediaQuery } from "@mui/material";
+import getUsernameFromToken from "../components/services/tokenService";
+import authHeader from "../components/services/authHeader";
 
 const Profile = () => {
 
   const isSmallScreen = useMediaQuery("(min-width:700px)");
-
+  useEffect(()=>{
+    const token = authHeader();
+    const username = getUsernameFromToken(token);
+    console.log(username);
+  },[])
   return (
     <Container maxWidth="md" style={isSmallScreen ? {paddingTop:'3rem'}: {paddingTop:'5rem'}}>
       <Grid2 container spacing={3}>

@@ -1,10 +1,10 @@
 import React from 'react'
 import UnderMaintenance from '../../components/underMaintenance/underMaintenance'
 
-const Announcement = () => {
+const StudentTimeTable = () => {
   return (
     <UnderMaintenance/>
   )
 }
 
-export default Announcement
+export default StudentTimeTable

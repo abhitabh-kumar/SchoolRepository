@@ -77,13 +77,13 @@ public class StudentController {
         }
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_TEACHER')")
-    @GetMapping("/getStudentById/{id}")
-    public ResponseEntity<ResponseDetails> getStudentId(@PathVariable Long id) {
-        log.info("Fetching Student with id : {} ", id);
-        ResponseDetails responseDetails = studentService.getStudentId(id);
-        return ResponseEntity.ok(responseDetails);
-    }
+//    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_TEACHER')")
+//    @GetMapping("/getStudentById/{id}")
+//    public ResponseEntity<ResponseDetails> getStudentId(@PathVariable Long id) {
+//        log.info("Fetching Student with id : {} ", id);
+//        ResponseDetails responseDetails = studentService.getStudentId(id);
+//        return ResponseEntity.ok(responseDetails);
+//    }
 
 
 }

@@ -23,6 +23,7 @@ import BlogPage from './components/blog/BlogPage';
 import ContactPage from './components/contact/ContactPage';
 import NotFound from './components/pageNotFound/NotFound';
 import StudentDashBoard from './dashBoard/studentDashBoard/StudentDashBoard';
+import TeacherDashBoard from './dashBoard/teacherDashBoard/TeacherDashBoard';
 
 function App() {
   const [loading, setLoading] = useState(true); 
@@ -64,7 +65,7 @@ function App() {
           }
           {
             userType == 'teacher' && <>
-              <Route path="/teacher/dashboard" element={<Admin />} />
+              <Route path="/teacher/*" element={<TeacherDashBoard />} />
             </>
           }
           { !loading && <Route path="*" element={<NotFound homeLink= "/"/>} />}

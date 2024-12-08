@@ -26,9 +26,10 @@ import {
   Announcement as AnnouncementIcon,
   Assessment as AssessmentIcon,
   AccountBox as AccountBoxIcon,
+  QuestionAnswer,
 } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { data1, data2 } from '../../dummyData/metaData';
+// import { data1, data2 } from '../../dummyData/studentMenuData';
 
 const drawerWidth = 240;
 
@@ -90,7 +91,7 @@ const icons = {
   },
 };
 
-export default function DashBoardNavBar({ children }) {
+export default function DashBoardNavBar({ children, menu1 ,menu2}) {
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -132,16 +133,16 @@ export default function DashBoardNavBar({ children }) {
         </DrawerHeader>
         <Divider />
         <List>
-          {data1.map((item) => (
+          {menu1.map((item) => (
             <ListItem
               key={item.text}
               disablePadding
-              onClick={() => navigate(`/student/${item.url}`)}
+              onClick={() => navigate(`${item.url}`)}
               sx={{
                 color: "#757575",
                 display: 'block',
                 '&:hover': { color: "black" },
-                backgroundColor: location.pathname === `/student/${item.url}` ? '#d8d7d7' : "#f5f5f5"
+                backgroundColor: location.pathname === `${item.url}` ? '#d8d7d7' : "#f5f5f5"
               }}
             >
               <ListItemButton
@@ -158,10 +159,11 @@ export default function DashBoardNavBar({ children }) {
                     justifyContent: 'center',
                   }}
                 >
-                  {item.text === "Dashboard" && <SpaceDashboardIcon sx={icons} />}
-                  {item.text === "Time Table" && <AppsOutageIcon sx={icons} />}
-                  {item.text === "Attendance" && <AssessmentIcon sx={icons} />}
-                  {item.text === "Tests" && <LibraryAddCheckIcon sx={icons} />}
+                  {( item.url === "/teacher/dashHome" || item.url === "/student/dashHome") && <SpaceDashboardIcon sx={icons} />}
+                  {( item.url === "/teacher/timeTable" || item.url === "/student/timeTable") && <AppsOutageIcon sx={icons} />}
+                  {( item.url === "/teacher/markAttendance" || item.url === "/student/attendance") && <AssessmentIcon sx={icons} />}
+                  {( item.url === "/teacher/createTest" || item.url === "/student/tests") && <QuizIcon sx={icons} />}
+                  {item.url === "/teacher/createQuestions" && <QuestionAnswer sx={icons} />}
                 </ListItemIcon>
                 <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
@@ -170,16 +172,16 @@ export default function DashBoardNavBar({ children }) {
         </List>
         <Divider />
         <List>
-          {data2.map((item) => (
+          {menu2.map((item) => (
             <ListItem
               key={item.text}
               disablePadding
-              onClick={() => navigate(`/student/${item.url}`)}
+              onClick={() => navigate(`${item.url}`)}
               sx={{
                 color: "#757575",
                 display: 'block',
                 '&:hover': { color: "black" },
-                backgroundColor: location.pathname === `/student/${item.url}` ? '#d8d7d7' : "#f5f5f5"
+                backgroundColor: location.pathname === `${item.url}` ? '#d8d7d7' : "#f5f5f5"
               }}
             >
               <ListItemButton
@@ -196,9 +198,9 @@ export default function DashBoardNavBar({ children }) {
                     justifyContent: 'center',
                   }}
                 >
-                  {item.text === "Announcement" && <AnnouncementIcon sx={icons} />}
-                  {item.text === "Report Card" && <QuizIcon sx={icons} />}
-                  {item.text === "My Profile" && <AccountBoxIcon sx={icons} />}
+                  {( item.url === "/teacher/announcement" || item.url === "/student/announcement") && <AnnouncementIcon sx={icons} />}
+                  {( item.url === "/teacher/result" || item.url === "/student/reportCard" ) && <LibraryAddCheckIcon sx={icons} />}
+                  {( item.url === "/teacher/myProfile" || item.url === "/student/myProfile")&& <AccountBoxIcon sx={icons} />}
                 </ListItemIcon>
                 <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
