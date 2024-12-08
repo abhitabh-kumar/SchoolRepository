@@ -18,6 +18,7 @@ public class UserInfoEntity {
     private Long userId;
 
     @Lob
+    @Column(name = "profile_pic", columnDefinition = "LONGBLOB")
     private byte[] profilePic;
 
     @Column(name = "USER_NAME",unique = true,nullable = false)

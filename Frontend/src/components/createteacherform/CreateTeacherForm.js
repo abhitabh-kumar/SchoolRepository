@@ -12,7 +12,7 @@ const CreateTeacherPage = () => {
     password: '',
     emailId: '',
     age: '',
-    roles:"student",
+    roles:"Teacher",
     mobileNumber: '',
     address: {
       street: '',

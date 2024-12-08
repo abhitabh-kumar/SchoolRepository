@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { getStudentByName } from '../components/services/Api'; 
+import { getStudentByName, getTeacherByName } from '../components/services/Api';
 import { Container, Box, Typography, Grid2, Avatar, Badge, useMediaQuery } from "@mui/material";
-import authHeader from '../components/services/authHeader';
+// import authHeader from '../components/services/authHeader';
 import getUsername from '../components/services/tokenServices';
 import ImageUploadDialog from '../materialUIComponents/dialog/ImageUploadDialog';
 
@@ -23,14 +23,15 @@ const Profile = () => {
     fatherName: '',
     age: '',
     mobileNumber: '',
-    address: { state: '', zipCode: '', city: '' , street:''},
+    address: { state: '', zipCode: '', city: '', street: '' },
     dateOfBirth: '',
     dateOfJoining: '',
-    roles: 'STUDENT'
+    roles: 'STUDENT',
+    profilePic: null
   });
-  
+
   const [error, setError] = useState('');
-  const [openDialog,setOpenDialog] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
 
   const handleClickOpen = () => {
@@ -46,16 +47,16 @@ const Profile = () => {
       try {
         const token = authHeader();
         const username = getUsername(token);
-        const response = await getStudentByName(username, token);
-        const data = response.data.data;
-
+        const response = await getTeacherByName(username, token);
+        const allTeachers = response.data.data;
+        const data = allTeachers[0];
         setFormData({
           userName: data.userName || '',
           name: data.name || '',
           password: data.password || '',
           emailId: data.emailId || '',
           rollNo: data.rollNo || '',
-          grade: data.grade || '', 
+          grade: data.grade || '',
           motherName: data.motherName || '',
           fatherName: data.fatherName || '',
           age: data.age || '',
@@ -63,21 +64,22 @@ const Profile = () => {
           parentEmailId: data.parentEmailId || '',
           bloodGroup: data.bloodGroup || '',
           address: data.address || '',
-          dateOfBirth: data.dateOfBirth || '', 
+          dateOfBirth: data.dateOfBirth || '',
           dateOfJoining: data.dateOfJoining || '',
-          roles: 'STUDENT'
+          roles: 'STUDENT',
+          profilePic: `data:image/jpeg;base64,${data.profilePic}`
         });
       } catch (err) {
         console.error('Error fetching student data:', err);
         setError('Failed to fetch student data.');
       }
     };
-    
+
     fetchStudentData();
   }, []);
 
   return (
-    <Container maxWidth="md" style={isSmallScreen ? {paddingTop:'3rem'}: {paddingTop:'5rem'}}>
+    <Container maxWidth="md" style={isSmallScreen ? { paddingTop: '3rem' } : { paddingTop: '5rem' }}>
       <Grid2 container spacing={3}>
         <Grid2 item size={{ xs: 12, md: 4 }}>
           <Box
@@ -89,19 +91,28 @@ const Profile = () => {
               borderRadius: "8px",
               padding: "16px",
             }}
-            onClick={() => handleClickOpen() }
+            onClick={() => handleClickOpen()}
           >
 
             <Badge color="secondary" badgeContent={"+"} overlap="circular">
-              <Avatar
-                sx={{
-                  width: 100,
-                  height: 100,
-                  backgroundColor: "#1976d2",
-                  marginBottom: "8px",
-                  cursor: 'pointer'
-                }}
-              />
+              {
+                formData.profilePic ? <img src={formData.profilePic}  style={{
+                      width: '100px',
+                      height: '100px',
+                      backgroundColor: "#1976d2",
+                      marginBottom: "8px",
+                      cursor: 'pointer'
+                    }} />:
+                  <Avatar
+                    sx={{
+                      width: 100,
+                      height: 100,
+                      backgroundColor: "#1976d2",
+                      marginBottom: "8px",
+                      cursor: 'pointer'
+                    }}
+                  />
+              }
             </Badge>
           </Box>
           <Box
@@ -196,7 +207,7 @@ const Profile = () => {
           </Box>
         </Grid2>
       </Grid2>
-      <ImageUploadDialog open={openDialog} handleClickOpen={handleClickOpen} handleClose={handleClose}/>
+      <ImageUploadDialog open={openDialog} handleClickOpen={handleClickOpen} handleClose={handleClose} />
     </Container>
   );
 };
