@@ -41,8 +41,8 @@ public class StudentController {
 
 //    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_TEACHER')")
     @GetMapping("/name/{name}")
-    public ResponseEntity<ResponseDetails> getStudentsByName(@PathVariable String name) {
-        log.info("Fetching Student with email : {} ", name);
+    public ResponseEntity<ResponseDetails> getStudentsByUserName(@PathVariable String name) {
+        log.info("Fetching Student with UserName : {} ", name);
         ResponseDetails responseDetails = studentService.getStudentsByName(name);
         return ResponseEntity.ok(responseDetails);
     }

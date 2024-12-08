@@ -8,6 +8,7 @@ import java.sql.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name="STUDENT")
 public class StudentEntity extends UserInfoEntity{

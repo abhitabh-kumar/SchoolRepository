@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createExam } from '../services/Api';
 import './CreateExamForm.css';
+import authHeader from '../services/authHeader';
 
 const CreateExamPage = () => {
   const [formData, setFormData] = useState({
@@ -44,8 +45,10 @@ const CreateExamPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const token = authHeader();
+    console.log(token);
     try {
-      createExam({ ...formData, questions });
+      createExam({ ...formData, questions },token);
       setSuccess('Exam created successfully!');
       setError('');
     } catch (err) {

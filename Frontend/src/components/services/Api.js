@@ -163,6 +163,7 @@ export const getAllStudent = async (token1) => {
 
 // Function to get student by ID
 export const getStudentById = async (studentId, token1) => {
+  console.log(studentId);
   try {
     const response = await axios.get(`${API_URL}/student/get/${studentId}`,{ headers: {
       "Authorization": token1,
@@ -232,14 +233,15 @@ export const deleteStudent = async (id) => {
 };
 
 // Function to create an exam
-export const createExam = async (examData) => {
+export const createExam = async (examData, token1) => {
+  console.log(token1);
   try {
-    if (!token) {
+    if (!token1) {
       throw new Error('Authorization token is missing');
     }
-    const response = await axios.post(`${API_URL}/question/createQuestion`, examData, {
+    const response = await axios.post(`${API_URL}/exam/createExam`, examData, {
       headers: {
-        Authorization: token,
+        Authorization: token1,
       }
     });
     return response.data;

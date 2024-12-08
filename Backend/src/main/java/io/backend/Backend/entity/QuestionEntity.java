@@ -1,21 +1,21 @@
 package io.backend.Backend.entity;
 
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="Question")
-public class QuestionEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Table(name="question")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "questionId")
+public class QuestionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,10 +28,12 @@ public class QuestionEntity implements Serializable {
     private List<String> options;
 
     @Column(name = "ANSWER", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String answer;
 
     @Column(name = "MARKS", nullable = false)
     private Integer marks;
 
-
+    @ManyToMany(mappedBy = "questions")
+    private List<ExamEntity> exams;
 }

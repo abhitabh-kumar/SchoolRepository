@@ -18,4 +18,6 @@ public interface StudentRepo extends JpaRepository<StudentEntity,Long> {
    StudentEntity findByUserId(Long id);
 
    void deleteByUserId(Long id);
+
+   StudentEntity findByUserName(String userName);
 }
