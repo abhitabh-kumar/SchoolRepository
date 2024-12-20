@@ -1,0 +1,87 @@
+.schoolDesc{
+    background-color: green;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+.customSchoolDescBox{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 350px;
+    gap: 30px;
+}
+.customSchoolDescBox *{
+    text-align: left;
+    color: white;
+    padding: 0px;
+    margin: 0px;
+}
+.footer{
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    color: white;
+}
+.quesDesc{
+    display: flex;
+    flex-direction: column;
+    padding: 0px 10px;
+    gap: 5px;
+    justify-content: space-around;
+}
+.questionDetails{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 500px;
+}
+.examButton{
+    background-color: green !important;
+    max-width: 100px ;
+    color: white !important;
+    border-radius: 4px !important;
+    margin-left: 10px !important;
+}
+.examButton:hover{
+    background-color: rgb(4, 151, 4) !important;
+}
+
+@media screen and (max-width: 800px) {
+    .schoolDesc{
+        height: 250px !important;
+        padding: 20px !important;
+        min-height: 200px !important;
+    }
+    .footer{
+        position: sticky;
+        color: green;
+        background-color: white;
+        padding: 10px 14px;
+        bottom: 0px;
+    }
+    .quesDesc{
+        padding-bottom: 30px;
+    }
+  
+}
+
+/* ---------------------------------> */
+
+.allQuestions{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    flex-direction: column;
+}
+.schoolHeader{
+    height: 200px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 1px rgb(0, 0, 0);
+    width: -webkit-fill-available;
+    background-color: green;
+    color: white;
+    margin: 10px;
+}

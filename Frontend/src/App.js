@@ -26,12 +26,13 @@ import StudentDashBoard from './dashBoard/studentDashBoard/StudentDashBoard';
 import TeacherDashBoard from './dashBoard/teacherDashBoard/TeacherDashBoard';
 import SearchResults from './components/searchby/SearchResult';
 import AdminDashBoard from './dashBoard/adminDashBoard/AdminDashBoard';
+import ExamLandPage from './components/exam/ExamLandPage';
 
 function App() {
   const [loading, setLoading] = useState(true); 
   const [userType, setUserType] = useState(null);
   useEffect(() => {
-    setUserType('teacher')
+    setUserType('student')
     setLoading(false);
   }, [])
   return (
@@ -62,7 +63,7 @@ function App() {
             </>
           }
           {
-            userType == 'admin' && <>
+            userType == 'student' && <>
               <Route path="/student/*" element={<StudentDashBoard />} />
             </>
           }
@@ -71,6 +72,7 @@ function App() {
               <Route path="/teacher/*" element={<TeacherDashBoard />} />
             </>
           }
+          <Route path='/exam' element={<ExamLandPage/>} />
           { !loading && <Route path="*" element={<NotFound homeLink= "/"/>} />}
         </Routes>
       </Router>
