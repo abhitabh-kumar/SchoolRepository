@@ -14,6 +14,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Badge,
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -29,6 +30,7 @@ import {
   QuestionAnswer,
 } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
+import './NavBar.css'
 // import { data1, data2 } from '../../dummyData/studentMenuData';
 
 const drawerWidth = 240;
@@ -91,7 +93,7 @@ const icons = {
   },
 };
 
-export default function DashBoardNavBar({ children, menu1 ,menu2}) {
+export default function DashBoardNavBar({ children, menu1 ,menu2,notificationCount}) {
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -197,8 +199,13 @@ export default function DashBoardNavBar({ children, menu1 ,menu2}) {
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
                   }}
-                >
-                  {( item.url === "/teacher/announcement" || item.url === "/student/announcement") && <AnnouncementIcon sx={icons} />}
+                > 
+                
+                      {( item.url === "/teacher/announcement" || item.url === "/student/announcement") &&
+                        <Badge badgeContent={notificationCount} classes={{ badge: "customBadge" }}> 
+                              <AnnouncementIcon sx={icons} />
+                        </Badge>}
+                  
                   {( item.url === "/teacher/result" || item.url === "/student/reportCard" ) && <LibraryAddCheckIcon sx={icons} />}
                   {( item.url === "/teacher/myProfile" || item.url === "/student/myProfile")&& <AccountBoxIcon sx={icons} />}
                 </ListItemIcon>

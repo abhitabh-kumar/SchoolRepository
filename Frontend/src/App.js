@@ -32,7 +32,7 @@ function App() {
   const [loading, setLoading] = useState(true); 
   const [userType, setUserType] = useState(null);
   useEffect(() => {
-    setUserType('student')
+    setUserType('teacher')
     setLoading(false);
   }, [])
   return (

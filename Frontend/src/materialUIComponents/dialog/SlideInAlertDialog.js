@@ -23,7 +23,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function SlideInAlertDialog({open,handleClose,startTest}) {
+export default function SlideInAlertDialog({children,title,open,handleClose,startTest,isCancel,isConfirm,cancelMess,confirmMess}) {
 
   return (
       <Dialog
@@ -33,15 +33,15 @@ export default function SlideInAlertDialog({open,handleClose,startTest}) {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"Are you ready for your Test?"}</DialogTitle>
+        <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description" sx={{color:'black'}}>
-             Best Wishes for Your Exams! 
+             {children}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} sx={buttonStyle} style={{color:'white', backgroundColor:'rgb(156 156 156)'}}>Cancel</Button>
-          <Button onClick={startTest} sx={buttonStyle}>Start</Button>
+          {isCancel && <Button onClick={handleClose} sx={buttonStyle} style={{color:'white', backgroundColor:'rgb(156 156 156)'}}>{cancelMess}</Button> }
+          {isConfirm && <Button onClick={startTest} sx={buttonStyle}>{confirmMess}</Button> }
         </DialogActions>
       </Dialog>
   );

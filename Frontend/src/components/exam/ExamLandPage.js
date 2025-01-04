@@ -44,7 +44,7 @@ const ExamLandPage = () => {
                         </Grid2>
                         {
                             examDetails && <Grid2 size={isMobile ? 6 : 12} className={styles.quesDesc}>
-                                <h1 style={{ marginBottom: '0px' }}>{examDetails.subject} Test</h1>
+                                <h1 style={{ marginBottom: '0px' }}>{examDetails.subject}</h1>
                                 <ul className={styles.quesDescription}>
                                     <p style={{ fontSize: '1.1rem', position: 'relative', left: '-45px' }}>Instructions :</p>
                                     {

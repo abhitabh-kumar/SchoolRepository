@@ -79,7 +79,7 @@ const Profile = () => {
   }, []);
 
   return (
-    <Container maxWidth="md" style={isSmallScreen ? { paddingTop: '3rem' } : { paddingTop: '5rem' }}>
+    <Container maxWidth="md" sx={{paddingBottom:'20px'}}>
       <Grid2 container spacing={3}>
         <Grid2 item size={{ xs: 12, md: 4 }}>
           <Box

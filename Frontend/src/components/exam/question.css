@@ -5,6 +5,8 @@
     width: -webkit-fill-available;
     padding: 60px 10px 10px 20px;
     position: relative;
+    z-index: 10;
+    background-color: white;
 }
 .tagWithQuestionNo, .point{
     border-radius: 100px;

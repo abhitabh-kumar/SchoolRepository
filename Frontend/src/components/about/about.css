@@ -1,0 +1,42 @@
+.aboutUs{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    gap: 30px;
+    padding-top: 40px;
+    line-height: 1.8rem;
+    font-family: "Merienda", serif;
+    color: brown;
+}
+.container {
+    line-height: 1.9;
+    word-wrap: break-word;
+    padding: 30px;
+    text-align: justify;
+    color: rgb(1, 102, 1);
+    font-size: 1.04rem;
+}
+.image {
+    float: left;
+    margin-right: 30px;
+    margin-bottom: 10px;
+    width: 175px;
+    border-radius: 50%;
+    height: 175px;
+}
+
+.text {
+    overflow: hidden; /* Ensures the text wraps around the floated image */
+}
+.aboutHeader{
+    font-size: 1.5rem;
+    font-family: "Merienda", serif;
+    color: rgb(0, 154, 0);
+    font-weight: 800;
+}
+.aboutHeader hr{
+    border: none; /* Removes default border */
+    border-top: 1.2px solid rgb(0, 154, 0);; /* Customizes color and thickness */
+}

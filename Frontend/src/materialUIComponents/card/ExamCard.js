@@ -56,7 +56,11 @@ export default function ExamCard({ examDetails, isActive }) {
                     {isActive ? <Button style={buttonStyle} onClick={handleClickOpen}>Start</Button> : <Button style={endedButton} disabled>Finish</Button>}
                 </CardActions>
             </Card>
-            <SlideInAlertDialog open={open} handleClose={handleClose} startTest={startTest}/>
+            <SlideInAlertDialog open={open} handleClose={handleClose} startTest={startTest}
+                isCancel={true} isConfirm={true} cancelMess={"Cancel"} confirmMess={"Start"}
+                title={"Are you ready for your Test?"}>
+                Best Wishes for Your Exams!
+            </SlideInAlertDialog>
         </Fragment>
     );
 }
