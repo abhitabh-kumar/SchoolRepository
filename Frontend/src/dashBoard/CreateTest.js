@@ -8,6 +8,9 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { colors, useMediaQuery } from '@mui/material';
 
+import CreateExamPage from '../components/createexamform/CreateExamForm';
+
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -58,30 +61,6 @@ const activeTabStyle={
 }
 
   return (
-    <Box sx={{ width: isSmallScreen ? 500 : '100%', paddingTop: isSmallScreen ? '0px' : '70px' }}>
-      <AppBar position="static">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="black"
-          variant="fullWidth"
-          aria-label="full width tabs example"
-        >
-          <Tab label="Item One" {...a11yProps(0)} style={activeTabStyle}/>
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0} dir={theme.direction}>
-        Item One
-      </TabPanel>
-      <TabPanel value={value} index={1} dir={theme.direction}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2} dir={theme.direction}>
-        Item Three
-      </TabPanel>
-    </Box>
+    <div><CreateExamPage></CreateExamPage></div>
   );
 }

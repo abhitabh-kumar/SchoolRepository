@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface TeacherRepo extends JpaRepository<TeacherEntity,Long> {
 
-    List<TeacherEntity> findByName(String name);
+    List<TeacherEntity> findByUserName(String name);
 
     TeacherEntity findByUserId(Long id);
 }

@@ -1,6 +1,7 @@
 package io.backend.Backend.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,8 +25,12 @@ public class UserInfoEntity {
     @Column(name = "USER_NAME",unique = true,nullable = false)
     private String userName;
 
-    @Column(nullable = false, name = "PASSWORD")
+    @Column(nullable = true, name = "PASSWORD")
     private String password;
+
+    @Column(nullable = true, name = "EMAIL_ID")
+    @Email(regexp = "^[a-zA-Z0-9_!#$%&amp;'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$",message = "Invalid email format")
+    private String emailId;
 
     @Column(nullable = false, name = "ROLES")
     private String roles;

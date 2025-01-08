@@ -1,9 +1,6 @@
 package io.backend.Backend;
 
-import io.backend.Backend.entity.AddressEntity;
-import io.backend.Backend.entity.AdminEntity;
-import io.backend.Backend.entity.StudentEntity;
-import io.backend.Backend.entity.UserInfoEntity;
+import io.backend.Backend.entity.*;
 import io.backend.Backend.repo.UserInfoRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +23,7 @@ public class InitializeUser implements CommandLineRunner {
         student.setUserName("Pandey@123");
         student.setRollNo("2409001");
         student.setPassword(passwordEncoder.encode("password"));
-        student.setEmailId("abhi@gmail.com");
+        student.setEmailId("pandeyjeearrah9718@gmail.com");
         student.setRoles("STUDENT");
         student.setAge(20);
         student.setGrade(9);
@@ -44,7 +41,18 @@ public class InitializeUser implements CommandLineRunner {
         admin.setRoles("ADMIN");
         admin.setEmailId("admin@gmail.com");
 
-        userInfoRepo.saveAll(List.of(student,admin));
+
+        TeacherEntity teacher = new TeacherEntity();
+        teacher.setUserName("Kumar");
+        teacher.setName("Kumar Ranjan Pandey");
+        teacher.setDescription("Good Teacher !!!");
+        teacher.setPassword(passwordEncoder.encode("Ranjan@123"));
+        teacher.setRoles("TEACHER");
+        teacher.setAge(40);
+        teacher.setEmailId("kranjanpandey8294@gmail.com");
+        teacher.setMobileNumber("82946684545");
+
+        userInfoRepo.saveAll(List.of(student,admin,teacher));
     }
 
 }

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { requestPasswordReset } from '../services/Api';
 import { useNavigate } from 'react-router-dom';
 import './ForgotPassword.css';
+import authHeader from '../services/authHeader';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -13,15 +14,16 @@ const ForgotPassword = () => {
   const handleForgotPassword = async (e) => {
     e.preventDefault();
 
-    // try {
-    //   await requestPasswordReset(email);
-    //   setMessage('If this email is associated with an account, a reset link has been sent.');
-    //   setError('');
-      navigate('/verify-otp');
-    // } catch (err) {
-    //   setError(err.message || 'An error occurred while sending the reset link.');
-    //   setMessage('');
-    // }
+    try {
+      console.log("Line no 17");
+      console.log(email);
+      const token = authHeader();
+      await requestPasswordReset(email, token);
+      // navigate(`/reset-password?email=${encodeURIComponent(email)}`);
+    } catch (err) {
+      setError(err.message || 'An error occurred while sending the reset link.');
+      setMessage('');
+    }
   };
 
   return (

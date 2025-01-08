@@ -8,6 +8,9 @@ import io.backend.Backend.repo.StudentRepo;
 import io.backend.Backend.repo.TeacherRepo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,6 +39,7 @@ public class TeacherService {
         return responseDetails;
     }
 
+    @Cacheable(value = "teacherCache", key = "'allTeachers'")
     public ResponseDetails getAllTeachers(){
         List<TeacherEntity> teacher = teacherRepo.findAll();
         if(!teacher.isEmpty()){
@@ -44,16 +48,17 @@ public class TeacherService {
                     teacher);
             return responseDetails;
         }
-        throw new NotFoundException("Teacher not found");
+        throw new NotFoundException("Teachers not found");
     }
 
-    public ResponseDetails getTeacherByName(String name){
-        List<TeacherEntity> teacher = teacherRepo.findByName(name);
+    @Cacheable(value = "teacherCache", key = "'name'")
+    public ResponseDetails getTeacherByUserName(String name){
+        List<TeacherEntity> teacher = teacherRepo.findByUserName(name);
         if(!teacher.isEmpty()){
             ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
                     "Teacher fetched successfully",
                     teacher);
-            log.info("Teacher with email {} fetched", name);
+            log.info("Teacher with UserName {} fetched", name);
             return responseDetails;
         }
         log.error("Teacher not fetched successfully");
@@ -61,6 +66,7 @@ public class TeacherService {
 
     }
 
+    @Cacheable(value = "teacherCache", key = "#id")
     public ResponseDetails getTeacherById(Long id){
         TeacherEntity teacher = teacherRepo.findByUserId(id);
         ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
@@ -69,7 +75,7 @@ public class TeacherService {
         return responseDetails;
     }
 
-
+    @CachePut(value = "teacherCache", key = "#id")
     public ResponseDetails updateTeacher(TeacherEntity teacher, Long id){
         TeacherEntity teacherEntity = teacherRepo.findById(id).get();
         if(teacherEntity != null){
@@ -89,7 +95,7 @@ public class TeacherService {
         return responseDetails;
     }
 
-
+    @CacheEvict(value = "teacherCache", key = "#id")
     public void deleteTeacher(Long id){
 
         teacherRepo.deleteById(id);

@@ -26,9 +26,14 @@ export const loginUser = async (username, password, role) => {
   };
 
 // Function to send a forgot password request
-export const requestPasswordReset = async (email) => {
+export const requestPasswordReset = async (email, token1) => {
   try {
-    const response = await axios.post(`${API_URL}/forgot-password`, { email });
+    const response = await axios.post(`${API_URL}/api/emails/send-reset-mail`, email, {
+      headers: {
+        Authorization: token1,
+        "Content-Type" : "text/plain",
+      }
+    });
     return response.data;
   } catch (error) {
     throw new Error(error.response ? error.response.data.message : 'Request failed');
@@ -36,12 +41,28 @@ export const requestPasswordReset = async (email) => {
 };
 
 // Function to reset the password
-export const resetPassword = async (token, password) => {
+export const resetPassword = async (email, password) => {
+  console.log(email);
   try {
-    const response = await axios.post(`${API_URL}/reset-password`, { token, password });
+    const API_URL = 'http://localhost:8080/api/emails/reset-password'; // Replace with your backend base URL
+    const response = await axios.post(
+      API_URL,
+      password, // `password` is sent in the request body
+      {
+        params: {
+          email: email, // `email` is sent as a query parameter
+        },
+        headers: {
+          'Content-Type': 'text/plain', // Specify the content type
+        },
+      }
+    );
     return response.data;
   } catch (error) {
-    throw new Error(error.response ? error.response.data.message : 'Reset failed');
+    console.error('Error resetting password:', error.response || error);
+    throw new Error(
+      error.response?.data?.message || 'Failed to reset password'
+    );
   }
 };
 
@@ -63,11 +84,11 @@ export const verifyOtp = async (token, otp) => {
   };
 
 // Function to create a teacher
-
-export const createTeacher = async (teacherData) => {
+export const createTeacher = async (teacherData, token1) => {
+  console.log(token1);
   try {
     const response = await axios.post(`${API_URL}/teacher/createTeacher`, teacherData, { headers: {
-      "Authorization": token,
+      "Authorization": token1,
     }});
     return response.data;
   } catch (error) {
@@ -85,7 +106,7 @@ export const getAllTeacher = async (token1) => {
     return response;
   }
   catch(error){
-    throw new Error(error.response?.data?.message || 'Failed to serach teacher.');
+    throw new Error(error.response?.data?.message || 'Failed to search teacher.');
   }
 };
 
@@ -96,10 +117,10 @@ export const getTeacherById = async (id, token1) => {
   return response;
 };
 // Function to get Teacher By Email No working
-export const getTeacherByName = async (searchValue) => {
+export const getTeacherByName = async (searchValue, token1) => {
   try{
     const response =await axios.get(`http://localhost:8080/teacher/name/${searchValue}`, { headers: {
-      "Authorization": token,
+      "Authorization": token1,
     }});
     console.log(response);
     return response;
@@ -250,5 +271,25 @@ export const createExam = async (examData, token1) => {
     throw new Error(error.response?.data?.message || 'Failed to create exam.');
   }
 };
+
+
+// Function to add Subscriber
+export const addSubscriber = async (email, token1) => {
+  try {
+    if (!token1) {
+      throw new Error('Authorization token is missing');
+    }
+    const response = await axios.post(`${API_URL}/api/emails/send`, email, {
+      headers: {
+        Authorization: token1,
+        "Content-Type" : "text/plain",
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || 'Failed to create exam.');
+  }
+}
 
 

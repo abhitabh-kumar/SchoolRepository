@@ -21,7 +21,7 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @PostMapping("/createQuestion")
-    public ResponseEntity<ResponseDetails> createExam(@RequestBody QuestionEntity question) throws SQLIntegrityConstraintViolationException {
+    public ResponseEntity<ResponseDetails> createQuestion(@RequestBody QuestionEntity question) throws SQLIntegrityConstraintViolationException {
         log.info("Creating Question:{}", question);
         ResponseDetails responseDetails = questionService.createQuestion(question);
         return ResponseEntity.ok(responseDetails);
@@ -29,14 +29,14 @@ public class QuestionController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDetails> getQuestion(@PathVariable("id") Long id){
-        log.info("fetching data of {}",id);
+        log.info("Fetching Question of {}",id);
         ResponseDetails responseDetails = questionService.getQuestion(id);
         return ResponseEntity.ok(responseDetails);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDetails> updateQuestion(@PathVariable("id") Long id, @RequestBody QuestionEntity question){
-        log.info("fetching data of {}",id);
+        log.info("Updating data of {}",id);
         ResponseDetails responseDetails = questionService.updateQuestion(id, question);
         return ResponseEntity.ok(responseDetails);
     }

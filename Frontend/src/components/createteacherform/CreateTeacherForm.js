@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { createTeacher } from '../services/Api';
 import './createTeacherForm.css'; // Ensure this CSS file includes the styles provided below
 import { useNavigate } from 'react-router-dom'; // Import useHistory
+import authHeader from '../services/authHeader';
 
 
 const CreateTeacherPage = () => {
@@ -49,7 +50,8 @@ const CreateTeacherPage = () => {
     console.log('Teacher Created:', formData);
     
     try {
-      await createTeacher(formData);
+      const token =authHeader();
+      await createTeacher(formData, token);
       setSuccess('Teacher created successfully!');
       setError('');
       // Reset form after successful creation

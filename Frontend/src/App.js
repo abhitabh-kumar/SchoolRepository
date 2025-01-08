@@ -5,7 +5,6 @@ import ForgotPassword from './components/forgotpassword/ForgotPassword';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import VerifyOTP from './components/verifyotp/VerifyOTP';
 import ResetPassword from './components/resetpassword/ResetPassword';
-import Admin from './components/admin/Admin';
 import CreateStudentPage from './components/createstudentform/CreateStudentForm';
 import CreateTeacherPage from './components/createteacherform/CreateTeacherForm';
 import CreateExamPage from './components/createexamform/CreateExamForm';
@@ -33,6 +32,7 @@ function App() {
   useEffect(() => {
     setUserType('teacher')
     setLoading(false);
+
   }, [])
   return (
     <ThemeProvider theme={theme}>
@@ -62,7 +62,7 @@ function App() {
             </>
           }
           {
-            userType == 'admin' && <>
+            userType == 'student' && <>
               <Route path="/student/*" element={<StudentDashBoard />} />
             </>
           }

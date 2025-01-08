@@ -8,6 +8,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,6 +42,7 @@ public class StudentService {
         return responseDetails;
     }
 
+    @Cacheable(value = "studentCache", key = "rollNo")
     public ResponseDetails getStudentGrade(Integer rollNo){
         List<StudentEntity> student = studentRepo.findByGrade(rollNo);
         if(!student.isEmpty()){
@@ -52,6 +56,7 @@ public class StudentService {
         throw new NotFoundException("Student not found");
     }
 
+    @Cacheable(value = "studentCache", key = "'name'")
     public ResponseDetails getStudentsByName(String name){
         StudentEntity student = studentRepo.findByUserName(name);
         if(student != null){
@@ -65,6 +70,7 @@ public class StudentService {
         throw new NotFoundException("Student with this UserName not found");
     }
 
+    @Cacheable(value = "studentCache", key = "'allStudent'")
     public ResponseDetails  getAllStudents(){
         List<StudentEntity> student = studentRepo.findAll();
         if(!student.isEmpty()){
@@ -78,6 +84,7 @@ public class StudentService {
         throw new NotFoundException("Student not found");
     }
 
+    @Cacheable(value = "studentCache", key = "#id")
     public ResponseDetails getStudentById(Long id){
         StudentEntity student = studentRepo.findByUserId(id);
         ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
@@ -86,6 +93,7 @@ public class StudentService {
         return responseDetails;
     }
 
+    @CachePut(value = "studentCache", key = "#id")
     public ResponseDetails updateStudent(StudentEntity student, Long id){
            StudentEntity studentEntity = studentRepo.findById(id).get();
            if(studentEntity != null){
@@ -108,6 +116,7 @@ public class StudentService {
            return responseDetails;
     }
 
+    @CacheEvict(value = "studentCache", key = "#id")
     public boolean deleteStudent(Long id){
         if (studentRepo.existsById(id)) {
             studentRepo.deleteById(id);
