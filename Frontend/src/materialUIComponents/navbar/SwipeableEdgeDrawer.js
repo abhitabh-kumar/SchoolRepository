@@ -16,7 +16,7 @@ import {
 } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import { Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
+import { Badge, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 
@@ -61,7 +61,7 @@ const icons = {
   },
 };
 
-function SwipeableEdgeDrawer({ children, menu1, menu2 }) {
+function SwipeableEdgeDrawer({ children, menu1, menu2, notificationCount }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [open, setOpen] = useState(false);
@@ -76,7 +76,7 @@ function SwipeableEdgeDrawer({ children, menu1, menu2 }) {
   }
 
   return (
-    <Root>
+    <Root sx={{minHeight:'100vh',maxHeight:'max-content'}}>
         <CssBaseline />
         <Global
           styles={{
@@ -191,8 +191,10 @@ function SwipeableEdgeDrawer({ children, menu1, menu2 }) {
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
                     }}
-                  >
-                    {(item.url === "/teacher/announcement" || item.url === "/student/announcement") && <AnnouncementIcon sx={icons} />}
+                  > {( item.url === "/teacher/announcement" || item.url === "/student/announcement") &&
+                        <Badge badgeContent={notificationCount} classes={{ badge: "customBadge" }}> 
+                              <AnnouncementIcon sx={icons} />
+                        </Badge>}
                     {(item.url === "/teacher/result" || item.url === "/student/reportCard") && <LibraryAddCheckIcon sx={icons} />}
                     {(item.url === "/teacher/myProfile" || item.url === "/student/myProfile") && <AccountBoxIcon sx={icons} />}
                   </ListItemIcon>
@@ -203,7 +205,7 @@ function SwipeableEdgeDrawer({ children, menu1, menu2 }) {
             ))}
           </List>
         </SwipeableDrawer>
-        <React.Fragment sx={{paddingTop:'70px'}}>{children}</React.Fragment>
+        <div style={{paddingTop:'70px', backgroundColor:'#F9F9F9',minHeight:'100vw'}}>{children}</div>
       </Root>
   );
 }

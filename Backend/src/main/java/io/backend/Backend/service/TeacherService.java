@@ -14,6 +14,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
@@ -76,18 +77,23 @@ public class TeacherService {
     }
 
     @CachePut(value = "teacherCache", key = "#id")
+    @Transactional
     public ResponseDetails updateTeacher(TeacherEntity teacher, Long id){
         TeacherEntity teacherEntity = teacherRepo.findById(id).get();
-        if(teacherEntity != null){
-            teacherEntity.setAge(teacher.getAge());
-            teacherEntity.setName(teacher.getName());
-            teacherEntity.setEmailId(teacher.getEmailId());
-            teacherEntity.setMobileNumber(teacher.getMobileNumber());
-            teacherEntity.setUserName(teacher.getUserName());
-            teacherEntity.setAddress(teacher.getAddress());
-            teacherEntity.setDescription(teacher.getDescription());
-            teacherEntity.setQualification(teacher.getQualification());
-            teacherRepo.save(teacherEntity);
+        try {
+            if (teacherEntity != null) {
+                teacherEntity.setAge(teacher.getAge());
+                teacherEntity.setName(teacher.getName());
+                teacherEntity.setEmailId(teacher.getEmailId());
+                teacherEntity.setMobileNumber(teacher.getMobileNumber());
+                teacherEntity.setUserName(teacher.getUserName());
+                teacherEntity.setAddress(teacher.getAddress());
+                teacherEntity.setDescription(teacher.getDescription());
+                teacherEntity.setQualification(teacher.getQualification());
+                teacherRepo.save(teacherEntity);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
                 "Student fetched successfully",
@@ -97,7 +103,6 @@ public class TeacherService {
 
     @CacheEvict(value = "teacherCache", key = "#id")
     public void deleteTeacher(Long id){
-
         teacherRepo.deleteById(id);
     }
 }

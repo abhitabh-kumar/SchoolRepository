@@ -1,6 +1,8 @@
 package io.backend.Backend.service;
 
+import io.backend.Backend.entity.SubscriberEntity;
 import io.backend.Backend.entity.UserInfoEntity;
+import io.backend.Backend.repo.SubscriberRepo;
 import io.backend.Backend.repo.UserInfoRepo;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -29,17 +31,47 @@ public class EmailService {
     @Autowired
     private UserInfoRepo userRepository;
 
-    public void sendEmail(String toEmail, String subject, String htmlContent) throws MessagingException {
+    @Autowired
+    private SubscriberRepo subscriberRepo;
+
+    public void sendEmail(String senderEmail, String name, String message) throws MessagingException {
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-        helper.setTo(toEmail);
-        helper.setSubject(subject);
-        helper.setText(htmlContent, true); // Enable HTML
+        helper.setTo(senderEmail);
+        helper.setSubject(name);
+        helper.setText(message, true); // Enable HTML
 
-        helper.setFrom("pandeyjeearrah9718@gmail.com");
+//        helper.setFrom(senderEmail);
+        SubscriberEntity subscriberEntity = new SubscriberEntity();
+        subscriberEntity.setEmail(senderEmail);
+        subscriberEntity.setUserName(name);
+        subscriberRepo.save(subscriberEntity);
         mailSender.send(mimeMessage);
+    }
+
+
+    public void sendEmailtoSubscriber(String toEmail){
+        try {
+            // Load the HTML template
+            String htmlContent = loadHtmlTemplate("templates/welcome-message.html");
+
+            // Create and send the email
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+
+            helper.setTo(toEmail);
+            helper.setSubject("Welcome to Sushila Public School");
+            helper.setText(htmlContent, true); // Enable HTML content
+            helper.setFrom("pandeyjeearrah9718@gmail.com");
+            SubscriberEntity subscriberEntity = new SubscriberEntity();
+            subscriberEntity.setEmail(toEmail);
+            subscriberRepo.save(subscriberEntity);
+            mailSender.send(mimeMessage);
+        } catch (Exception e) {
+            throw new RuntimeException("Not able to send the message"+e);
+        }
     }
 
 
@@ -85,7 +117,7 @@ public class EmailService {
             userInfoEntity.setPassword(encryptedPassword);
             userRepository.save(userInfoEntity);
         }catch(Exception e){
-            log.info("Error occured while setting password :" + e.getMessage());
+            log.info("Error occured while setting password :" + email);
             throw new RuntimeException("Error occured while setting password :" + e.getMessage());
         }
     }

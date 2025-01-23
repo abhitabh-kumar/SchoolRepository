@@ -15,8 +15,7 @@ const Footer = () => {
   const [email,setEmail] = useState("");
 
   function subscribe(email){
-           const token = authHeader();
-           addSubscriber(email,token);
+           addSubscriber(email);
   }
 
   return (

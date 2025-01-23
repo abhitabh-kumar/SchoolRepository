@@ -9,8 +9,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +22,6 @@ import org.springframework.stereotype.Service;
 public class QuestionService {
 
     private final QuestionRepo questionRepo;
-    private final ObjectMapper objectMapper;
 
     public ResponseDetails createQuestion(QuestionEntity question){
         questionRepo.save(question);
@@ -60,5 +63,33 @@ public class QuestionService {
         } else {
             return false;
         }
+    }
+
+    @Cacheable(value = "questionCache", key = "#subject")
+    public  ResponseDetails getQuestionsBySubject(String subject){
+        List<QuestionEntity> questions = questionRepo.findByExams_Subject(subject);
+        ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
+                "Questions fetched successfully",
+                questions);
+        return responseDetails;
+    }
+
+    public List<QuestionEntity> getAllQuestions(){
+           List<QuestionEntity> questions = questionRepo.findAll();
+           return questions;
+    }
+
+
+    @Cacheable(
+            value = "paginatedQuestionsCache",
+            key = "#subject + '-' + #grade + '-' + #page + '-' + #size"
+    )
+    public ResponseDetails getPaginatedQuestions(int page,int size,String grade,String subject){
+        Pageable pageable = PageRequest.of(page, size);
+        List<QuestionEntity> questionEntities = questionRepo.findByExams_GradeAndExams_Subject(grade,subject, pageable);
+        ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
+                "Pageable Questions fetched successfully",
+                questionEntities);
+        return responseDetails;
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.sql.SQLIntegrityConstraintViolationException;
 
 @CrossOrigin(origins="*")
@@ -27,6 +26,13 @@ public class ExamController {
     public ResponseEntity<ResponseDetails> createExam(@RequestBody ExamEntity exam) throws SQLIntegrityConstraintViolationException {
         log.info("Creating Exam:{}", exam);
         ResponseDetails responseDetails = examService.createExam(exam);
+        return ResponseEntity.ok(responseDetails);
+    }
+
+    @GetMapping("/get/author")
+    public ResponseEntity<ResponseDetails> getExamByAuthor(@RequestBody String author) throws SQLIntegrityConstraintViolationException {
+        log.info("Exam Created By:{}", author);
+        ResponseDetails responseDetails = examService.getExamByAuthor(author);
         return ResponseEntity.ok(responseDetails);
     }
 

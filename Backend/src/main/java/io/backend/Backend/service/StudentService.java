@@ -4,22 +4,17 @@ import io.backend.Backend.dto.ResponseDetails;
 import io.backend.Backend.entity.StudentEntity;
 import io.backend.Backend.exception.NotFoundException;
 import io.backend.Backend.repo.StudentRepo;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.swing.text.html.Option;
+import org.springframework.transaction.annotation.Transactional;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -77,10 +72,8 @@ public class StudentService {
             ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
                     "Student fetched successfully",
                     student);
-//            log.info("Student with email {} fetched", email);
             return responseDetails;
         }
-//        log.error("Student with email {} not found", );
         throw new NotFoundException("Student not found");
     }
 
@@ -94,21 +87,28 @@ public class StudentService {
     }
 
     @CachePut(value = "studentCache", key = "#id")
+    @Transactional
     public ResponseDetails updateStudent(StudentEntity student, Long id){
+           log.info("Fetching student by studentId {}",id);
            StudentEntity studentEntity = studentRepo.findById(id).get();
-           if(studentEntity != null){
-               studentEntity.setAge(student.getAge());
-               studentEntity.setGrade(student.getGrade());
-               studentEntity.setName(student.getName());
-               studentEntity.setEmailId(student.getEmailId());
-               studentEntity.setFatherName(student.getFatherName());
-               studentEntity.setMobileNumber(student.getMobileNumber());
-               studentEntity.setMotherName(student.getMotherName());
-               studentEntity.setUserName(student.getUserName());
-               studentEntity.setDateOfBirth(student.getDateOfBirth());
-               studentEntity.setDateOfJoining(student.getDateOfJoining());
-               studentEntity.setAddress(student.getAddress());
-               studentRepo.save(studentEntity);
+           try {
+               if (studentEntity != null) {
+                   studentEntity.setAge(student.getAge());
+                   studentEntity.setGrade(student.getGrade());
+                   studentEntity.setName(student.getName());
+                   studentEntity.setEmailId(student.getEmailId());
+                   studentEntity.setFatherName(student.getFatherName());
+                   studentEntity.setMobileNumber(student.getMobileNumber());
+                   studentEntity.setMotherName(student.getMotherName());
+                   studentEntity.setUserName(student.getUserName());
+                   studentEntity.setDateOfBirth(student.getDateOfBirth());
+                   studentEntity.setDateOfJoining(student.getDateOfJoining());
+                   studentEntity.setAddress(student.getAddress());
+                   log.info("Saved student by studentId {}", id);
+                   studentRepo.save(studentEntity);
+               }
+           } catch (Exception e) {
+               throw new RuntimeException(e);
            }
         ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
                 "Student fetched successfully",

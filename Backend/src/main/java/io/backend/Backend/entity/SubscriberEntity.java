@@ -17,12 +17,12 @@ public class SubscriberEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(name = "USER_NAME",unique = true,nullable = false)
+    @Column(name = "USER_NAME",unique = true,nullable = true)
     private String userName;
 
     @Column(name = "Email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "type",unique = true,nullable = false)
-    private String type;
+//    @Column(name = "type",unique = true,nullable = false)
+//    private String type;
 }

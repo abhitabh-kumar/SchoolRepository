@@ -6,10 +6,12 @@ import io.backend.Backend.entity.QuestionEntity;
 import io.backend.Backend.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 
 @CrossOrigin(origins="*")
 @RestController
@@ -28,16 +30,30 @@ public class QuestionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDetails> getQuestion(@PathVariable("id") Long id){
+    public ResponseEntity<ResponseDetails> getQuestionById(@PathVariable("id") Long id){
         log.info("Fetching Question of {}",id);
         ResponseDetails responseDetails = questionService.getQuestion(id);
         return ResponseEntity.ok(responseDetails);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDetails> updateQuestion(@PathVariable("id") Long id, @RequestBody QuestionEntity question){
+    public ResponseEntity<ResponseDetails> updateQuestionById(@PathVariable("id") Long id, @RequestBody QuestionEntity question){
         log.info("Updating data of {}",id);
         ResponseDetails responseDetails = questionService.updateQuestion(id, question);
+        return ResponseEntity.ok(responseDetails);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<QuestionEntity>> getAllQuestions(){
+        log.info("Fetching questions");
+        List<QuestionEntity> Questions = questionService.getAllQuestions();
+        return ResponseEntity.ok(Questions);
+    }
+
+    @GetMapping("/{subject}")
+    public ResponseEntity<ResponseDetails> getQuestionsBySubject(@PathVariable("subject") String subject){
+        log.info("Fetching questions of subject {}", subject);
+        ResponseDetails responseDetails = questionService.getQuestionsBySubject(subject);
         return ResponseEntity.ok(responseDetails);
     }
 
@@ -49,5 +65,15 @@ public class QuestionController {
         } else {
             return new ResponseEntity<>("Question not found", HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/paginated")
+    public ResponseEntity<ResponseDetails> getPaginatedQuestions(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam String grade,
+            @RequestParam String subject) {
+        ResponseDetails responseDetails = questionService.getPaginatedQuestions(page, size, grade, subject);
+        return ResponseEntity.ok(responseDetails);
     }
 }

@@ -48,6 +48,7 @@ const Profile = () => {
         const username = getUsername(token);
         const role =getRole(token);
         var response;
+        console.log(role);
         if(role=="STUDENT"){
         response = await getStudentByName(username, token);
         }
@@ -55,9 +56,8 @@ const Profile = () => {
           response = await getTeacherByName(username,token);
         }
         const allTeachers = response.data.data;
-        const data = allTeachers[0];
-        console.log(allTeachers);
-        console.log(data.mobileNumber);
+        const data = allTeachers;
+        // console.log(data);
         setFormData({
           userName: data.userName || '',
           name: data.name || '',
@@ -87,7 +87,7 @@ const Profile = () => {
   }, []);
 
   return (
-    <Container maxWidth="md" style={isSmallScreen ? { paddingTop: '3rem' } : { paddingTop: '5rem' }}>
+    <Container maxWidth="md" sx={{paddingBottom:'20px'}}>
       <Grid2 container spacing={3}>
         <Grid2 item size={{ xs: 12, md: 4 }}>
           <Box

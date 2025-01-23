@@ -1,5 +1,6 @@
 package io.backend.Backend.controller;
 
+import io.backend.Backend.dto.MessageDTO;
 import io.backend.Backend.service.EmailService;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
@@ -20,13 +21,20 @@ public class EmailController {
     @Autowired
     private EmailService emailService;
 
-    @PostMapping("/send")
-    public String sendEmail(@RequestBody String toEmail) throws MessagingException {
-        String subject = "Thank you !!!";
-        String message = "<h1> Welcome to the Sushila Public School Commmunity Group </h1>" +
-                "<p>gdhdhjdhhhhffh</p>";
-        emailService.sendEmail(toEmail, subject, message);
-        return "Email sent successfully to " + toEmail;
+    @PostMapping("/send-message")
+    public String sendEmail(@RequestBody MessageDTO Message) throws MessagingException {
+        String senderEmail =  Message.email;
+        String name = Message.name;
+        String message = Message.message;
+        emailService.sendEmail(senderEmail, name, message);
+        return "Email send successfully";
+    }
+
+    @PostMapping("/subscriber-message")
+    public String sendSubscriber(@RequestBody String email){
+           String message = "Welcome to Sushila Public School Community";
+           emailService.sendEmailtoSubscriber(email);
+           return "Email send successfully";
     }
 
     @PostMapping("/send-reset-mail")

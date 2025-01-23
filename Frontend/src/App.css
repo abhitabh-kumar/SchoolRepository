@@ -1,5 +1,7 @@
 /* src/App.css */
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap');
+
 .App {
   font-family: "Nunito", sans-serif;
 }
@@ -39,4 +41,7 @@
 /* Optional: Add smooth scrolling for a better UX */
 html {
   scroll-behavior: smooth;
+}
+.css-xujc8f-MuiDrawer-docked .MuiDrawer-paperAnchorDockedLeft{
+  overflow-x: hidden !important;
 }

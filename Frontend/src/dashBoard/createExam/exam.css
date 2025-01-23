@@ -1,0 +1,155 @@
+.createQuestion{
+    width: 100%;
+    min-height: 100vh;  
+}
+.createQuestionContainer{
+    box-shadow: 0px 0px 1px black;
+    border-radius: 4px;
+    padding: 10px;
+}
+.createQuestion .form-container{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    flex-direction: column;
+}
+.questions{
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+}
+.form-input{
+    padding: 10px;
+    font-size: 0.9rem;
+    box-shadow: 0px 0px 1px black;
+    border-radius: 2px;
+    min-width: 40vw;
+    max-width: 100%;
+    border: 0px;
+}
+#question{
+    max-width: 100% ;
+}
+.form-input:focus{
+    outline: none;
+}
+
+.options{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    width: 100%;
+    justify-content: space-between;
+}
+#option1,#option2,#option3,#option4,.examName,.createdBy,.examDate,.examTime{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.create-question-button,.addButton,.removeButton{
+    border-radius: 4px !important;
+    color: white !important;
+    max-width: 200px;
+    background-color: #46a38b !important;
+    max-height: 40px;
+}
+.create-question-button:hover{
+    background-color: #288970 !important;
+}
+
+.testConfiguration{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.addingQuestionBox{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.addButton{
+    border-radius: 4px 4px 0px 0px !important;
+    position: relative;
+    bottom: -2px;
+}
+.removeButton{
+    border-radius: 4px 4px 0px 0px !important;
+    background-color: #ff5d5d !important;
+    position: relative;
+    bottom: -2px;
+}
+.addingQuestionButtonBox{
+    display: flex;
+    justify-content: space-between
+}
+.prevButton{
+    border-radius: 4px !important;
+    color: white !important;
+    max-width: 100px;
+    background-color: #46a38b !important;
+}
+.createQuestionButton{
+    border-radius: 4px !important;
+    color: white !important;
+    max-width: 250px;
+    background-color: #ff5d5d !important;
+    /* margin-left: auto !important; */
+}
+.addedQuestions{
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0px 0px 1px black;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: #eafeff;
+    position: sticky;
+    bottom: 10px;
+    width: 95%;
+    margin: auto;
+    z-index: 100;
+}
+@media (max-width : 500px) {
+    #option1,#option2,#option3,#option4,.examName,.createdBy,.examDate,.examTime,.correctOption,.marks{
+        width: -webkit-fill-available;
+    }
+    .correctMarks{
+        gap: 20px !important;
+    }
+}
+
+/* --------------------PreviewExam---------------- */
+.previewExamQuestions{
+    display: flex;
+    flex-direction: column;
+}
+.swapButton{
+    width: 10px;
+    height: 40px;
+    background-color: #46a38b !important;
+    color: white !important;
+}
+.swapButton:hover{
+    background-color: #288970 !important;
+}
+#swapUp{
+    border-radius: 4px 4px 0px 0px;
+    position: relative;
+    bottom: -3px;
+}
+#swapDown{
+    margin-left: auto;
+    border-radius: 0px 0px 4px 4px;
+    position: relative;
+    top: -3px;
+}
+.submitButton{
+    border-radius: 4px !important;
+    color: white !important;
+    max-width: 100px;
+    background-color: #ff5d5d !important;
+}

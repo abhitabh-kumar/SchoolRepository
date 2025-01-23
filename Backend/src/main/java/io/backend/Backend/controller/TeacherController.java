@@ -29,14 +29,14 @@ public class TeacherController {
 
     @GetMapping("/all")
     public ResponseEntity<ResponseDetails> getAllTeacher() {
-//        log.info("Fetching Student with email : {} ", email);
+        log.info("Fetching all teachers");
         ResponseDetails responseDetails = teacherService.getAllTeachers();
         return ResponseEntity.ok(responseDetails);
     }
 
     @GetMapping("/name/{name}")
     public ResponseEntity<ResponseDetails> getTeachersByUserName(@PathVariable("name") String name) {
-        log.info("Fetching Student with email : {} ", name);
+        log.info("Fetching Student with name : {} ", name);
         ResponseDetails responseDetails = teacherService.getTeacherByUserName(name);
         return ResponseEntity.ok(responseDetails);
     }

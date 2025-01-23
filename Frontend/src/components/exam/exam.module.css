@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Patua+One&display=swap');
+.schoolDesc{
+    background-color: green;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+.customSchoolDescBox{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 350px;
+    gap: 30px;
+}
+.customSchoolDescBox *{
+    text-align: left;
+    color: white;
+    padding: 0px;
+    margin: 0px;
+}
+.footer{
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    color: white;
+}
+.quesDesc{
+    display: flex;
+    flex-direction: column;
+    padding: 0px 10px;
+    gap: 5px;
+    justify-content: space-around;
+    min-height: 100vh;
+}
+.questionDetails{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 500px;
+}
+.examButton{
+    background-color: green !important;
+    max-width: 100px ;
+    color: white !important;
+    border-radius: 4px !important;
+    margin-left: 10px !important;
+    margin-bottom: 20px !important;
+}
+.examButton:hover{
+    background-color: rgb(4, 151, 4) !important;
+}
+
+@media screen and (max-width: 800px) {
+    .schoolDesc{
+        height: 250px !important;
+        padding: 20px !important;
+        min-height: 200px !important;
+    }
+    .footer{
+        position: sticky;
+        color: green;
+        background-color: white;
+        padding: 10px 14px;
+        bottom: 0px;
+    }
+}
+
+/* ---------------------------------> */
+
+.allQuestions{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    flex-direction: column;
+}
+.schoolHeader{
+    /* height: 200px; */
+    border-radius: 4px;
+    box-shadow: 0px 0px 1px rgb(0, 0, 0);
+    width: -webkit-fill-available;
+    background-color: #2a6a2a;
+    color: white;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.schoolName{
+    font-family: "Patua One", serif;
+    font-weight: 400 !important;
+    font-style: normal;
+    font-size: 3rem !important;
+    text-align: center;
+    color: #ffff8c;
+}
+.details{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;  
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-items: center;
+    width: -webkit-fill-available;
+}
+.timeBox{
+    background-color: white;
+    width: 165px;
+    border-radius: 4px;
+    padding: 10px 10px;
+    /* max-width: max-content; */
+    text-align: center;
+    color: green;
+}
+@media screen and (max-width: 430px){
+    .details{
+        justify-content: center;
+    }
+}

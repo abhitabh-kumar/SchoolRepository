@@ -51,6 +51,14 @@ public class ExamService {
         return responseDetails;
     }
 
+    @Cacheable(value = "examCache", key = "'author'")
+    public ResponseDetails getExamByAuthor(String author){
+        List<ExamEntity> examEntity = examRepo.findByAuthor(author);
+        ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
+                "Exams Received Successfully", examEntity);
+        return responseDetails;
+    }
+
     @CachePut(value = "examCache", key = "#id")
     public ResponseDetails updateExam(Long id, ExamEntity entity){
         ExamEntity examEntity = examRepo.findById(id).get();

@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import TeacherDashHome from './TeacherDashHome'
-import CreateTest from '../CreateTest'
-import CreateQuestions from '../CreateQuestions'
+import CreateTest from '../createExam/CreateTest'
+import CreateQuestions from '../createExam/CreateQuestions'
 import Results from './Results'
 import DashBoardNavBar from '../../materialUIComponents/navbar/DashBoardNavBar'
 import SwipeableEdgeDrawer from '../../materialUIComponents/navbar/SwipeableEdgeDrawer'
@@ -12,17 +12,23 @@ import MarkAttendance from './MarkAttendance'
 import { useMediaQuery } from '@mui/material'
 import NotFound from '../../components/pageNotFound/NotFound'
 import Announcement from '../Announcement'
-import { menu1 } from '../../dummyData/teacherMenuData'
-import { menu2 } from '../../dummyData/teacherMenuData'
+import { menu1,menu2} from '../../dummyData/teacherMenuData'
+import { announcement as announcement1 }  from '../../dummyData/announcement'
 
 const TeacherDashBoard = () => {
 
   const isSmallScreen = useMediaQuery("(min-width:700px)");
+  const [announcement, setAnnouncement] = useState([]);
+  const [notificationCount,setnotificationCount] = useState(1)
+
+  useEffect(() => {
+    setAnnouncement(announcement1);
+  });
 
   return (
     <>
       {
-        isSmallScreen ? <DashBoardNavBar menu1={menu1} menu2={menu2}>
+        isSmallScreen ? <DashBoardNavBar menu1={menu1} menu2={menu2} notificationCount={notificationCount}>
           <Routes>
             <Route path="/" element={<TeacherDashHome />} />
             <Route path="/dashHome" element={<TeacherDashHome />} />
@@ -30,13 +36,13 @@ const TeacherDashBoard = () => {
             <Route path="/markAttendance" element={<MarkAttendance />} />
             <Route path="/createTest" element={<CreateTest />} />
             <Route path="/createQuestions" element={<CreateQuestions />} />
-            <Route path="/announcement" element={<Announcement />} />
+            <Route path="/announcement" element={<Announcement announcement={announcement}/>} />
             <Route path="/result" element={<Results />} />
             <Route path="/myProfile" element={<Profile />} />
             <Route path="*" element={<NotFound homeLink="/teacher" />} />
           </Routes>
         </DashBoardNavBar>
-          : <SwipeableEdgeDrawer menu1={menu1} menu2={menu2}>
+          : <SwipeableEdgeDrawer menu1={menu1} menu2={menu2} notificationCount={notificationCount}>
           <Routes>
             <Route path="/" element={<TeacherDashHome />} />
             <Route path="/dashHome" element={<TeacherDashHome />} />
@@ -44,7 +50,7 @@ const TeacherDashBoard = () => {
             <Route path="/markAttendance" element={<MarkAttendance />} />
             <Route path="/createTest" element={<CreateTest />} />
             <Route path="/createQuestions" element={<CreateQuestions />} />
-            <Route path="/announcement" element={<Announcement />} />
+            <Route path="/announcement" element={<Announcement announcement={announcement}/>} />
             <Route path="/result" element={<Results />} />
             <Route path="/myProfile" element={<Profile />} />
             <Route path="*" element={<NotFound homeLink="/teacher" />} />

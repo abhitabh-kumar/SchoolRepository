@@ -1,7 +1,7 @@
 // src/components/CreateTeacherPage.js
 import React, { useState } from 'react';
 import { createTeacher } from '../services/Api';
-import './createTeacherForm.css'; // Ensure this CSS file includes the styles provided below
+// import './createTeacherForm.css'; // Ensure this CSS file includes the styles provided below
 import { useNavigate } from 'react-router-dom'; // Import useHistory
 import authHeader from '../services/authHeader';
 

@@ -31,17 +31,22 @@
     display: flex;
     gap: 30px;
     margin-top: 20px;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
 }
 #joinNow{
     background-color: #fd2841;
     color: white;
     min-width: 150px;
+    max-width: 200px;
 }
 #joinNow:hover{
     background-color: #d73649;
 }
 #viewSchool{
     min-width: 170px;
+    max-width: 200px;
     display: flex;
     justify-content: space-around;
     background-color: rgba(230, 230, 230, 0.393);

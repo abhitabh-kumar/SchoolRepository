@@ -26,6 +26,12 @@ public class ExamEntity {
     @Column(name="SUBJECT", nullable = false)
     private String subject;
 
+    @Column(name="Grade", nullable = false)
+    private String grade;
+
+    @Column(name="CreateBy", nullable = false)
+    private String author;
+
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name = "exam_questions", joinColumns = @JoinColumn(name="exam_id"),
