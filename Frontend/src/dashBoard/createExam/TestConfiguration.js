@@ -12,7 +12,7 @@ const TestConfiguration = ({handleValue}) => {
   }
   
   useEffect(() => {
-    setCreatedBy("Abhitabh Kr. Pandey");
+    setCreatedBy("Mathematics");
     if (dateRef.current) {
       dateRef.current.min = new Date().toISOString().split("T")[0];
     }
@@ -35,7 +35,7 @@ const TestConfiguration = ({handleValue}) => {
           />
         </div>
         <div className="createdBy">
-          <label htmlFor="createdBy" className="form-label">Created By :</label>
+          <label htmlFor="createdBy" className="form-label">Subject :</label>
           <input
             type="text"
             id="createdBy"
@@ -46,7 +46,17 @@ const TestConfiguration = ({handleValue}) => {
           />
         </div>
         <div className="examDate">
-          <label htmlFor="examDate" className="form-label">exam Date :</label>
+          <label htmlFor="examDate" className="form-label">Exam Date :</label>
+          <input
+            type="date"
+            id="examDate"
+            name="examDate"
+            className="form-input"
+            ref={dateRef}
+          />
+        </div>
+        <div className="examDate">
+          <label htmlFor="examDate" className="form-label">Duration :</label>
           <input
             type="date"
             id="examDate"

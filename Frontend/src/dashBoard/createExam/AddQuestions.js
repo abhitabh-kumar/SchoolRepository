@@ -6,12 +6,15 @@ import { Box, Button, Pagination, Stack } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
 import ScrollingDialog from '../../materialUIComponents/dialog/ScrollingDialog'
 import CreateQuestions from './CreateQuestions'
+import authHeader from '../../components/services/authHeader'
+import { getAllQuestions } from '../../components/services/Api'
 
 const AddQuestions = ({ selectedQuestions, handleAddQuestion, handleRemoveQuestion, handleValue }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages,setTotalPages] = useState(0);
   const itemsPerPage = 7;
+  const[questions,setQuestions] = useState([]);
 
 
   useEffect(()=>{
@@ -24,6 +27,22 @@ const AddQuestions = ({ selectedQuestions, handleAddQuestion, handleRemoveQuesti
   const handleClose = () => {
     setOpenDialog(false);
   }
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const token = authHeader();
+        const questions = await getAllQuestions(token); // Await the result here
+        console.log(questions);
+        setQuestions(questions); // Set the resolved data into state
+      } catch (error) {
+        console.error('Error fetching questions:', error.message);
+      }
+    };
+  
+    fetchQuestions(); // Call the async function
+  }, []);
+  
   return (
     <div className='addingQuestionBox'>
       <div className="addingQuestionButtonBox">

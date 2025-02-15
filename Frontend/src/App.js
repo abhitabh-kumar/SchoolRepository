@@ -5,7 +5,6 @@ import ForgotPassword from './components/forgotpassword/ForgotPassword';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import VerifyOTP from './components/verifyotp/VerifyOTP';
 import ResetPassword from './components/resetpassword/ResetPassword';
-import Admin from './components/admin/Admin';
 import CreateStudentPage from './components/createstudentform/CreateStudentForm';
 import CreateTeacherPage from './components/createteacherform/CreateTeacherForm';
 import CreateExamPage from './components/createexamform/CreateExamForm';
@@ -32,8 +31,9 @@ function App() {
   const [loading, setLoading] = useState(true); 
   const [userType, setUserType] = useState(null);
   useEffect(() => {
-    setUserType('teacher')
+    setUserType('student')
     setLoading(false);
+
   }, [])
   
   return (

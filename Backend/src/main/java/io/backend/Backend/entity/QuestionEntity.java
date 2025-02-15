@@ -27,6 +27,9 @@ public class QuestionEntity {
     @Column(name = "OPTIONS", nullable = false)
     private List<String> options;
 
+    @Column(name="CreateBy", nullable = false)
+    private String author;
+
     @Column(name = "ANSWER", nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String answer;

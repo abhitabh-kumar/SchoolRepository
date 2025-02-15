@@ -24,7 +24,7 @@ const SearchResults = () => {
         if (searchType === 'teacher' && searchCriteria === 'all') {
           response = await getAllTeacher(token);
         } else if (searchType === 'teacher' && searchCriteria === 'name') {
-          response = await getTeacherByName(searchValue);
+          response = await getTeacherByName(searchValue,token);
         } else if (searchType === 'student' && searchCriteria === 'all') {
           response = await getAllStudent(token);
         } else if (searchType === 'student' && searchCriteria === 'name') {

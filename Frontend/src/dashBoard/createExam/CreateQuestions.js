@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 import './exam.css'
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
+import authHeader from '../../components/services/authHeader';
+import { createQuestion } from '../../components/services/Api';
 
 const CreateQuestions = ({isDialog}) => {
 
   const [formData, setFormData] = useState({
     question: "",
-    options: ["", "", "", ""],
+    options: ["", "", "", ""]
   });
-  const [option, setOption] = useState('');
+  const [answer, setAnswer] = useState('');
   const [marks, setMarks] = useState("");
 
   const handleMarks = (event) => {
@@ -20,7 +22,7 @@ const CreateQuestions = ({isDialog}) => {
   };
 
   const handleOption = (event) => {
-    setOption(event.target.value);
+    setAnswer(event.target.value);
   };
 
   const handleInputChange = (e) => {
@@ -37,6 +39,12 @@ const CreateQuestions = ({isDialog}) => {
     e.preventDefault();
     console.log("Form Data Submitted:", formData);
   };
+
+  const createQuestionFromDashBoard= () => {
+    const token =authHeader();
+    const data = {...formData,answer,marks};
+    createQuestion(data,token); 
+  }
 
   return (
     <div className='createQuestion' style={{padding: isDialog?'0px':'20px',}}>
@@ -114,7 +122,7 @@ const CreateQuestions = ({isDialog}) => {
             <Select
               labelId="demo-select-small-label"
               id="demo-select-small"
-              value={option}
+              value={answer}
               label="Correct Option"
               onChange={handleOption}
               sx={{ minWidth: '40vw', maxWidth: '100%'}}
@@ -155,6 +163,7 @@ const CreateQuestions = ({isDialog}) => {
             type="submit"
             variant="contained"
             className="create-question-button"
+            onClick={createQuestionFromDashBoard}
           >
             create question
           </Button>

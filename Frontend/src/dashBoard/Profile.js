@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { getStudentByName, getTeacherByName } from '../components/services/Api';
 import { Container, Box, Typography, Grid2, Avatar, Badge, useMediaQuery } from "@mui/material";
-// import authHeader from '../components/services/authHeader';
-import getUsername from '../components/services/tokenServices';
+
+import {getUsername, getRole} from '../components/services/tokenServices';
 import ImageUploadDialog from '../materialUIComponents/dialog/ImageUploadDialog';
 
-import getUsernameFromToken from "../components/services/tokenService";
 import authHeader from "../components/services/authHeader";
 
 const Profile = () => {
@@ -47,9 +46,18 @@ const Profile = () => {
       try {
         const token = authHeader();
         const username = getUsername(token);
-        const response = await getTeacherByName(username, token);
+        const role =getRole(token);
+        var response;
+        console.log(role);
+        if(role=="STUDENT"){
+        response = await getStudentByName(username, token);
+        }
+        else if(role=="TEACHER"){
+          response = await getTeacherByName(username,token);
+        }
         const allTeachers = response.data.data;
-        const data = allTeachers[0];
+        const data = allTeachers;
+        console.log(data);
         setFormData({
           userName: data.userName || '',
           name: data.name || '',
@@ -146,7 +154,7 @@ const Profile = () => {
             </Typography>
             <Box sx={{ marginBottom: "12px" }}>
               <Typography variant="subtitle1" sx={{ fontWeight: "medium" }}>
-                Name: <span style={{ fontWeight: "normal" }}>{formData.name}</span>
+                Name: <span style={{ fontWeight: "normal" }}>{formData.emailId}</span>
               </Typography>
             </Box>
             <Box sx={{ marginBottom: "12px" }}>

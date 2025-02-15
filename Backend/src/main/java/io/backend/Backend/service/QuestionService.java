@@ -6,8 +6,15 @@ import io.backend.Backend.entity.QuestionEntity;
 import io.backend.Backend.repo.QuestionRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -15,7 +22,6 @@ import org.springframework.stereotype.Service;
 public class QuestionService {
 
     private final QuestionRepo questionRepo;
-    private final ObjectMapper objectMapper;
 
     public ResponseDetails createQuestion(QuestionEntity question){
         questionRepo.save(question);
@@ -26,14 +32,17 @@ public class QuestionService {
         return responseDetails;
     }
 
+    @Cacheable(value = "questionCache", key = "#id")
     public ResponseDetails getQuestion(Long id){
         QuestionEntity questionEntity = questionRepo.getReferenceById(id);
         log.info("fetching data of {}",id);
         log.info("Data is {}", questionEntity);
         return new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
-                "Question fetched successfully",
+                "Question Fetched Successfully",
                 questionEntity);
     }
+
+    @CachePut(value = "questionCache", key = "#id")
     public ResponseDetails updateQuestion(Long id, QuestionEntity question){
         QuestionEntity questionEntity = questionRepo.getReferenceById(id);
         questionEntity.setQuestion(question.getQuestion());
@@ -41,11 +50,12 @@ public class QuestionService {
         questionEntity.setMarks(question.getMarks());
         questionEntity.setAnswer(question.getAnswer());
         ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
-                "Updated Question successfully",
+                "Updated Question Successfully",
                 questionEntity);
         return responseDetails;
     }
 
+    @CacheEvict(value = "questionCache", key = "#id")
     public boolean deleteQuestion(Long id){
         if (questionRepo.existsById(id)) {
             questionRepo.deleteById(id);
@@ -53,5 +63,33 @@ public class QuestionService {
         } else {
             return false;
         }
+    }
+
+    @Cacheable(value = "questionCache", key = "#subject")
+    public  ResponseDetails getQuestionsBySubject(String subject){
+        List<QuestionEntity> questions = questionRepo.findByExams_Subject(subject);
+        ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
+                "Questions fetched successfully",
+                questions);
+        return responseDetails;
+    }
+
+    public List<QuestionEntity> getAllQuestions(){
+           List<QuestionEntity> questions = questionRepo.findAll();
+           return questions;
+    }
+
+
+    @Cacheable(
+            value = "paginatedQuestionsCache",
+            key = "#subject + '-' + #grade + '-' + #page + '-' + #size"
+    )
+    public ResponseDetails getPaginatedQuestions(int page,int size,String grade,String subject){
+        Pageable pageable = PageRequest.of(page, size);
+        List<QuestionEntity> questionEntities = questionRepo.findByExams_GradeAndExams_Subject(grade,subject, pageable);
+        ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
+                "Pageable Questions fetched successfully",
+                questionEntities);
+        return responseDetails;
     }
 }

@@ -13,15 +13,11 @@ import java.sql.Date;
 @Table(name="STUDENT")
 public class StudentEntity extends UserInfoEntity{
 
-    @Column(name = "ROll_NO", nullable = false,unique = true)
+    @Column(name = "ROll_NO", nullable = false, unique = true)
     private String rollNo;
 
     @Column(name = "NAME", nullable = false)
     private String name;
-
-    @Column(nullable = false, name = "EMAIL_ID")
-    @Email(regexp = "^[a-zA-Z0-9_!#$%&amp;'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$",message = "Invalid email format")
-    private String emailId;
 
     @Column(name = "FATHER_NAME", nullable = false)
     private String fatherName;

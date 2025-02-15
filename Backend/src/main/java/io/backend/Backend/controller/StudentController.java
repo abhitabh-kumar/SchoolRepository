@@ -47,6 +47,7 @@ public class StudentController {
         return ResponseEntity.ok(responseDetails);
     }
 
+    //    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_TEACHER')")
     @GetMapping("/get/{id}")
     public ResponseEntity<ResponseDetails> getStudentId(@PathVariable("id") Long id) {
         log.info("Fetching Student with Id : {} ", id);
@@ -76,14 +77,5 @@ public class StudentController {
             return new ResponseEntity<>("Student not found", HttpStatus.NOT_FOUND);
         }
     }
-
-//    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_TEACHER')")
-//    @GetMapping("/getStudentById/{id}")
-//    public ResponseEntity<ResponseDetails> getStudentId(@PathVariable Long id) {
-//        log.info("Fetching Student with id : {} ", id);
-//        ResponseDetails responseDetails = studentService.getStudentId(id);
-//        return ResponseEntity.ok(responseDetails);
-//    }
-
 
 }

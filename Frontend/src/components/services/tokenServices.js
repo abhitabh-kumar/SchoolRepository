@@ -1,8 +1,23 @@
 import {jwtDecode} from "jwt-decode";
 
-function getUsername(token){
+export const getUsername = (token) => {
     const decoded = jwtDecode(token);
     console.log(decoded);
     return decoded.sub;
 }
+
+
+export const getRole = (token) => {
+    const decodedToken = jwtDecode(token);
+    const role = decodedToken.scope;   
+    return role;
+  };
 export default getUsername;
+
+export const isTokenExpired = (token) => {
+    if (!token) return true;
+    const tokenPayload = JSON.parse(atob(token.split('.')[1])); // Decoding JWT token payload
+    const expiryTime = tokenPayload.exp * 1000; // Convert expiry time to milliseconds
+    console.log(expiryTime);
+    return Date.now() >= expiryTime;
+  };

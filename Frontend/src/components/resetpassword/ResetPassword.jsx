@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { resetPassword } from '../services/Api';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './ResetPassword.css';
+import authHeader from '../services/authHeader';
 
 const ResetPassword = () => {
   const [password, setPassword] = useState('');
@@ -12,8 +13,10 @@ const ResetPassword = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Extract the email from the query parameter
   const query = new URLSearchParams(location.search);
-  const token = query.get('token');
+  const email = query.get('email');
+  
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
@@ -23,15 +26,19 @@ const ResetPassword = () => {
       return;
     }
 
-    // try {
-    //   await resetPassword(token, password);
-    //   setMessage('Your password has been reset successfully.');
-    //   setError('');
-      navigate('/login');
-    // } catch (err) {
-    //   setError(err.message || 'An error occurred while resetting the password.');
-    //   setMessage('');
-    // }
+    try {
+      const token = authHeader();
+      console.log(token);
+      console.log(email);
+      // const email = "abhi@gmail.com";
+      await resetPassword(email, password);
+      setMessage('Your password has been reset successfully.');
+      setError('');
+      // navigate('/login'); 
+    } catch (err) {
+      setError(err.message || 'An error occurred while resetting the password.');
+      setMessage('');
+    }
   };
 
   return (

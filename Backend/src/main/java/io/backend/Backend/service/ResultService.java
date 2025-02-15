@@ -1,11 +1,14 @@
 package io.backend.Backend.service;
 
 import io.backend.Backend.dto.QuestionResponseDTO;
+import io.backend.Backend.dto.ResponseDetails;
 import io.backend.Backend.dto.StudentResponseDTO;
 import io.backend.Backend.entity.*;
 import io.backend.Backend.repo.*;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -19,15 +22,19 @@ public class ResultService {
     private final StudentRepo studentRepo;
     private final ResultRepo resultRepo;
 
-    public ResultEntity result(QuestionResponseDTO response){
+    @Transactional
+    public ResponseDetails result(QuestionResponseDTO response){
            Long examId = response.getExamId();
            Long studentId = response.getUserId();
            List<StudentResponseDTO> questions= response.getQuestionEntityDto();
            Integer obtainedMarks = 0;
+           log.info("Fetching Exam By examId {}",examId);
            ExamEntity examEntity = examRepo.getByExamId(examId);
+           log.info("Fetching student by studentId {}",studentId );
            StudentEntity userInfoEntity = studentRepo.getById(studentId);
-        for (StudentResponseDTO studentResponse : questions) {
+           for(StudentResponseDTO studentResponse : questions) {
             Long questionId = studentResponse.getQuestionId();
+            log.info("Fetching question by questionId {}",questionId);
             QuestionEntity questionEntity = questionRepo.getById(questionId);
             String correctAnswer = questionEntity.getAnswer();
 
@@ -52,10 +59,19 @@ public class ResultService {
                 .student(userInfoEntity)  // Set the student entity
                 .obtainedMarks(obtainedMarks)  // Set the obtained marks
                 .build();  // Build the ResultEntity object using the builder
-
         resultRepo.save(resultEntity);  // Save the result entity
-        return resultEntity;  // Return the result entity
+        ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
+                "Result saved successfully", resultEntity);
+        return responseDetails;  // Return the result entity
 
+    }
+
+    public ResponseDetails getResults(Long examId){
+        List<ResultEntity> resultEntities = resultRepo.findByExam_ExamId(examId);
+        ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
+                "Student fetched successfully",
+                resultEntities);
+        return responseDetails;
     }
 
 }
