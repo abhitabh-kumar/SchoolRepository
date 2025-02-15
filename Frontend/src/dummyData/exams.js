@@ -18,7 +18,8 @@ export const examList = [
         "correctAnswer": 3
       }
     ],
-    "startTiming": "2024-12-10T10:00:00"
+    "startTiming": "2024-12-10T10:00:00",
+    "class" : "2nd"
   },
   {
     "examId": 102,
@@ -39,7 +40,8 @@ export const examList = [
         "correctAnswer": 1
       }
     ],
-    "startTiming": "2024-12-10T14:00:00"
+    "startTiming": "2024-12-10T14:00:00",
+     "class" : "8th"
   },
   {
     "examId": 203,
@@ -95,6 +97,7 @@ export const examList = [
         "correctAnswer": 3
       }
     ],
-    "startTiming": "2024-12-23T09:00:00"
+    "startTiming": "2024-12-23T09:00:00",
+     "class" : "3rd"
   }
 ]

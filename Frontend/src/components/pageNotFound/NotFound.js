@@ -28,7 +28,7 @@ const NotFound = ({homeLink}) => {
       <Typography variant="h4" sx={{ color: '#555', marginBottom: '20px' }}>
         Oops! Page Not Found
       </Typography>
-      <Typography variant="body1" sx={{ marginBottom: '30px', fontSize: '18px', color: '#777' }}>
+      <Typography variant="text1" sx={{ marginBottom: '30px', fontSize: '18px', color: '#777' }}>
         The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
       </Typography>
       

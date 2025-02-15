@@ -34,6 +34,10 @@ const AddQuestions = ({ selectedQuestions, handleAddQuestion, handleRemoveQuesti
       {questions.map((question, index) => {
 
         return <Box className='addQuestion' key={`add${index}637Question`}>
+          <QuestionBox question={question}
+            isDisabled={true}
+            questionNo={index + 1}
+            selectedOption={question.correctAnswer} />
           {!selectedQuestions.includes(question) ? (
             <Button className='addButton' onClick={() => handleAddQuestion(question)}> {'add +'}</Button>
           ) :
@@ -42,10 +46,6 @@ const AddQuestions = ({ selectedQuestions, handleAddQuestion, handleRemoveQuesti
             </Button>
             )}
 
-          <QuestionBox question={question}
-            isDisabled={true}
-            questionNo={index + 1}
-            selectedOption={question.correctAnswer} />
         </Box>
       })}
       <Stack

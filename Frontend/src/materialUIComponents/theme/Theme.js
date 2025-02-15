@@ -46,7 +46,7 @@ const theme = createTheme({
       fontWeight: '600',
       color: '#000',
     },
-    body1: {
+    text1: {
       fontSize: '1rem',
       fontWeight: '400',
       color: '#4F4F4F', // Grey for body text
@@ -82,6 +82,26 @@ const theme = createTheme({
           borderRadius: '15px',
           boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.3)',
           backgroundColor:'white'
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: 'black', // Label text color
+          '&.Mui-focused': {
+            color: 'black', // Label color when focused
+          },
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            outline:"none",
+            border:'1px solid black'
+          }
         },
       },
     },

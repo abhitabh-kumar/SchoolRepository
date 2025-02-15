@@ -28,7 +28,7 @@ const TestsPage = () => {
           return <ExamCard 
           examDetails={exam} 
           key={exam.examId+"231"+id} 
-          isActive={id==2 ? true: false}/>
+          isActive={id==0 ? true: false}/>
         })
       }
     </Box>

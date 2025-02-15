@@ -115,8 +115,8 @@ const Navbar = ({ isTransparent }) => {
           </Box>
         </Toolbar>
       </AppBar>
-        {open && <Login/>}
-      {/* <SignIn open={open} handleClose={handleClose} /> */}
+        {/* {open && <Login/>} */}
+      <SignIn open={open} handleClose={handleClose} />
     </>
   );
 };

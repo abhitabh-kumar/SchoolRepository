@@ -50,10 +50,11 @@
 }
 .create-question-button,.addButton,.removeButton{
     border-radius: 4px !important;
-    color: white !important;
-    max-width: 200px;
+    max-width: 150px;
     background-color: #46a38b !important;
     max-height: 40px;
+    margin-left: auto;
+    z-index: 100;
 }
 .create-question-button:hover{
     background-color: #288970 !important;
@@ -69,22 +70,32 @@
 .addingQuestionBox{
     display: flex;
     flex-direction: column;
-    gap: 20px;
+}
+.addQuestion{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: column;
 }
 .addButton{
-    border-radius: 4px 4px 0px 0px !important;
+    border-radius: 4px !important;
     position: relative;
-    bottom: -2px;
+    bottom: 45px;
+    right: 5px;
+    background-color: #e7e7e7 !important;
 }
 .removeButton{
-    border-radius: 4px 4px 0px 0px !important;
+    border-radius: 4px !important;
     background-color: #ff5d5d !important;
     position: relative;
-    bottom: -2px;
+    color: white !important;
+    bottom: 45px;
+    right: 5px;
 }
 .addingQuestionButtonBox{
     display: flex;
-    justify-content: space-between
+    justify-content: space-between;
+    margin-bottom: 20px;
 }
 .prevButton{
     border-radius: 4px !important;
@@ -112,6 +123,9 @@
     width: 95%;
     margin: auto;
     z-index: 100;
+}
+.correctOption{
+    color: black !important;
 }
 @media (max-width : 500px) {
     #option1,#option2,#option3,#option4,.examName,.createdBy,.examDate,.examTime,.correctOption,.marks{

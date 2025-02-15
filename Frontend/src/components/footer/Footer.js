@@ -29,7 +29,7 @@ const Footer = () => {
             <Typography variant="h1" fontWeight="bold" textAlign='left' mb={1}>
               Get the best education
             </Typography>
-            <Typography variant="body1" sx={{ marginBottom: 2 }}>
+            <Typography variant="text1" sx={{ marginBottom: 2 }}>
               Join our Sushila Public School and watch your children soar to the newest height.
             </Typography>
             <Button variant="contained" className='footerJoinButton'>

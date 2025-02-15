@@ -45,3 +45,6 @@ html {
 .css-xujc8f-MuiDrawer-docked .MuiDrawer-paperAnchorDockedLeft{
   overflow-x: hidden !important;
 }
+.css-1kgctjt-MuiPaper-root-MuiDialog-paper{
+  overflow-y: visible !important;
+}

@@ -39,8 +39,8 @@ const CreateQuestions = ({isDialog}) => {
   };
 
   return (
-    <div className='createQuestion' style={{padding: isDialog?'0px':'20px'}}>
-      <Typography mb={2}>Create Question</Typography>
+    <div className='createQuestion' style={{padding: isDialog?'0px':'20px',}}>
+      <Typography mb={2.5} ml={0.5} sx={{fontSize:'1.2rem', fontWeight:'600'}}>Create Question</Typography>
       <Box className="createQuestionContainer">
         <form onSubmit={handleSubmit} className='form-container'>
           <div className="questions">
@@ -110,14 +110,14 @@ const CreateQuestions = ({isDialog}) => {
             </div>
           </div>
           <FormControl className='correctMarks' sx={{mt:'30px', width: '100%', display: 'flex', gap: '10px', justifyContent: 'space-between', flexDirection: 'row', flexWrap: 'wrap' }} size="small">
-            <InputLabel id="demo-select-small-label">Correct Option</InputLabel>
+            <InputLabel id="demo-select-small-label" sx={{color:'black'}}>Correct Option</InputLabel>
             <Select
               labelId="demo-select-small-label"
               id="demo-select-small"
               value={option}
               label="Correct Option"
               onChange={handleOption}
-              sx={{ minWidth: '40vw', maxWidth: '100%' }}
+              sx={{ minWidth: '40vw', maxWidth: '100%'}}
               className='correctOption'
             >
               <MenuItem value={1}>option 1</MenuItem>
@@ -144,7 +144,8 @@ const CreateQuestions = ({isDialog}) => {
                     outline: "none", // Remove outline on focus
                     border:'1px solid rgb(188 188 188)'
                   }
-                }
+                },
+                input:{color:'black !important'}
               }}
             />
           </FormControl>

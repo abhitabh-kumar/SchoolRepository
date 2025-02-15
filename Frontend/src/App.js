@@ -35,6 +35,7 @@ function App() {
     setUserType('teacher')
     setLoading(false);
   }, [])
+  
   return (
     <ThemeProvider theme={theme}>
       <Router>

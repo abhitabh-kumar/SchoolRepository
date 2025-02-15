@@ -89,7 +89,7 @@ export default function FullWidthTabs() {
 
   return (
     <>
-      <Typography sx={{paddingLeft:"20px", paddingBottom: '15px'}}> Create Exam </Typography>
+      <Typography sx={{padding:'18px 0px 18px 24px', fontSize:'1.2rem', fontWeight:'600'}}> Create Exam</Typography>
       <Box sx={{ width: "calc(100% - 40px)", boxShadow:'0px 0px 1px #000000e8', margin: "0px 20px 20px 20px", borderRadius:'5px 5px 0px 0px'}}>
         <AppBar position="static" sx={{ width: "100% " }}>
           <Tabs

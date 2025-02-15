@@ -45,18 +45,18 @@ const VisitUsSection = () => {
                             <Typography variant="h4" gutterBottom width={"100%"}>
                                 Visit Us
                             </Typography>
-                            <Typography variant="body1">
+                            <Typography variant="text1">
                                 <RoomIcon sx={{ marginRight: '8px', position: 'relative', top: '5px' }} />
                                 Kashyap Nagar, New Police Line, Arrah, Bihar 802301
                             </Typography>
                         </Box>
 
                         <Box display="flex" flexDirection="column" width={"50%"}>
-                            <Typography variant="body1" textAlign={'right'}>
+                            <Typography variant="text1" textAlign={'right'}>
                                 <PhoneIcon sx={{ marginRight: '8px', position: 'relative', top: '5px' }} />
                                 555-1234-567
                             </Typography>
-                            <Typography variant="body1" textAlign={'right'}>
+                            <Typography variant="text1" textAlign={'right'}>
                                 <EmailIcon sx={{ marginRight: '8px', position: 'relative', top: '5px' }} />
                                 admission@shushilapublicschool.edu</Typography>
                         </Box>
