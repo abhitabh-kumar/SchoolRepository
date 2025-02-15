@@ -34,5 +34,6 @@ public class ResultController {
         log.info("Getting the Exam Result of All Student");
         ResponseDetails responseDetails = resultService.getResults(examId);
         return ResponseEntity.ok(responseDetails);
+
     }
 }

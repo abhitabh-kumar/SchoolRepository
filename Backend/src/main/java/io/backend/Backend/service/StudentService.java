@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -124,5 +125,17 @@ public class StudentService {
         } else {
             return false;
         }
+    }
+
+    // Runs every year on January 1st at 12:00 AM
+    @Scheduled(cron = "0 0 0 1 1 *")
+    @Transactional
+    public void promoteStudents() {
+        List<StudentEntity> students = studentRepo.findAll() ;
+        for (StudentEntity student : students) {
+            student.setGrade(student.getGrade() + 1); // Increase class by 1
+        }
+        studentRepo.saveAll(students);
+        log.info("Students promoted to the next class!");
     }
 }

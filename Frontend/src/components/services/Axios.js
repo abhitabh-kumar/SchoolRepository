@@ -8,7 +8,6 @@ const api = axios.create({
   });
   const navigate = useNavigate();
 axios.interceptors.request.use((config) => {
-  console.log("hfhhg");
   const token=sessionStorage.getItem('token');
   if (token && (!isTokenExpired)) {
     sessionStorage.clear(token);

@@ -47,7 +47,9 @@ public class EmailService {
         SubscriberEntity subscriberEntity = new SubscriberEntity();
         subscriberEntity.setEmail(senderEmail);
         subscriberEntity.setUserName(name);
-        subscriberRepo.save(subscriberEntity);
+        if(!subscriberRepo.existsByEmail(senderEmail)) {
+            subscriberRepo.save(subscriberEntity);
+        }
         mailSender.send(mimeMessage);
     }
 
@@ -67,8 +69,10 @@ public class EmailService {
             helper.setFrom("pandeyjeearrah9718@gmail.com");
             SubscriberEntity subscriberEntity = new SubscriberEntity();
             subscriberEntity.setEmail(toEmail);
-            subscriberRepo.save(subscriberEntity);
-            mailSender.send(mimeMessage);
+            if(!subscriberRepo.existsByEmail(toEmail)) {
+                subscriberRepo.save(subscriberEntity);
+                mailSender.send(mimeMessage);
+            }
         } catch (Exception e) {
             throw new RuntimeException("Not able to send the message"+e);
         }

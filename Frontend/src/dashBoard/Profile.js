@@ -57,7 +57,7 @@ const Profile = () => {
         }
         const allTeachers = response.data.data;
         const data = allTeachers;
-        // console.log(data);
+        console.log(data);
         setFormData({
           userName: data.userName || '',
           name: data.name || '',
@@ -154,7 +154,7 @@ const Profile = () => {
             </Typography>
             <Box sx={{ marginBottom: "12px" }}>
               <Typography variant="subtitle1" sx={{ fontWeight: "medium" }}>
-                Name: <span style={{ fontWeight: "normal" }}>{formData.name}</span>
+                Name: <span style={{ fontWeight: "normal" }}>{formData.emailId}</span>
               </Typography>
             </Box>
             <Box sx={{ marginBottom: "12px" }}>

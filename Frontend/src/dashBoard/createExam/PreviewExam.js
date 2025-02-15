@@ -4,8 +4,10 @@ import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import { Box, Button } from '@mui/material'
 
-const PreviewExam = ({ selectedQuestions, handleSwap, handleValue}) => {
-    // console.log(selectedQuestions);
+const PreviewExam = ({ selectedQuestions, handleSwap, handleValue, examDetails}) => {
+    console.log(selectedQuestions);
+    console.log(handleSwap);
+    console.log(handleValue);
     return (
         <Box sx={{display:'flex',flexDirection:'column'}}>
             <div className="addingQuestionButtonBox" style={{marginBottom:"20px"}}>

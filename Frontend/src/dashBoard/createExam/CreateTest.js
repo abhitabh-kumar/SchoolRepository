@@ -115,7 +115,7 @@ export default function FullWidthTabs() {
           <AddQuestions handleValue={handleValue} selectedQuestions={selectedQuestions} handleAddQuestion={handleAddQuestion} handleRemoveQuestion={handleRemoveQuestion}/>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          <PreviewExam selectedQuestions={selectedQuestions} handleSwap={handleSwap} handleValue={handleValue}/>
+          <PreviewExam selectedQuestions={selectedQuestions} handleSwap={handleSwap} handleValue={handleValue} />
         </TabPanel>
       </Box>
     </>
