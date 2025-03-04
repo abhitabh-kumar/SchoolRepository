@@ -23,14 +23,21 @@ public class ExamController {
     private final ExamService examService;
 
     @PostMapping("/createExam")
-    public ResponseEntity<ResponseDetails> createExam(@RequestBody ExamEntity exam) throws SQLIntegrityConstraintViolationException {
+    public ResponseEntity<ResponseDetails> createExam(@RequestBody ExamEntity exam) {
         log.info("Creating Exam:{}", exam);
         ResponseDetails responseDetails = examService.createExam(exam);
         return ResponseEntity.ok(responseDetails);
     }
 
-    @GetMapping("/get/author")
-    public ResponseEntity<ResponseDetails> getExamByAuthor(@RequestBody String author) throws SQLIntegrityConstraintViolationException {
+    @PostMapping("/getExamByClass")
+    public ResponseEntity<ResponseDetails> getExamByClass(@RequestBody String username) {
+        log.info("Entered into getExamByClass in ExamController");
+        ResponseDetails responseDetails = examService.getExamByClass(username);
+        return ResponseEntity.ok(responseDetails);
+    }
+
+    @PostMapping("/get/author")
+    public ResponseEntity<ResponseDetails> getExamByAuthor(@RequestBody String author) {
         log.info("Exam Created By:{}", author);
         ResponseDetails responseDetails = examService.getExamByAuthor(author);
         return ResponseEntity.ok(responseDetails);
@@ -39,7 +46,7 @@ public class ExamController {
     @GetMapping("/get/{id}")
     public ResponseEntity<ResponseDetails> getExamById(@PathVariable("id") Long id ){
            log.info("Fetching exam {} ", id);
-           ResponseDetails responseDetails =examService.getExamById(id);
+           ResponseDetails responseDetails = examService.getExamById(id);
            return ResponseEntity.ok(responseDetails);
     }
 

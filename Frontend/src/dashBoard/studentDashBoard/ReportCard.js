@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Table,
   TableBody,
@@ -14,22 +14,40 @@ import {
 } from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import './reportCard.css';
-import { reportCard } from '../../dummyData/reportCard';
 import ScrollingDialog from '../../materialUIComponents/dialog/ScrollingDialog';
 import ShowAnswer from './ShowAnswer';
+import { fecthResultByUserName } from '../../services/Result';
+import { useSelector } from 'react-redux';
+import { getUsername } from '../../services/TokenServices';
 
 const ReportCard = () => {
   const isSmallScreen = useMediaQuery("(min-width:700px)");
   const [open, setOpen] = useState(false);
-  const [openExamId, setOpenExamId] = useState(null);
+  const [reportCard,setReportCard] = useState(null);
+  const [resultId, setResultId] = useState(null);
+  const token = useSelector((state)=>state.user.token);
+  const username = getUsername(token);
 
   const isPassed = (obtainedMarks, totalMarks) => {
-    return (obtainedMarks / totalMarks) > 0.75 ? true : false;
+    return (obtainedMarks / totalMarks) >= 0.5 ? true : false;
   }
 
   const handleClose = () => {
     setOpen(false);
   };
+  const fetchResult = async ()=> {
+    try{
+      const response = await fecthResultByUserName(username,token);
+      setReportCard(response.data);
+      console.log(response);
+    }catch(error){
+      console.log(error.message)
+    }
+  }
+
+  useEffect(()=>{
+    fetchResult();
+  },[]);
 
   return (
     <Container maxWidth="md" style={isSmallScreen ? { paddingTop: '1rem' } : { paddingTop: '5rem' }}>
@@ -48,14 +66,14 @@ const ReportCard = () => {
           </TableHead>
           <TableBody>
             {reportCard && reportCard.map((report, index) => (
-              <TableRow key={`${index}reportCard3425`} sx={{ backgroundColor: isPassed(report.obtainedMarks, report.exam.totalMarks) ? '#e9ffe9' : '#fff1f1' }}>
+              <TableRow key={`${index}reportCard3425`} sx={{ backgroundColor: isPassed(report.obtainedMarks, report.totalMarks) ? '#e9ffe9' : '#fff1f1' }}>
                 <TableCell>{`#${index + 1}`}</TableCell>
                 <TableCell>{report.exam.examName}</TableCell>
-                <TableCell>{report.exam.startTiming}</TableCell>
-                <TableCell>{report.obtainedMarks}/{report.exam.totalMarks}</TableCell>
+                <TableCell>{report.exam.startTime}</TableCell>
+                <TableCell>{report.obtainedMarks}/{report.totalMarks}</TableCell>
                 <TableCell>
                   <IconButton color="primary" onClick={() => {
-                    setOpenExamId(report.exam.examId);
+                    setResultId(report.resultId);
                     setOpen(true);
                   }}>
                     <VisibilityIcon />
@@ -73,7 +91,7 @@ const ReportCard = () => {
         selectContent="close"
         open={open}
         handleClose={handleClose} >
-        <ShowAnswer openExamId={openExamId} />
+        <ShowAnswer openExamId={resultId} />
       </ScrollingDialog>
     </Container>
   )

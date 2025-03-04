@@ -1,6 +1,6 @@
 // src/components/VerifyOTP.js
 import React, { useState } from 'react';
-import { verifyOtp } from '../services/Api'; // Assuming you have a verifyOtp function in your API service
+import { verifyOtp } from '../../services/Api'; // Assuming you have a verifyOtp function in your API service
 import { useLocation, useNavigate } from 'react-router-dom';
 import './VerifyOTP.css';
 

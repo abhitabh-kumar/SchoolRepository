@@ -71,10 +71,10 @@ export default function ExamCard({ examDetails, isActive }) {
             <Card sx={isActive ? pendingExam : finishedExam} style={{ height: isMobile ? '150px' : 'fit-content' }}>
                 <CardContent>
                     <Typography gutterBottom variant="h6" component="div" style={{fontWeight:'610'}}>
-                        {examDetails.subject}
+                        {examDetails.examName}
                     </Typography>
                     <Typography variant="body2">
-                        conducted on : {examDetails.startTiming}
+                        conducted on : {examDetails.startTime}
                     </Typography>
                 </CardContent>
                 <CardActions sx={{ cursor: isActive ? 'default' : 'no-drop' }}>

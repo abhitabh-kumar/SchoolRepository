@@ -116,8 +116,7 @@ export const getAllTeacher = async (token1) => {
     const response =await axios.get(`${API_URL}/teacher/all`, { headers: {
       "Authorization": token1,
     }});
-    console.log(response.data);
-    return response;
+    return response.data;
   }
   catch(error){
     throw new Error(error.response?.data?.message || 'Failed to search teacher.');
@@ -304,20 +303,20 @@ export const addSubscriber = async (email) => {
 }
 
 // Create Question From DashBoard
-export const createQuestion = async (formData,token1) => {
+export const createQuestion = async (formData,token) => {
   try {
-    if (!token1) {
+    if (!token) {
       throw new Error('Authorization token is missing');
     }
     const response = await axios.post(`${API_URL}/question/createQuestion`, formData, { 
       headers: {
-        Authorization: token1,
+        Authorization: token,
       }
     });
     return response.data;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response?.data?.message || 'Failed to create Question.');
+    throw new Error(error.message || 'Failed to create Question.');
   }
 }
 

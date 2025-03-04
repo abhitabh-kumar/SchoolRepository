@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import authHeader from '../services/authHeader';
+import authHeader from '../../services/authHeader';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getAllTeacher, getTeacherByName, getAllStudent, getStudentByName, getStudentByGrade, deleteTeacher, deleteStudent } from '../services/Api';
+import { getAllTeacher, getTeacherByName, getAllStudent, getStudentByName, getStudentByGrade, deleteTeacher, deleteStudent } from '../../services/Api';
 import './SearchResults.css';
 
 const SearchResults = () => {

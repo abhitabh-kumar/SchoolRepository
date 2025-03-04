@@ -87,7 +87,7 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests(auth -> auth
                         // Permit unauthenticated access to the reset-password endpoint
-                        .requestMatchers("/teacher/all","/api/emails/subscriber-message","/api/emails/send-message","/api/emails/send-reset-mail","/api/emails/reset-password","/sign-in/**")
+                        .requestMatchers("/teacher/all","/api/emails/subscriber-message","/api/emails/send-message","/api/emails/send-reset-mail","/api/emails/reset-password","/api/emails/generateOtp")
                         .permitAll()
                         // Authenticate all other requests
                         .anyRequest().authenticated()

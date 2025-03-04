@@ -5,17 +5,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuestionResponseDTO {
 
-
-    private Long userId;
+    private String userName;
 
     private Long examId;
 
-    private List<StudentResponseDTO> questionEntityDto;
+    private Map<Long,Long> questionEntityDto;
 
 }

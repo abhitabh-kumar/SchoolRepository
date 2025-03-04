@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { getStudentByName, getTeacherByName } from '../components/services/Api';
+import { getStudentByName, getTeacherByName } from '../services/Api';
 import { Container, Box, Typography, Grid2, Avatar, Badge, useMediaQuery } from "@mui/material";
 
-import {getUsername, getRole} from '../components/services/tokenServices';
+import { getUsername, getRole } from '../services/TokenServices';
 import ImageUploadDialog from '../materialUIComponents/dialog/ImageUploadDialog';
 
-import authHeader from "../components/services/authHeader";
+import authHeader from "../services/authHeader";
+import { useSelector } from 'react-redux';
 
 const Profile = () => {
 
@@ -25,13 +26,13 @@ const Profile = () => {
     address: { state: '', zipCode: '', city: '', street: '' },
     dateOfBirth: '',
     dateOfJoining: '',
-    roles: 'STUDENT',
+    roles: 'TEACHER',
     profilePic: null
   });
 
   const [error, setError] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
-
+  const token = useSelector((state)=>state.user.token);
 
   const handleClickOpen = () => {
     setOpenDialog(true);
@@ -44,20 +45,19 @@ const Profile = () => {
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
-        const token = authHeader();
         const username = getUsername(token);
-        const role =getRole(token);
+        const role = getRole(token);
         var response;
-        console.log(role);
-        if(role=="STUDENT"){
-        response = await getStudentByName(username, token);
+        console.log(role+" "+ username+" "+token);
+        if (role == "STUDENT") {
+          response = await getStudentByName(username, token);
         }
-        else if(role=="TEACHER"){
-          response = await getTeacherByName(username,token);
+        else if (role == "TEACHER") {
+          response = await getTeacherByName(username, token);
         }
+
         const allTeachers = response.data.data;
         const data = allTeachers;
-        console.log(data);
         setFormData({
           userName: data.userName || '',
           name: data.name || '',
@@ -73,8 +73,7 @@ const Profile = () => {
           bloodGroup: data.bloodGroup || '',
           address: data.address || '',
           dateOfBirth: data.dateOfBirth || '',
-          dateOfJoining: data.dateOfJoining || '',
-          roles: 'STUDENT',
+          roles:role,
           profilePic: `data:image/jpeg;base64,${data.profilePic}`
         });
       } catch (err) {
@@ -82,12 +81,11 @@ const Profile = () => {
         setError('Failed to fetch student data.');
       }
     };
-
     fetchStudentData();
-  }, []);
+  }, [openDialog]);
 
   return (
-    <Container maxWidth="md" sx={{paddingBottom:'20px'}}>
+    <Container maxWidth="md" sx={{ paddingBottom: '20px' }}>
       <Grid2 container spacing={3}>
         <Grid2 item size={{ xs: 12, md: 4 }}>
           <Box
@@ -104,13 +102,14 @@ const Profile = () => {
 
             <Badge color="secondary" badgeContent={"+"} overlap="circular">
               {
-                formData.profilePic ? <img src={formData.profilePic}  style={{
-                      width: '100px',
-                      height: '100px',
-                      backgroundColor: "#1976d2",
-                      marginBottom: "8px",
-                      cursor: 'pointer'
-                    }} />:
+                formData.profilePic ? <img src={formData.profilePic} style={{
+                  width: '100px',
+                  height: '100px',
+                  backgroundColor: "#1976d2",
+                  marginBottom: "8px",
+                  cursor: 'pointer',
+                  borderRadius:'50%'
+                }} /> :
                   <Avatar
                     sx={{
                       width: 100,

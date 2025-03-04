@@ -11,12 +11,12 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 
 const buttonStyle = {
   maxWidth: "150px",
-  backgroundColor: "rgb(108 235 152)",
-  color: '#1f6d00',
+  backgroundColor: "rgb(0 192 149)",
+  color: 'white',
   borderRadius: '5px',
   marginLeft: '5px',
   "&:hover": {
-    backgroundColor: "rgb(64 205 113)",
+    backgroundColor: "#137555",
     color: "white",
   },
 }

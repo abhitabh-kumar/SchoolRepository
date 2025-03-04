@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { createStudent } from '../services/Api';
+import { createStudent } from '../../services/Api';
 import './CreateStudentForm.css';
-import authHeader from '../services/authHeader';
+import authHeader from '../../services/authHeader';
 import { useNavigate } from 'react-router-dom'; // Import useHistory
 
 const CreateStudentPage = () => {
@@ -70,7 +70,7 @@ const CreateStudentPage = () => {
 
 
   return (
-    <div className="form-container">
+    <div className="form-container2">
       <div
         onClick={handleClose}
         style={{

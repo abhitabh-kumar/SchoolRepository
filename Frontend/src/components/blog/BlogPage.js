@@ -8,11 +8,8 @@ import UnderMaintenance from '../underMaintenance/underMaintenance'
 const BlogPage = () => {
   return (
     <>
-         <ResponsiveAppBar isTransparent={false} />
          <ComponentsHeading prevPath={"Home "} path={" / Blog"} comColor="#e4e6ff" content={"Our Blogs"} />
          <UnderMaintenance/>
-         <Footer />
-         <Navigate />
     </>
   )
 }

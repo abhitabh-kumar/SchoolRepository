@@ -1,6 +1,7 @@
 package io.backend.Backend.controller;
 
 import io.backend.Backend.dto.MessageDTO;
+import io.backend.Backend.dto.ResponseDetails;
 import io.backend.Backend.service.EmailService;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Random;
 
 
 @RestController
@@ -23,7 +25,7 @@ public class EmailController {
 
     @PostMapping("/send-message")
     public String sendEmail(@RequestBody MessageDTO Message) throws MessagingException {
-        String senderEmail =  Message.email;
+        String senderEmail = Message.email;
         String name = Message.name;
         String message = Message.message;
         emailService.sendEmail(senderEmail, name, message);
@@ -31,22 +33,20 @@ public class EmailController {
     }
 
     @PostMapping("/subscriber-message")
-    public String sendSubscriber(@RequestBody String email){
-           String message = "Welcome to Sushila Public School Community";
-           emailService.sendEmailtoSubscriber(email);
-           return "Email send successfully";
+    public String sendSubscriber(@RequestBody String email) {
+        String message = "Welcome to Sushila Public School Community";
+        emailService.sendEmailtoSubscriber(email);
+        return "Email send successfully";
     }
 
     @PostMapping("/send-reset-mail")
-    public ResponseEntity<?> sendResetPasswordEmail(@RequestBody String toEmail) {
-        String resetLink="http://localhost:3000/reset-password?email="+toEmail;
-        try {
-            emailService.sendResetPasswordEmail(toEmail, resetLink);
-            return ResponseEntity.ok().body(Map.of("message", "Send mail successfully"));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("message", "The e-mail address is not assigned to any user account. Please try again later."));
-        }
+    public ResponseEntity<?> sendResetPasswordEmail(@RequestBody String toEmail){
+        String resetLink = "http://localhost:3000/reset-password?email=" + toEmail;
+        emailService.sendResetPasswordEmail(toEmail, resetLink);
+        ResponseDetails responseDetails = ResponseDetails.builder()
+                .message("email send successfully")
+                .code(String.valueOf(HttpStatus.OK.value())).build();
+        return ResponseEntity.ok().body(responseDetails);
     }
 
     @PostMapping("/reset-password")
@@ -63,5 +63,11 @@ public class EmailController {
         }
     }
 
+    @PostMapping("/generateOtp")
+    public ResponseEntity<ResponseDetails> otpGenerate(@RequestBody String toEmail) {
+        log.info("Entered into otpGenerate method in EmailController");
+        ResponseDetails responseDetails = emailService.sendOtp(toEmail);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDetails);
+    }
 
 }

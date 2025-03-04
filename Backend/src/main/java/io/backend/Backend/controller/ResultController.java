@@ -21,7 +21,6 @@ public class ResultController {
 
     private final ResultService resultService;
 
-
     @PostMapping("/compute")
     public ResponseEntity<ResponseDetails> showResult(@RequestBody QuestionResponseDTO answer) throws SQLIntegrityConstraintViolationException {
         log.info("Creating Question:{}", answer);
@@ -29,11 +28,25 @@ public class ResultController {
         return ResponseEntity.ok(responseDetails);
     }
 
-    @GetMapping("/examId")
-    public ResponseEntity<ResponseDetails> getAllResult(@PathVariable("examId") Long examId){
+    @GetMapping("/examId={examId}")
+    public ResponseEntity<ResponseDetails> getAllResult(@PathVariable Long examId){
         log.info("Getting the Exam Result of All Student");
         ResponseDetails responseDetails = resultService.getResults(examId);
         return ResponseEntity.ok(responseDetails);
 
     }
+    @GetMapping("/userName={userName}")
+    public ResponseEntity<ResponseDetails> getAllResultByUserName(@PathVariable String userName){
+        log.info("Entered into getAllResultByUserName in ResultController");
+        ResponseDetails responseDetails = resultService.getResultsByUserName(userName);
+        return ResponseEntity.ok(responseDetails);
+    }
+
+    @GetMapping("/author={authorName}")
+    public ResponseEntity<ResponseDetails> getAllResultByTheirAuthor(@PathVariable String authorName){
+        log.info("Getting All Exam Result for given author");
+        ResponseDetails responseDetails = resultService.getResultsByAuthor(authorName);
+        return ResponseEntity.ok(responseDetails);
+    }
+
 }

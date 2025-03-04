@@ -25,7 +25,7 @@
 
     <cache alias="teacherCache">
         <expiry>
-            <ttl unit="minutes">10</ttl> <!-- Cache Time-to-Live: 10 minutes -->
+            <ttl unit="minutes">1</ttl> <!-- Cache Time-to-Live: 10 minutes -->
         </expiry>
         <heap unit="entries">500</heap>
     </cache>

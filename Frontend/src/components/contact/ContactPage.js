@@ -11,7 +11,6 @@ import VisitUsSection from './VisitUsSection';
 const ContactPage = () => {
     return (
         <>
-            <ResponsiveAppBar isTransparent={false} />
             <Box
                 sx={{
                     display: 'flex',
@@ -54,7 +53,6 @@ const ContactPage = () => {
                 <ContactForm/>
             </Box>
             <VisitUsSection/>
-            <Navigate />
         </>
     )
 }

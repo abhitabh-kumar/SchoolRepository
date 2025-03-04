@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -31,7 +33,7 @@ public class TeacherService {
         if(teacher != null && teacher.getPassword() != null)
             teacher.setPassword(passwordEncoder.encode(teacher.getPassword()));
         else throw new SQLIntegrityConstraintViolationException("Missing required field: password");
-
+        teacher.setRoles("TEACHER");
         TeacherEntity teacherEntity = teacherRepo.save(teacher);
         ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
                 "Teacher created successfully",
@@ -52,13 +54,13 @@ public class TeacherService {
         throw new NotFoundException("Teachers not found");
     }
 
-    @Cacheable(value = "teacherCache", key = "'name'")
+//    @Cacheable(value = "teacherCache", key = "'name'")
     public ResponseDetails getTeacherByUserName(String name){
-        List<TeacherEntity> teacher = teacherRepo.findByUserName(name);
-        if(!teacher.isEmpty()){
+        Optional<TeacherEntity> teacher = teacherRepo.findByUserName(name);
+        if(teacher.isPresent()){
             ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
                     "Teacher fetched successfully",
-                    teacher);
+                    teacher.get());
             log.info("Teacher with UserName {} fetched", name);
             return responseDetails;
         }
@@ -67,7 +69,7 @@ public class TeacherService {
 
     }
 
-    @Cacheable(value = "teacherCache", key = "#id")
+//    @Cacheable(value = "teacherCache", key = "#id")
     public ResponseDetails getTeacherById(Long id){
         TeacherEntity teacher = teacherRepo.findByUserId(id);
         ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
@@ -76,22 +78,20 @@ public class TeacherService {
         return responseDetails;
     }
 
-    @CachePut(value = "teacherCache", key = "#id")
+//    @CachePut(value = "teacherCache", key = "#id")
     @Transactional
     public ResponseDetails updateTeacher(TeacherEntity teacher, Long id){
         TeacherEntity teacherEntity = teacherRepo.findById(id).get();
         try {
-            if (teacherEntity != null) {
-                teacherEntity.setAge(teacher.getAge());
-                teacherEntity.setName(teacher.getName());
-                teacherEntity.setEmailId(teacher.getEmailId());
-                teacherEntity.setMobileNumber(teacher.getMobileNumber());
-                teacherEntity.setUserName(teacher.getUserName());
-                teacherEntity.setAddress(teacher.getAddress());
-                teacherEntity.setDescription(teacher.getDescription());
-                teacherEntity.setQualification(teacher.getQualification());
-                teacherRepo.save(teacherEntity);
-            }
+            teacherEntity.setAge(teacher.getAge());
+            teacherEntity.setName(teacher.getName());
+            teacherEntity.setEmailId(teacher.getEmailId());
+            teacherEntity.setMobileNumber(teacher.getMobileNumber());
+            teacherEntity.setUserName(teacher.getUserName());
+            teacherEntity.setAddress(teacher.getAddress());
+            teacherEntity.setDescription(teacher.getDescription());
+            teacherEntity.setQualification(teacher.getQualification());
+            teacherRepo.save(teacherEntity);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

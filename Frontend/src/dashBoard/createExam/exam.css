@@ -65,6 +65,7 @@
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 10px;
+    width: 100%;
 }
 
 .addingQuestionBox{
@@ -167,3 +168,16 @@
     max-width: 100px;
     background-color: #ff5d5d !important;
 }
+
+/* Reduce the size of the calendar popup */
+.custom-datepicker .MuiPaper-root {
+    max-width: 200px !important;  /* Adjust width */
+    max-height: 200px !important; /* Adjust height */
+  }
+  
+  /* Change selected text color to white */
+  .custom-datepicker .Mui-selected {
+    background-color: #1976d2 !important; /* Primary color */
+    color: white !important;
+  }
+  

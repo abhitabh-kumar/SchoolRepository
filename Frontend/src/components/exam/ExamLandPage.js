@@ -4,7 +4,9 @@ import styles from './exam.module.css';
 import { examList } from '../../dummyData/exams'
 import { useSearchParams } from 'react-router-dom';
 import ExamDashBoard from './ExamDashBoard';
-import { FenceTwoTone } from '@mui/icons-material';
+import { getExamById } from '../../services/Exam';
+import { useSelector } from 'react-redux';
+import { getUsername } from '../../services/TokenServices';
 
 const questionDesc = [
     'Each question offers four options, with only one correct answer',
@@ -24,21 +26,32 @@ const ExamLandPage = () => {
     const examId = searchParams.get('examId');
     const [examDetails, setExamDetails] = useState(null);
     const [startExam, setStartExam] = useState(false);
+    const token = useSelector((state) => state.user.token);
+    const username = getUsername(token);
+    const [expired,setExpired] = useState(false);
 
+    const fetchExam = async () => {
+        try {
+            const fetchedExam = await getExamById(examId, token);
+            setExamDetails(fetchedExam.data);
+            setExpired(new Date() > new Date(fetchedExam.data.endTime))
+            console.log(fetchedExam);
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
     useEffect(() => {
-        const fetchedExam = examList.filter(item => item.examId == examId);
-        if (fetchedExam != null && fetchedExam.length != 0)
-            setExamDetails(fetchedExam[0]);
+        fetchExam();
     }, []);
 
     return (
         <>
             {
-                startExam ? <ExamDashBoard examDetails={examDetails}/> :
+                startExam ? <ExamDashBoard examDetails={examDetails} /> :
                     <Grid2 container spacing={2}>
                         <Grid2 size={isMobile ? 6 : 12} className={styles.schoolDesc}>
                             <div className={styles.customSchoolDescBox}>
-                                <p>Hey Pandey</p>
+                                <p>Hey {username}</p>
                                 <h2 style={{ color: 'white' }}>Welcome to <br /> <span style={{ color: 'yellow' }}> Sushila Public School's </span>  Test Series</h2>
                             </div>
                         </Grid2>
@@ -61,10 +74,10 @@ const ExamLandPage = () => {
                                     }
                                 </div>
                                 <div className={styles.questionDetails}>
-                                    <p>Test Durations <br /> {examDetails.startTiming} </p>
+                                    <p>Test Durations <br /> {examDetails.startTime} </p>
                                     <p>No. of Qusetions  <br /> {examDetails.questions.length} questions</p>
                                 </div>
-                                <Button className={styles.examButton} onClick={() => setStartExam(true)}>Start</Button>
+                                <Button className={styles.examButton} disabled={expired} onClick={() => setStartExam(true)}>Start</Button>
                             </Grid2>
                         }
                         <div className={styles.footer}>

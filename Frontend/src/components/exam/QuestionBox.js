@@ -20,12 +20,12 @@ const QuestionBox = ({question,handleOptionChange,selectedOption,isDisabled,ques
             <div className="tagWithQuestionNo">
                 {questionNo}. Multiple Choice
             </div>
-            <div className="point">2 pt</div>
+            <div className="point">{question.marks} pt</div>
             <div className="question">
                 {question.question}
             </div>
             <div className="option">
-                {question.options.map((option,index) => (
+                {question && question.options.map((option,index) => (
                     <label key={`${index}option231`} style={{ color : select === index ? 'rgb(22 184 52)' : 'black', cursor: 'pointer'}}>
                         <input
                             type="radio"

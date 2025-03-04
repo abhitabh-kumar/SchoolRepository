@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Badge, Box, IconButton } from '@mui/material';
+import { Avatar, Badge, Box, CircularProgress, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import authHeader from '../../components/services/authHeader';
 import axios from 'axios';
-import getUsername from '../../components/services/tokenServices';
+import {getUsername} from '../../services/TokenServices';
+import { useSelector } from 'react-redux';
+import SlideInAlertDialog from './SlideInAlertDialog';
+import SlideSnackBar from '../snackbar/SlideSnackBar';
 
 export default function ImageUploadDialog({ open, handleClose, handleClickOpen }) {
     const theme = useTheme();
@@ -19,6 +19,11 @@ export default function ImageUploadDialog({ open, handleClose, handleClickOpen }
 
     const [selectedImage, setSelectedImage] = useState(null);
     const [uploadImg,setUploadImg] = useState(null);
+    const [alert,setAlert] = useState(false);
+    const [message,setMessage] = useState("");
+    const [progress,setProgress] = useState(false);
+    const [severity,setSeverity] = useState("error");
+    const token = useSelector((state) => state.user.token)
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -34,11 +39,11 @@ export default function ImageUploadDialog({ open, handleClose, handleClickOpen }
 
     const uploadImage = async (event) => {
         event.preventDefault();
-        console.log("hii");
-        const token = authHeader();
+        setProgress(true)
         const userName = getUsername(token);
         if (!uploadImg || !userName) {
-            return; // Handle error (e.g., show a message)
+            setProgress(false);
+            return; 
         }
         const formData = new FormData();
         formData.append('profilePic', uploadImg);
@@ -51,12 +56,17 @@ export default function ImageUploadDialog({ open, handleClose, handleClickOpen }
                     "Authorization": token
                 },
             });
-            console.log("Upload successful:", response.data);
-            // Handle success (e.g., show a message or update UI)
+            setMessage("Profile Update Successfully");
+            setSeverity("success");
+            setAlert(true);
+            handleClose();
         } catch (error) {
             console.error("Upload failed:", error);
-            // Handle error (e.g., show a message)
+            setMessage(error.message);
+            setSeverity("error");
+            setAlert(true);
         }
+        setProgress(false);
     };
 
     return (
@@ -69,7 +79,7 @@ export default function ImageUploadDialog({ open, handleClose, handleClickOpen }
             >
                 <DialogTitle id="responsive-dialog-title">
                     Upload an image
-                    <IconButton onClick={handleClose} sx={{ width: "25px", height: "25px", bgcolor: "#e0e0e0" }}>
+                    <IconButton onClick={handleClose} sx={{ width: "25px", height: "25px", bgcolor: "#e0e0e0", marginLeft:"20px"}}>
                         <CloseIcon sx={{ fontSize: "1rem" }} />
                     </IconButton>
                 </DialogTitle>
@@ -116,13 +126,14 @@ export default function ImageUploadDialog({ open, handleClose, handleClickOpen }
                     <Button
                         variant="contained"
                         onClick={uploadImage}
-                        sx={{ mt: 2 }}
+                        sx={{ mt: 2, backgroundColor:'#122965', '&:hover':{backgroundColor:'#122965'}}}
                         disabled={!selectedImage}
                     >
-                        Upload
+                      {progress ? <CircularProgress sx={{ width: '33px !important', height: '33px !important', color: 'white !important' }} /> : "Upload"}
                     </Button>
                 </DialogContent>
             </Dialog>
+            <SlideSnackBar message={message} severity={severity} open={alert} handleClose={()=> setAlert(false)}/>
         </React.Fragment>
     );
 }

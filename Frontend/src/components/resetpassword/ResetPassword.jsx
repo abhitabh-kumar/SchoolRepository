@@ -1,9 +1,9 @@
 // src/components/ResetPassword.js
 import React, { useState } from 'react';
-import { resetPassword } from '../services/Api';
+import { resetPassword } from '../../services/Api';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './ResetPassword.css';
-import authHeader from '../services/authHeader';
+import authHeader from '../../services/authHeader';
 
 const ResetPassword = () => {
   const [password, setPassword] = useState('');

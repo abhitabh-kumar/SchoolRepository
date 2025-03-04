@@ -12,4 +12,9 @@ import java.util.Optional;
 public interface ResultRepo extends JpaRepository<ResultEntity,Long> {
 
     List<ResultEntity> findByExam_ExamId(Long examId);
+
+    List<ResultEntity> findByExam_Author(String author);
+
+    List<ResultEntity> findByStudent_UserName(String userName);
+
 }

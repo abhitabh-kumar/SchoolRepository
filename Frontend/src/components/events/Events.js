@@ -8,11 +8,8 @@ import UnderMaintenance from '../underMaintenance/underMaintenance'
 const Events = () => {
   return (
     <>
-         <ResponsiveAppBar isTransparent={false} />
          <ComponentsHeading prevPath={"Home "} path={" / Events"} comColor="#d7fff3" content={"Our Events"} />
          <UnderMaintenance/>
-         <Footer />
-         <Navigate />
     </>
   )
 }

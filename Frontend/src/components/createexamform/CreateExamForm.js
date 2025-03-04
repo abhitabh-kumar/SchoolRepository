@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { createExam } from '../services/Api';
+import { createExam } from '../../services/Api';
 import './CreateExamForm.css';
-import authHeader from '../services/authHeader';
+import authHeader from '../../services/authHeader';
 
 const CreateExamPage = () => {
   const [formData, setFormData] = useState({
@@ -71,7 +71,7 @@ const CreateExamPage = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="form-container2">
       <h2>Create Exam</h2>
       <form onSubmit={handleSubmit} className="form">
         {/* Form Fields in Horizontal Layout */}

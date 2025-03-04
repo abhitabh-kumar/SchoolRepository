@@ -1,5 +1,4 @@
 import React from 'react'
-import ResponsiveAppBar from '../../materialUIComponents/navbar/ResponsiveAppBar'
 import ComponentsHeading from '../componentsHeading/ComponentsHeading'
 import Navigate from '../../materialUIComponents/navigation/Navigate'
 import Footer from '../footer/Footer'
@@ -12,7 +11,6 @@ import { Box, Typography } from '@mui/material'
 const AboutPage = () => {
   return (
     <>
-      <ResponsiveAppBar isTransparent={false} />
       <ComponentsHeading prevPath={"Home "} path={" / About"} comColor="#ffffdd" content={"About Ourself"} />
       <div className="aboutUs">
         <Box class="container">
@@ -35,8 +33,6 @@ const AboutPage = () => {
           <p style={{ textAlign: "justify" }}>{whyWe}</p>
         </Box>
       </div>
-      <Footer />
-      <Navigate />
     </>
   )
 }

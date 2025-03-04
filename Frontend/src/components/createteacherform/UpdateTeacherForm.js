@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getTeacherById, updateTeacher } from '../services/Api';
+import { getTeacherById, updateTeacher } from '../../services/Api';
 import './createTeacherForm.css';
-import authHeader from '../services/authHeader';
+import authHeader from '../../services/authHeader';
 
 
 const UpdateTeacherForm = () => {
@@ -66,7 +66,7 @@ const UpdateTeacherForm = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="form-container2">
       <h2>Update Teacher</h2>
       <button onClick={handleClose}>
         Back{/* Cross sign */}

@@ -28,5 +28,4 @@ public class UserInfoController {
             byte[] bytes = file.getBytes();
             return ResponseEntity.ok(userInfoService.saveUser(username, bytes));
     }
-
 }

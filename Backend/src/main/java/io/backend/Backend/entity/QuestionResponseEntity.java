@@ -15,7 +15,11 @@ public class QuestionResponseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long resultId;
+    private Long qrId;
+
+    @ManyToOne
+    @JoinColumn(name="result_id")
+    private ResultEntity result;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

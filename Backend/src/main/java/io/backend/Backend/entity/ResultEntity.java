@@ -20,13 +20,15 @@ public class ResultEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnore
     private StudentEntity student;
 
     @ManyToOne
     @JoinColumn(name = "exam_id")
-    @JsonIgnore
     private ExamEntity exam;
 
+    @Column
     private int obtainedMarks;
+
+    @Column
+    private int totalMarks;
 }

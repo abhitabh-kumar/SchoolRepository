@@ -211,7 +211,6 @@ export default function DashBoardNavBar({ children, menu1 ,menu2,notificationCou
       </Drawer>
       <Box component="main" sx={{
         flexGrow: 1, color: '#000', minHeight: "100vh", backgroundColor: "#ffffff",
-
         transition: theme.transitions.create('margin', {
           easing: theme.transitions.easing.easeInOut,
           duration: theme.transitions.duration.enteringScreen,

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { updateStudent, getStudentById } from '../services/Api'; // Ensure these imports are correct
+import { updateStudent, getStudentById } from '../../services/Api'; // Ensure these imports are correct
 import './CreateStudentForm.css'; // Ensure this CSS file includes the styles
-import authHeader from '../services/authHeader';
+import authHeader from '../../services/authHeader';
 
 
 const UpdateStudentForm = () => {

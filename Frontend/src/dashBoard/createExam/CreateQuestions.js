@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './exam.css'
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
-import authHeader from '../../components/services/authHeader';
-import { createQuestion } from '../../components/services/Api';
+import { Box, Button, CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
+import authHeader from '../../services/authHeader';
+import { createQuestion } from '../../services/Exam.js';
+import { useSelector } from 'react-redux';
+import SlideSnackBar from '../../materialUIComponents/snackbar/SlideSnackBar';
+import { getUsername } from '../../services/TokenServices';
 
-const CreateQuestions = ({isDialog}) => {
+const CreateQuestions = ({ isDialog }) => {
 
   const [formData, setFormData] = useState({
     question: "",
@@ -13,6 +16,12 @@ const CreateQuestions = ({isDialog}) => {
   const [answer, setAnswer] = useState('');
   const [marks, setMarks] = useState("");
 
+  const [alert, setAlert] = useState(false);
+  const [message, setMessage] = useState("");
+  const [progress, setProgress] = useState(false);
+  const [severity, setSeverity] = useState("error");
+  const token = useSelector((state) => state.user.token);
+
   const handleMarks = (event) => {
     const value = event.target.value;
     // Allow only integers
@@ -20,6 +29,14 @@ const CreateQuestions = ({isDialog}) => {
       setMarks(value);
     }
   };
+  const clearData = ()=>{
+    setFormData({
+      question: "",
+      options: ["", "", "", ""]
+    });
+    setAnswer('');
+    setMarks('');
+  }
 
   const handleOption = (event) => {
     setAnswer(event.target.value);
@@ -35,33 +52,49 @@ const CreateQuestions = ({isDialog}) => {
     setFormData({ ...formData, options: updatedOptions });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setProgress(true);
+    const author = getUsername(token);
+    console.log(author)
     console.log("Form Data Submitted:", formData);
+    const data = { ...formData, answer, marks, author};
+    try {
+      const response = await createQuestion(data, token);
+      // console.log(response);
+      if (response.code != '200')
+        throw new Error("Something Went Wrong While Creating Question");
+
+      setMessage("Question Created SuccessFully");
+      setSeverity("success");
+      setAlert(true);
+      clearData();
+    } catch (error) {
+      setSeverity("error");
+      setMessage(error.message);
+      setAlert(true);
+    }
+    setProgress(false);
   };
 
-  const createQuestionFromDashBoard= () => {
-    const token =authHeader();
-    const data = {...formData,answer,marks};
-    createQuestion(data,token); 
-  }
+  useEffect(()=>{
+  },[alert]);
 
   return (
-    <div className='createQuestion' style={{padding: isDialog?'0px':'20px',}}>
-      <Typography mb={2.5} ml={0.5} sx={{fontSize:'1.2rem', fontWeight:'600'}}>Create Question</Typography>
+    <div className='createQuestion' style={{ padding: isDialog ? '0px' : '20px', }}>
+      <Typography mb={2.5} ml={0.5} sx={{ fontSize: '1.2rem', fontWeight: '600' }}>Create Question</Typography>
       <Box className="createQuestionContainer">
         <form onSubmit={handleSubmit} className='form-container'>
           <div className="questions">
-            <label htmlFor="question" className="form-label">Ques :</label>
-            <input
-              type="text"
-              id="question"
-              name="question"
-              className="form-input"
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Question"
+              multiline
               value={formData.question}
               onChange={handleInputChange}
-              placeholder='Enter question'
+              maxRows={6}
               required
+              name="question"
             />
           </div>
 
@@ -117,16 +150,17 @@ const CreateQuestions = ({isDialog}) => {
               />
             </div>
           </div>
-          <FormControl className='correctMarks' sx={{mt:'30px', width: '100%', display: 'flex', gap: '10px', justifyContent: 'space-between', flexDirection: 'row', flexWrap: 'wrap' }} size="small">
-            <InputLabel id="demo-select-small-label" sx={{color:'black'}}>Correct Option</InputLabel>
+          <FormControl className='correctMarks' sx={{ mt: '30px', width: '100%', display: 'flex', gap: '10px', justifyContent: 'space-between', flexDirection: 'row', flexWrap: 'wrap' }} size="small">
+            <InputLabel id="demo-select-small-label" sx={{ color: 'black' }}>Correct Option</InputLabel>
             <Select
               labelId="demo-select-small-label"
               id="demo-select-small"
               value={answer}
               label="Correct Option"
               onChange={handleOption}
-              sx={{ minWidth: '40vw', maxWidth: '100%'}}
+              sx={{ minWidth: '40vw', maxWidth: '100%' }}
               className='correctOption'
+              required
             >
               <MenuItem value={1}>option 1</MenuItem>
               <MenuItem value={2}>option 2</MenuItem>
@@ -145,16 +179,17 @@ const CreateQuestions = ({isDialog}) => {
                 minWidth: '40vw', maxWidth: '100%',
                 "& .MuiOutlinedInput-root": {
                   "&:hover fieldset": {
-                    outline:'none', // Optional: Transparent on hover
-                   border:'1px solid rgb(188 188 188)'
+                    outline: 'none', // Optional: Transparent on hover
+                    border: '1px solid rgb(188 188 188)'
                   },
                   "&.Mui-focused fieldset": {
                     outline: "none", // Remove outline on focus
-                    border:'1px solid rgb(188 188 188)'
+                    border: '1px solid rgb(188 188 188)'
                   }
                 },
-                input:{color:'black !important'}
+                input: { color: 'black !important' }
               }}
+              required
             />
           </FormControl>
 
@@ -163,12 +198,13 @@ const CreateQuestions = ({isDialog}) => {
             type="submit"
             variant="contained"
             className="create-question-button"
-            onClick={createQuestionFromDashBoard}
-          >
-            create question
+          // onClick={createQuestionFromDashBoard}
+          > 
+          {progress ? <CircularProgress sx={{ width: '33px !important', height: '33px !important', color: 'white !important' }} /> : "create question"}
           </Button>
         </form>
       </Box>
+      <SlideSnackBar message={message} severity={severity} open={alert} handleClose={() => setAlert(false)} />
     </div>
   )
 }

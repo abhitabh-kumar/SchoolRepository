@@ -37,7 +37,6 @@ const HomePage = () => {
         }]
     return (
         <>
-            <ResponsiveAppBar isTransparent={true}/>
             <div className="HomePageContainer">
                 <div className="landingPage">
                     <p className='landedPara' style={{ marginTop: '60px' }}>Unleash Creativity,</p>
@@ -91,7 +90,6 @@ const HomePage = () => {
                 </Box>
             <Footer/>
             </div>
-            <Navigate />
         </>
     )
 }

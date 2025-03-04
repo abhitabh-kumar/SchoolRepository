@@ -20,4 +20,6 @@ public interface ExamRepo extends JpaRepository<ExamEntity,Long> {
     Page<QuestionEntity> findQuestionsByExamId(Long examId, Pageable pageable);
 
     List<ExamEntity> findByAuthor(String author);
+
+    List<ExamEntity> findByGradeOrderByEndTimeDesc(String grade);
 }

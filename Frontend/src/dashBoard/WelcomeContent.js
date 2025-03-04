@@ -1,13 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid2, Card, Typography, Box } from '@mui/material';
 import welcome from '../assests/welcome.png'
+import { useSelector } from 'react-redux';
 
 const WelcomeContent = () => {
+    // const [name,setName] = useState(null);
+    const name=useSelector((state)=>state.user.userName)
+    useEffect(()=>{
+        console.log(name);
+    })
     return (
         <Box mt={3} mb={3} sx={{display:'flex',gap:'10px'}}>
             <Box sx={{ position: 'relative', flex:1}}>
                 <Card sx={{ color: 'black', p: 2, borderRadius: '5px', pr: 7,minHeight:'100%'}}>
-                    <Typography variant="h4">Welcome Ms.Teena</Typography>
+                    <Typography variant="h4">Welcome {name}</Typography>
                     <Typography variant="subtitle1" sx={{ mb: 3, ml: 0.5 }}>
                         Have a Good day.
                     </Typography>

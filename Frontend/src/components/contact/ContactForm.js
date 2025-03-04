@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Box, TextField, Button } from '@mui/material';
 import './contact.css';
-import { requestMessageViaEmail } from '../services/Api';
-import authHeader from '../services/authHeader';
+import { requestMessageViaEmail } from '../../services/Api';
+import authHeader from '../../services/authHeader';
 
 const ContactForm = () => {
   const [name, setName] = useState('');

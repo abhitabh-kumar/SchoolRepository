@@ -11,6 +11,7 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import EventCard from '../../materialUIComponents/card/EventCard';
 import eventData from '../../dummyData/eventCard';
 import Pie from '../../materialUIComponents/pieChart/Pie';
+import SimpleLineChart from '../../materialUIComponents/lineChart/SimpleLineChart';
 
 //dummy data we have to remove it
 const schoolDetails = [
@@ -40,13 +41,29 @@ const schoolDetails = [
   },
 ]
 
+const uData = [4000, 3000, 2000, 2780, 1890, 2390, 3490];
+const pData = [2400, 1398, 9800, 3908, 4800, 3800, 4300];
+const xLabels = [
+  'Page A',
+  'Page B',
+  'Page C',
+  'Page D',
+  'Page E',
+  'Page F',
+  'Page G',
+];
+const lineData = [
+  { data: pData, label: 'pv' },
+  { data: uData, label: 'uv' },
+]
+
 const TeacherDashHome = () => {
   return (
     <Container>
       <WelcomeContent />
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }} mb={3}>
-        <Box sx={{ width: '100%' }}>
-          <Card sx={{ px: 3, py: 2, borderRadius: '5px', height: 'fit-content'}}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '10px',flexWrap:'wrap'}} mb={3}>
+        <Box sx={{ width: 'calc(100% - 390px)', minWidth:'380px'}}>
+          <Card sx={{ px: 3, py: 2, borderRadius: '5px', height: 'fit-content',width:'-webkit-fill-available'}}>
             <Typography variant="h6" sx={{ mb: 5, textAlign: 'center' }}>
               Quick Links
             </Typography>
@@ -69,8 +86,11 @@ const TeacherDashHome = () => {
               </Grid2>
             </Grid2>
           </Card>
+          <Box sx={{width:'-webkit-fill-available',boxShadow:'0px 0px 3px #a6a6a6',borderRadius:'4px',marginTop:'11px',display:'flex',justifyContent:'center',alignItems:'center',paddingLeft:'10px'}}>
+            <SimpleLineChart lineData={lineData} xLabels={xLabels} height={250} width={500} />
+          </Box>
         </Box>
-        <CalendarComponent />
+        <CalendarComponent sx={{minWidth:"370px"}}/>
       </Box>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'space-between' }} mb={3}>
         {
@@ -81,7 +101,10 @@ const TeacherDashHome = () => {
           })
         }
       </Box>
-      <Container sx={{ display: 'flex', gap: '15px', justifyContent: 'space-between', padding: '0px !important' }}>
+      <Container sx={{ display: 'flex', gap: '15px', justifyContent: 'space-between', padding: '0px !important',flexWrap:'wrap'}}>
+        <Box sx={{minWidth:'390px', height: '370px', boxShadow: '0px 0px 5px #8f8f8f', width: 'initial', borderRadius: '5px',width : 'calc(100% - 370px)' }}>
+          <Pie />
+        </Box>
         <Box sx={{ maxHeight: '370px', overflowY: 'scroll', display: 'flex', flexDirection: 'column', gap: '20px', boxShadow: '0px 0px 3px #727272', borderRadius: '5px', paddingBottom: '20px', minWidth: '350px' }} mb={3}>
           <Typography sx={{ backgroundColor: '#1f2f4a', position: 'sticky', top: '0px', color: 'white', padding: "10px", zIndex: "10" }}>Upcoming Events :</Typography>
           {
@@ -89,9 +112,6 @@ const TeacherDashHome = () => {
               return <EventCard />
             })
           }
-        </Box>
-        <Box sx={{ height: '370px', boxShadow: '0px 0px 5px #8f8f8f', width: 'initial', borderRadius: '5px', width: '100%' }}>
-          <Pie />
         </Box>
       </Container>
     </Container>

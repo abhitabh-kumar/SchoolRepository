@@ -3,7 +3,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import {Button, Divider, Drawer, List, ListItem, ListItemText, Typography } from '@mui/material';
+import { Button, Divider, Drawer, List, ListItem, ListItemText, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -11,12 +11,15 @@ import logo from '../../assests/logo.png'
 import './NavBar.css'
 import SignIn from '../../components/login/SignIn';
 import { useNavigate } from 'react-router-dom';
-import Login from '../../components/login/Login';
+import { useSelector } from 'react-redux';
+import UserMenu from '../../components/login/UserMenu';
+import { isTokenExpired } from '../../services/TokenServices';
 
 
 const Navbar = ({ isTransparent }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [token, setToken] = useState(null);
   const handleClose = () => setOpen(false);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -26,6 +29,8 @@ const Navbar = ({ isTransparent }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
+  const userToken = useSelector((state) => state.user.token);
+
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
   };
@@ -34,6 +39,13 @@ const Navbar = ({ isTransparent }) => {
     let url = item.toLowerCase();
     navigate(`/${url}`);
   };
+
+  useEffect(() => {
+    setToken(null);
+    if (userToken && !isTokenExpired(userToken)) {
+      setToken(userToken);
+    }
+  }, [userToken]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,7 +61,7 @@ const Navbar = ({ isTransparent }) => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [token]);
 
   const drawer = (
     <Drawer
@@ -60,18 +72,18 @@ const Navbar = ({ isTransparent }) => {
         sx: { backgroundColor: '#fffff', color: 'black', maxWidth: "280px", width: '100%' },
       }}
     >
-      <Box sx={{ height: "150px", display:'flex', flexDirection:'column',justifyContent:'center', alignItems:'center',backgroundColor:'antiquewhite'}}>
+      <Box sx={{ height: "150px", display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'antiquewhite' }}>
         <img src={logo} srcSet={logo} alt='SPS' id='schoolLogo' />
         <Typography mt={2} variant="h4">Sushila Public School</Typography>
       </Box>
-      <List sx={{paddingTop:'0px'}}>
+      <List sx={{ paddingTop: '0px' }}>
         {menuItems.map((item, index) => (
           <React.Fragment key={`${index}+"menuItems00`}>
-          <Divider component="li" />
-          <ListItem button onClick={() => handleNavigation(item)}
-            sx={{ cursor: 'pointer' }} >
-            <ListItemText primary={item} />
-          </ListItem>
+            <Divider component="li" />
+            <ListItem button onClick={() => handleNavigation(item)}
+              sx={{ cursor: 'pointer' }} >
+              <ListItemText primary={item} />
+            </ListItem>
           </React.Fragment>
         ))}
       </List>
@@ -108,14 +120,19 @@ const Navbar = ({ isTransparent }) => {
             </Box>
           )}
           <Box sx={{ flexGrow: 1.1, display: 'flex', justifyContent: 'flex-end' }}>
+            {token ? <Button sx={{
+              width: '50px', display: 'flex', justifyContent: 'center', alignItems: 'center', "&:hover": { backgroundColor: "transparent" }
+            }}>
+              <UserMenu />
+            </Button> :
             <Button sx={{ width: 'fit-content', backgroundColor: "#333333", color: 'white', padding: "4px 25px" }} className='contactUsNav'
               onClick={() => setOpen(true)}>
               Sign-In
-            </Button>
+            </Button>}
           </Box>
         </Toolbar>
       </AppBar>
-        {/* {open && <Login/>} */}
+      {/* {open && <Login/>} */}
       <SignIn open={open} handleClose={handleClose} />
     </>
   );

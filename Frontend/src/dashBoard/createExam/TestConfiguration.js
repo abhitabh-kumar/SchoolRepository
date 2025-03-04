@@ -1,89 +1,95 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './exam.css'
-import { Button } from '@mui/material';
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField, useMediaQuery } from '@mui/material';
+import { DateTimeField, DateTimePicker } from '@mui/x-date-pickers';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { subjectsByClass } from '../../dummyData/class';
+import dayjs from 'dayjs';
 
-const TestConfiguration = ({handleValue}) => {
-  const dateRef = useRef(null);
-  const [examName, setExamName] = useState("");
-  const [createBy, setCreatedBy] = useState("")
+const TestConfiguration = ({ handleValue }) => {
+  const isMobile = useMediaQuery("(min-width:400px)");
+  const studentClass = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'];
+  const [grade, setGrade] = useState(1);
+  const [formData, setFormData] = useState({endTime:null,examName: '',grade: '',startTime:null,subject: ''});
 
   const handleExamChange = (e) => {
-    setExamName(e.target.value);
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   }
-  
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    localStorage.setItem('step1', JSON.stringify({
+      ...formData,
+      startTime: formData.startTime ? formData.startTime.toISOString() : null,
+      endTime: formData.endTime ? formData.endTime.toISOString() : null
+    }));
+    handleValue(e, 1)
+  }
+
   useEffect(() => {
-    setCreatedBy("Mathematics");
-    if (dateRef.current) {
-      dateRef.current.min = new Date().toISOString().split("T")[0];
+    const savedData = localStorage.getItem('step1');
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+      setFormData({
+        ...parsedData,
+        startTime: parsedData.startTime ? dayjs(parsedData.startTime) : null,
+        endTime: parsedData.endTime ? dayjs(parsedData.endTime) : null
+      });
     }
   }, []);
 
   return (
-    <>
+    <form onSubmit={handleSubmit}>
       <div className='testConfiguration'>
-        <div className="examName">
-          <label htmlFor="examName" className="form-label">Exam Name :</label>
-          <input
-            type="text"
-            id="examName"
-            name="examName"
-            className="form-input"
-            value={examName}
+        <FormControl sx={{ width: "100%", marginBottom: '9px' }}>
+          <TextField id="outlined-basic" name="examName" label="Exam Name" variant="outlined" required value={formData.examName} onChange={handleExamChange} />
+        </FormControl>
+        <FormControl sx={{ width: "45%", minWidth: !isMobile ? '100% !important' : '300px !important' }}>
+          <InputLabel id="demo-select-small-label" sx={{ color: 'black' }}>Grade</InputLabel>
+          <Select
+            labelId="demo-select-small-label"
+            id="demo-select-small"
+            value={formData.grade ? formData.grade : ''}
+            label="Grade"
+            name="grade"
             onChange={handleExamChange}
-            placeholder='Subject Name'
             required
-          />
-        </div>
-        <div className="createdBy">
-          <label htmlFor="createdBy" className="form-label">Subject :</label>
-          <input
-            type="text"
-            id="createdBy"
-            name="createdBy"
-            className="form-input"
-            value={createBy}
-            disabled
-          />
-        </div>
-        <div className="examDate">
-          <label htmlFor="examDate" className="form-label">Exam Date :</label>
-          <input
-            type="date"
-            id="examDate"
-            name="examDate"
-            className="form-input"
-            ref={dateRef}
-          />
-        </div>
-        <div className="examDate">
-          <label htmlFor="examDate" className="form-label">Duration :</label>
-          <input
-            type="date"
-            id="examDate"
-            name="examDate"
-            className="form-input"
-            ref={dateRef}
-          />
-        </div>
-        <div className="examTime">
-          <label htmlFor="examTime" className="form-label">Start timing :</label>
-          <input
-            type="time"
-            id="examTime"
-            name="examTime"
-            className="form-input"
-          />
-        </div>
+          >
+            {studentClass.map((item, index) => <MenuItem value={index + 1} key={`studentClass${index + 1}090`}>{item}</MenuItem>)}
+          </Select>
+
+        </FormControl>
+        <FormControl sx={{ width: "45%", minWidth: !isMobile ? '100% !important' : '300px !important' }}>
+          <InputLabel id="demo-select-small-label" sx={{ color: 'black' }}>Subject</InputLabel>
+          <Select
+            labelId="demo-select-small-label"
+            id="demo-select-small"
+            disabled={!formData.grade}
+            value={formData.subject ? formData.subject : ''}
+            label="Subject"
+            name="subject"
+            onChange={handleExamChange}
+            required
+          >
+            {formData.grade && subjectsByClass[formData.grade].map((item, index) => <MenuItem value={index + 1} key={`studentClass${index + 1}090`}>{item}</MenuItem>)}
+          </Select>
+        </FormControl>
+          <DemoContainer components={['DateTimeField']} sx={{ display: 'flex', width: '100%', flexDirection: 'row', gap: "10px", flexWrap: 'wrap', justifyContent: 'space-between' }}>
+            <DateTimeField label="Exam Start Timing" name="startTime" value={formData.startTime}
+              onChange={(startTime) => setFormData({...formData,startTime})} sx={{ width: "45%", minWidth: !isMobile ? '100% !important' : '300px !important' }} required />
+            <DateTimeField label="Exam End Timing" name='endTime' value={formData.endTime}
+              onChange={(endTime) => setFormData({...formData,endTime})} sx={{ marginTop: '0px !important', width: "45%", minWidth: !isMobile ? '100% !important' : '300px !important' }} required />
+          </DemoContainer>
       </div>
       <Button
+        type='submit'
         variant="contained"
         className="create-question-button"
-        sx={{marginTop:'20px'}}
-        onClick={(e)=>handleValue(e,1)}
+        sx={{ marginTop: '20px' }}
       >
         Next {' >>'}
       </Button>
-    </>
+    </form>
   )
 }
 

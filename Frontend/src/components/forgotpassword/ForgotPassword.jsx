@@ -1,9 +1,9 @@
 // src/components/ForgotPassword.js
 import React, { useState } from 'react';
-import { requestPasswordReset } from '../services/Api';
+import { requestPasswordReset } from '../../services/Api';
 import { useNavigate } from 'react-router-dom';
 import './ForgotPassword.css';
-import authHeader from '../services/authHeader';
+import authHeader from '../../services/authHeader';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');

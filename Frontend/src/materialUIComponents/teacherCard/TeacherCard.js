@@ -9,6 +9,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import './teacherCard.css'
+import avtar from '../../assests/teacherAvtar.jpg';
 
 export default function TeacherCard({ details }) {
     const [showDetails, setShowDetails] = useState(false);
@@ -26,7 +27,9 @@ export default function TeacherCard({ details }) {
             onMouseLeave={handleMouseLeave}>
             <CardMedia
                 sx={{ height: 200 }}
-                image={`data:image/jpeg;base64,${details.profilePic}`}
+                image={details.profilePic 
+        ? `data:image/jpeg;base64,${details.profilePic}` 
+        : avtar}
                 title={details.name}
             />
             <CardContent sx={{ padding: '16px 16px 24px', boxShadow: '0px -2px 5px rgba(0, 0, 0, 0.4)' }}>

@@ -1,42 +1,23 @@
-import { Button, Card, Grid2, Typography } from '@mui/material';
+import { Button, Card, Grid2, Skeleton, Typography } from '@mui/material';
 import * as React from 'react';
 import TeacherCard from '../../materialUIComponents/teacherCard/TeacherCard';
 import teacher1 from '../../assests/teacher1.jpg';
 import teacher2 from '../../assests/teacher2.png';
 import teacher3 from '../../assests/teacher3.png';
+import { useNavigate } from 'react-router-dom';
+import TeacherTemplate from '../teacher/TeacherTemplate';
 
-const teachers = [
-  {
-    name: 'Aniket Jain',
-    role: 'Early Childhood Development',
-    img: teacher2,
-  },
-  {
-    name: 'Shiv Meena',
-    role: 'Innovative Education Methods',
-    img: teacher1,
-  },
-  {
-    name: 'Abhitabh Kr. Pandey',
-    role: 'Arts and Creative Expression',
-    img: teacher3,
-  },
-];
+const teachers = null;
 
 export default function OurTeachers() {
+  const navigate = useNavigate();
   return (
     <div className='ourTeachers'>
       <Typography variant="h4" textAlign="center" fontWeight="bold" fontSize={30} mb={3}>
         Meet Our Expert Teacher
       </Typography>
-      <Grid2 container size={12} justifyContent={"space-around"} rowSpacing={3} columnSpacing={2}>
-        {teachers && teachers.map((item, index) => {
-          return <Grid2 item key={index + " " + item.name} id='teacherGrid'>
-            <TeacherCard details={item} />
-          </Grid2>
-        })}
-      </Grid2>
-      <Button id='seeAllTeacherbutton'>See All Teachers</Button>
+      <TeacherTemplate/>
+      <Button id='seeAllTeacherbutton' onClick={() => navigate("/teachers")}>See All Teachers</Button>
     </div>
   );
 }

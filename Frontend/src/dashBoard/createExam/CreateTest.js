@@ -10,6 +10,14 @@ import { colors, useMediaQuery } from '@mui/material';
 import TestConfiguration from './TestConfiguration';
 import AddQuestions from './AddQuestions';
 import PreviewExam from './PreviewExam';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { createExam } from '../../services/Exam';
+import dayjs from 'dayjs';
+import { useSelector } from 'react-redux';
+import { getUsername } from '../../services/TokenServices';
+import SlideSnackBar from '../../materialUIComponents/snackbar/SlideSnackBar';
+import { subjectsByClass } from '../../dummyData/class';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -59,15 +67,20 @@ export default function FullWidthTabs() {
   const [value, setValue] = useState(0);
   const isSmallScreen = useMediaQuery("(min-width:700px)");
   const [selectedQuestions, setSelectedQuestions] = useState([]);
+  const token = useSelector((state) => state.user.token);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [severity, setSeverity] = useState("success");
+  const [open, setOpen] = useState(false);
 
-  const handleSwap = (curr,swapBy)=>{
-      // not optimized
-      const swapingIndex = curr + swapBy;
-      if(swapingIndex>=0 && swapingIndex < selectedQuestions.length){
-        const newQuestions = [...selectedQuestions];
-        [newQuestions[curr], newQuestions[swapingIndex]] = [newQuestions[swapingIndex], newQuestions[curr]];
-        setSelectedQuestions(newQuestions);
-      }
+  const handleSwap = (curr, swapBy) => {
+    // not optimized
+    const swapingIndex = curr + swapBy;
+    if (swapingIndex >= 0 && swapingIndex < selectedQuestions.length) {
+      const newQuestions = [...selectedQuestions];
+      [newQuestions[curr], newQuestions[swapingIndex]] = [newQuestions[swapingIndex], newQuestions[curr]];
+      setSelectedQuestions(newQuestions);
+    }
   }
 
   const handleValue = (event, newValue) => {
@@ -87,10 +100,36 @@ export default function FullWidthTabs() {
     );
   };
 
+  const createTest = async () => {
+    setLoading(true);
+    const savedData = localStorage.getItem('step1');
+    const author = getUsername(token);
+    if (savedData) {
+      let parsedData = JSON.parse(savedData);
+      parsedData = { ...parsedData, subject: subjectsByClass[parsedData.grade][parsedData.subject], questions: selectedQuestions, author };
+      try {
+        const response = await createExam(parsedData, token);
+        if(response.code != '200') throw new Error(response.message);
+        setMessage(response.message);
+        setSeverity("success");
+        localStorage.removeItem('step1');
+        setSelectedQuestions([]);
+        setOpen(true)
+      } catch (error) {
+        setMessage("Error occur while creating Exam");
+        setSeverity("warning");
+        setOpen(true);
+        console.error(error.message);
+      }
+    }
+    setLoading(false);
+    setValue(0);
+  }
+
   return (
     <>
-      <Typography sx={{padding:'18px 0px 18px 24px', fontSize:'1.2rem', fontWeight:'600'}}> Create Exam</Typography>
-      <Box sx={{ width: "calc(100% - 40px)", boxShadow:'0px 0px 1px #000000e8', margin: "0px 20px 20px 20px", borderRadius:'5px 5px 0px 0px'}}>
+      <Typography sx={{ padding: '18px 0px 18px 24px', fontSize: '1.2rem', fontWeight: '600' }}> Create Exam</Typography>
+      <Box sx={{ width: "calc(100% - 40px)", boxShadow: '0px 0px 1px #000000e8', margin: "0px 20px 20px 20px", borderRadius: '5px 5px 0px 0px' }}>
         <AppBar position="static" sx={{ width: "100% " }}>
           <Tabs
             value={value}
@@ -99,25 +138,28 @@ export default function FullWidthTabs() {
             variant="fullWidth"
             aria-label="full width tabs example"
           >
-            <Tab label="Exam details" {...a11yProps(0)} 
-              sx={getTabStyles(value === 0)} style={{borderRadius: "5px 0px 0px 0px"}}/>
+            <Tab label="Exam details" {...a11yProps(0)}
+              sx={getTabStyles(value === 0)} style={{ borderRadius: "5px 0px 0px 0px" }} />
             <Tab label="Add questions" {...a11yProps(1)}
-              sx={getTabStyles(value === 1)} style={{ borderLeft: '1px solid green', borderRight: '1px solid green',}}/>
+              sx={getTabStyles(value === 1)} style={{ borderLeft: '1px solid green', borderRight: '1px solid green', }} />
             <Tab label="Preview" {...a11yProps(2)}
-              sx={getTabStyles(value === 2)} style={{borderRadius: "0px 5px 0px 0px"}}
+              sx={getTabStyles(value === 2)} style={{ borderRadius: "0px 5px 0px 0px" }}
             />
           </Tabs>
-        </AppBar> 
+        </AppBar>
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <TestConfiguration handleValue={handleValue}/>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <TestConfiguration handleValue={handleValue} />
+          </LocalizationProvider>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <AddQuestions handleValue={handleValue} selectedQuestions={selectedQuestions} handleAddQuestion={handleAddQuestion} handleRemoveQuestion={handleRemoveQuestion}/>
+          <AddQuestions handleValue={handleValue} selectedQuestions={selectedQuestions} handleAddQuestion={handleAddQuestion} handleRemoveQuestion={handleRemoveQuestion} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          <PreviewExam selectedQuestions={selectedQuestions} handleSwap={handleSwap} handleValue={handleValue} />
+          <PreviewExam selectedQuestions={selectedQuestions} handleSwap={handleSwap} handleValue={handleValue} createTest={createTest} loading={loading} />
         </TabPanel>
       </Box>
+      <SlideSnackBar message={message} severity={severity} open={open} handleClose={() => setOpen(false)} />
     </>
   );
 }

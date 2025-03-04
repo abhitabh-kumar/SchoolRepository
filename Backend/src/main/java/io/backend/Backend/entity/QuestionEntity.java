@@ -8,13 +8,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name="question")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "questionId")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "questionId")
 public class QuestionEntity {
 
     @Id
@@ -31,12 +32,18 @@ public class QuestionEntity {
     private String author;
 
     @Column(name = "ANSWER", nullable = false)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String answer;
 
     @Column(name = "MARKS", nullable = false)
     private Integer marks;
 
     @ManyToMany(mappedBy = "questions")
+    @JsonIgnore
     private List<ExamEntity> exams;
+
+    @JsonProperty("exams")
+    public List<Long> getExamIds() {
+        return exams != null ? exams.stream().map(ExamEntity::getExamId).collect(Collectors.toList()) : null;
+    }
 }

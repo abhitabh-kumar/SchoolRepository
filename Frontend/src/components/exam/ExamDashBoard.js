@@ -3,31 +3,39 @@ import QuestionBox from './QuestionBox';
 import styles from './exam.module.css'
 import { Box, Button } from '@mui/material';
 import SlideInAlertDialog from '../../materialUIComponents/dialog/SlideInAlertDialog';
+import { useNavigate } from 'react-router-dom';
+import { computeResult } from '../../services/Result';
+import { useSelector } from 'react-redux';
+import { getUsername } from '../../services/TokenServices';
+import SlideSnackBar from '../../materialUIComponents/snackbar/SlideSnackBar';
 
 //you have to put it in commonUtil
-const targetTime = "2024-12-24T09:00:00";
-const calculateTimeLeft = () => {
+const calculateTimeLeft = (targetTime) => {
     const now = new Date();
     const target = new Date(targetTime);
-    const difference = target - now; // Time difference in milliseconds
+    const difference = target - now; 
 
     if (difference > 0) {
-        return Math.floor(difference / 1000); // Convert milliseconds to seconds
+        return Math.floor(difference / 1000); 
     }
-    return 0; // If the target time has passed, return 0
+    return 0; 
 };
 
 const ExamDashBoard = ({ examDetails }) => {
     const [selectedOption, setSelectedOption] = useState({});
     const [questions, setQuestions] = useState(null)
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft);
+    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(examDetails.endTime));
     const [open, setOpen] = useState(false);
+    const [alert,setAlert] = useState(false);
+    const [severity,setSeverity] = useState("success");
+    const [message,setMessage] = useState("")
+    const token = useSelector((state)=>state.user.token);
+    const userName = getUsername(token);
+    const navigate = useNavigate();
 
     const handleOptionChange = (questionId, optionId) => {
-        console.log(questionId);
-        selectedOption[`${questionId}`] = optionId
+        selectedOption[`${questionId}`] = optionId +1;
         setSelectedOption(selectedOption);
-        console.log(selectedOption);
     };
      
     useEffect(() => {
@@ -39,14 +47,13 @@ const ExamDashBoard = ({ examDetails }) => {
     useEffect(() => {
         if (timeLeft > 0) {
             const timer = setInterval(() => {
-                setTimeLeft(calculateTimeLeft());
+                setTimeLeft(calculateTimeLeft(examDetails.endTime));
             }, 1000);
-
-            return () => clearInterval(timer); // Cleanup timer on unmount
+            return () => clearInterval(timer); 
         }
-    }, [timeLeft, targetTime]);
+        submitResponse(false)
+    }, [timeLeft]);
 
-    // Convert seconds to HH:MM:SS format
     const formatTime = (seconds) => {
         const hours = Math.floor(seconds / 3600);
         const minutes = Math.floor((seconds % 3600) / 60);
@@ -56,12 +63,39 @@ const ExamDashBoard = ({ examDetails }) => {
             .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
     };
 
-    const submitResponse = ()=>{
+    const submitResponse = async (check)=>{
         //change alert with material ui
-        if(Object.keys(selectedOption).length != examDetails.questions.length) 
-            alert("Select all option");
-        //calling third api
-        setOpen(true)
+        if(check && Object.keys(selectedOption).length != examDetails.questions.length){
+            setMessage("Please select all options");
+            setSeverity("warning");
+            setAlert(true);
+            return;
+        }
+        const resultdata = {
+            userName,
+            examId: examDetails.examId,
+            questionEntityDto : selectedOption
+        }
+        try{
+            await computeResult(resultdata,token);
+            setMessage("Exam submited successfully");
+            setSeverity("success");
+            setAlert(true);
+            setOpen(true)
+        }catch(error){
+            console.log(error);
+            setMessage("Something went wrong while saving exam");
+            setSeverity("warning");
+            setAlert(true);
+        }
+    }
+    const navigateDashHome = ()=>{
+        navigate("/student/dashHome")
+        setOpen(false);
+    }
+    const navigateResult = ()=>{
+        navigate("/student/reportCard");
+        setOpen(false)
     }
 
     return (
@@ -92,12 +126,13 @@ const ExamDashBoard = ({ examDetails }) => {
                     })
                 }
             </div>
-            <Button className={styles.examButton} onClick={submitResponse}>Submit</Button>
-            <SlideInAlertDialog open={open} handleClose={()=>setOpen(false)} startTest={()=>setOpen(false)}
+            <Button className={styles.examButton} onClick={()=>submitResponse(true)}>Submit</Button>
+            <SlideInAlertDialog open={open} handleClose={navigateDashHome} startTest={navigateResult}
                 isCancel={true} isConfirm={true} cancelMess={"DashBoard"} confirmMess={"Result"}
                 title={"Congratulation"}>
                 Test Submitted SuccessFully !
             </SlideInAlertDialog>
+            <SlideSnackBar message={message} severity={severity} open={alert} handleClose={()=>setAlert(false)} />
         </>
     )
 }

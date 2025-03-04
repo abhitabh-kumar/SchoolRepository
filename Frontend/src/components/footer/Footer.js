@@ -4,8 +4,8 @@ import Grid from '@mui/material/Grid2';
 import { Facebook, Instagram, Twitter } from '@mui/icons-material';
 import girl from '../../assests/littleGirl.png'
 import './footer.css'
-import { addSubscriber } from '../services/Api';
-import authHeader from '../services/authHeader';
+import { addSubscriber } from '../../services/Api';
+import authHeader from '../../services/authHeader';
 
 const Footer = () => {
   const isTablet = useMediaQuery('(min-width:818px)');
