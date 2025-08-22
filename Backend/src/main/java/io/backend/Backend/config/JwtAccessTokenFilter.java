@@ -41,13 +41,12 @@ public class JwtAccessTokenFilter extends OncePerRequestFilter {
         try{
             log.info("[JwtAccessTokenFilter:doFilterInternal] :: Started ");
 
-            log.info("[JwtAccessTokenFilter:doFilterInternal]Filtering the Http Request:{}",request.getRequestURI());
+            log.info("[JwtAccessTokenFilter:doFilterInternal] Filtering the Http Request:{}",request.getRequestURI());
 
             final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-
+            log.info("Header : {}",authHeader);
             JwtDecoder jwtDecoder =  NimbusJwtDecoder.withPublicKey(rsaKeyRecord.rsaPublicKey()).build();
-
-            if(!authHeader.startsWith(TokenType.Bearer.name())){
+            if(authHeader == null || !authHeader.startsWith(TokenType.Bearer.name())){
                 filterChain.doFilter(request,response);
                 return;
             }
@@ -62,6 +61,7 @@ public class JwtAccessTokenFilter extends OncePerRequestFilter {
 
                 UserDetails userDetails = jwtTokenUtils.userDetails(userName);
                 if(jwtTokenUtils.isTokenValid(jwtToken,userDetails)){
+                    log.info("User's token is valid");
                     SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
 
                     UsernamePasswordAuthenticationToken createdToken = new UsernamePasswordAuthenticationToken(

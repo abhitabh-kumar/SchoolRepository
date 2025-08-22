@@ -11,7 +11,6 @@ import VisitUsSection from './VisitUsSection';
 const ContactPage = () => {
     return (
         <>
-            <ResponsiveAppBar isTransparent={false} />
             <Box
                 sx={{
                     display: 'flex',
@@ -27,7 +26,7 @@ const ContactPage = () => {
                     <Typography variant="h1" gutterBottom textAlign={"start"}>
                         Get in Touch with Our School
                     </Typography>
-                    <Typography variant="body1" mb={3}>
+                    <Typography variant="text1" mb={3}>
                         We are here to answer any questions and provide information about our programs.
                     </Typography>
 
@@ -39,14 +38,14 @@ const ContactPage = () => {
 
                         <Grid2 container sx={{backgroundColor:'white',padding:'10px'}} spacing={3}>
                             <Grid2 item xs={6}>
-                                <Typography variant="body1">Mon - Thu</Typography>
-                                <Typography variant="body1">Fri</Typography>
-                                <Typography variant="body1">Sat - Sun</Typography>
+                                <Typography variant="text1">Mon - Thu</Typography>
+                                <Typography variant="text1">Fri</Typography>
+                                <Typography variant="text1">Sat - Sun</Typography>
                             </Grid2>
                             <Grid2 item xs={6}>
-                                <Typography variant="body1">07:00 AM – 04:00 PM</Typography>
-                                <Typography variant="body1">07:00 AM – 03:00 PM</Typography>
-                                <Typography variant="body1">Holiday</Typography>
+                                <Typography variant="text1">07:00 AM – 04:00 PM</Typography>
+                                <Typography variant="text1">07:00 AM – 03:00 PM</Typography>
+                                <Typography variant="text1">Holiday</Typography>
                             </Grid2>
                         </Grid2>
                     </Paper>
@@ -54,7 +53,6 @@ const ContactPage = () => {
                 <ContactForm/>
             </Box>
             <VisitUsSection/>
-            <Navigate />
         </>
     )
 }

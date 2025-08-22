@@ -1,0 +1,15 @@
+.reportCardTable{
+    margin-bottom: 1.8rem;
+}
+.reportCardTable th, .reportCardTable td{
+    text-align: center;
+}
+
+.questionContainer{
+    margin-bottom: 20px;
+    max-width: 600px;
+}
+.correctAnswer{
+    color: rgb(45, 158, 0) !important;
+    margin: 10px 0px !important;
+}

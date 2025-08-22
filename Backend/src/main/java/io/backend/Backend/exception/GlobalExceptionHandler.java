@@ -3,12 +3,16 @@ package io.backend.Backend.exception;
 import io.backend.Backend.dto.ResponseDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.naming.AuthenticationException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.nio.file.AccessDeniedException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
@@ -33,7 +37,7 @@ public class GlobalExceptionHandler {
     public ResponseDetails handleNotFoundException(NotFoundException e){
         ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.NOT_FOUND.value()),
                 e.getMessage(),null);
-        log.error("Not Found Exception");
+        log.error("Not Found Exception : {}",e.getMessage());
         return responseDetails;
     }
 
@@ -71,6 +75,38 @@ public class GlobalExceptionHandler {
         ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.CONFLICT.value()),
                 e.getMessage(),null);
         log.error("Bad Credentials exception occurred");
+        return responseDetails;
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseDetails usernameNotFoundException(UsernameNotFoundException e) {
+        // Log the error if needed
+        ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.UNAUTHORIZED.value()),
+                e.getMessage(),null);
+        log.error("Username or password is incorrect");
+        return responseDetails;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseDetails handleException(Exception e){
+        log.info("Entered into handleException method in GlobalExceptionHandler");
+        HttpStatus status;
+        try{
+            Class<? extends  Exception> c = e.getClass();
+            Constructor<? extends Exception> constructor = c.getConstructor(String.class);
+            Object invoker = constructor.newInstance(e.getMessage());
+            Class<?>[] arguments = new Class[]{};
+            Method method = c.getMethod("getStatusCode",arguments);
+            status = (HttpStatus) method.invoke(invoker,(Object) arguments);
+        }catch (Exception exception){
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        ResponseDetails responseDetails = ResponseDetails.builder()
+                .message(e.getMessage())
+                .code(String.valueOf(status.value()))
+                .build();
+        log.error("error in exception handler :{}",e.getMessage());
         return responseDetails;
     }
 

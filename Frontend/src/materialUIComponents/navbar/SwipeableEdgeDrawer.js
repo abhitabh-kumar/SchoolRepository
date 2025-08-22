@@ -12,11 +12,11 @@ import {
   Announcement as AnnouncementIcon,
   Assessment as AssessmentIcon,
   AccountBox as AccountBoxIcon,
+  QuestionAnswer,
 } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import { Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
-import { data1, data2 } from '../../dummyData/metaData'
+import { Badge, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 
@@ -61,7 +61,7 @@ const icons = {
   },
 };
 
-function SwipeableEdgeDrawer({ children }) {
+function SwipeableEdgeDrawer({ children, menu1, menu2, notificationCount }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [open, setOpen] = useState(false);
@@ -72,12 +72,11 @@ function SwipeableEdgeDrawer({ children }) {
 
   const itemNavigate = (item) => {
     setOpen(false);
-    navigate(`/student/${item.url}`)
+    navigate(`${item.url}`)
   }
 
   return (
-    <>
-      <Root>
+    <Root sx={{minHeight:'100vh',maxHeight:'max-content'}}>
         <CssBaseline />
         <Global
           styles={{
@@ -87,7 +86,7 @@ function SwipeableEdgeDrawer({ children }) {
             },
           }}
         />
-        <Toolbar sx={{ position: 'fixed', width: '100%', bgcolor: '#e0e0e0', zIndex:'1000' }}>
+        <Toolbar sx={{ position: 'fixed', width: '100%', bgcolor: '#e0e0e0', zIndex: '1000' }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -129,8 +128,8 @@ function SwipeableEdgeDrawer({ children }) {
           >
             <Puller />
           </StyledBox>
-          <List>
-            {data1.map((item) => (
+          <List sx={{ overflowY: 'auto', paddingBottom: '0px' }}>
+            {menu1.map((item) => (
               <ListItem
                 key={item.text}
                 disablePadding
@@ -139,7 +138,7 @@ function SwipeableEdgeDrawer({ children }) {
                   color: "#757575",
                   display: 'block',
                   '&:hover': { color: "black" },
-                  backgroundColor: location.pathname === `/student/${item.url}` ? '#d8d7d7' : "#f5f5f5"
+                  backgroundColor: location.pathname === `${item.url}` ? '#d8d7d7' : "#f5f5f5"
                 }}
               >
                 <ListItemButton
@@ -156,56 +155,58 @@ function SwipeableEdgeDrawer({ children }) {
                       justifyContent: 'center',
                     }}
                   >
-                    {item.text === "Dashboard" && <SpaceDashboardIcon sx={icons} />}
-                    {item.text === "Time Table" && <AppsOutageIcon sx={icons} />}
-                    {item.text === "Attendance" && <AssessmentIcon sx={icons} />}
-                    {item.text === "Tests" && <LibraryAddCheckIcon sx={icons} />}
+                    {(item.url === "/teacher/dashHome" || item.url === "/student/dashHome") && <SpaceDashboardIcon sx={icons} />}
+                    {(item.url === "/teacher/timeTable" || item.url === "/student/timeTable") && <AppsOutageIcon sx={icons} />}
+                    {(item.url === "/teacher/markAttendance" || item.url === "/student/attendance") && <AssessmentIcon sx={icons} />}
+                    {(item.url === "/teacher/createTest" || item.url === "/student/tests") && <QuizIcon sx={icons} />}
+                    {item.url === "/teacher/createQuestions" && <QuestionAnswer sx={icons} />}
                   </ListItemIcon>
                   <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
                 <Divider />
               </ListItem>
             ))}
-            {data2.map((item) => (
-            <ListItem
-              key={item.text}
-              disablePadding
-              onClick={() => itemNavigate(item)}
-              sx={{
-                color: "#757575",
-                display: 'block',
-                '&:hover': { color: "black" },
-                backgroundColor: location.pathname === `/student/${item.url}` ? '#d8d7d7' : "#f5f5f5"
-              }}
-            >
-              <ListItemButton
+            {menu2.map((item) => (
+              <ListItem
+                key={item.text}
+                disablePadding
+                onClick={() => itemNavigate(item)}
                 sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+                  color: "#757575",
+                  display: 'block',
+                  '&:hover': { color: "black" },
+                  backgroundColor: location.pathname === `${item.url}` ? '#d8d7d7' : "#f5f5f5"
                 }}
               >
-                <ListItemIcon
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.5,
                   }}
                 >
-                  {item.text === "Announcement" && <AnnouncementIcon sx={icons} />}
-                  {item.text === "Report Card" && <QuizIcon sx={icons} />}
-                  {item.text === "My Profile" && <AccountBoxIcon sx={icons} />}
-                </ListItemIcon>
-                <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-              <Divider />
-            </ListItem>
-          ))}
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                    }}
+                  > {( item.url === "/teacher/announcement" || item.url === "/student/announcement") &&
+                        <Badge badgeContent={notificationCount} classes={{ badge: "customBadge" }}> 
+                              <AnnouncementIcon sx={icons} />
+                        </Badge>}
+                    {(item.url === "/teacher/result" || item.url === "/student/reportCard") && <LibraryAddCheckIcon sx={icons} />}
+                    {(item.url === "/teacher/myProfile" || item.url === "/student/myProfile") && <AccountBoxIcon sx={icons} />}
+                  </ListItemIcon>
+                  <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+                <Divider />
+              </ListItem>
+            ))}
           </List>
         </SwipeableDrawer>
+        <div style={{paddingTop:'70px', backgroundColor:'#F9F9F9',minHeight:'100vw'}}>{children}</div>
       </Root>
-      {children}
-    </>
   );
 }
 

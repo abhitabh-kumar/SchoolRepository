@@ -3,23 +3,21 @@ package io.backend.Backend.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
+import java.sql.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name="STUDENT")
 public class StudentEntity extends UserInfoEntity{
 
-    @Column(name = "ROll_NO", nullable = false,unique = true)
+    @Column(name = "ROll_NO", nullable = false, unique = true)
     private String rollNo;
 
     @Column(name = "NAME", nullable = false)
     private String name;
-
-    @Column(nullable = false, name = "EMAIL_ID")
-    @Email(regexp = "^[a-zA-Z0-9_!#$%&amp;'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$",message = "Invalid email format")
-    private String emailId;
 
     @Column(name = "FATHER_NAME", nullable = false)
     private String fatherName;
@@ -39,5 +37,9 @@ public class StudentEntity extends UserInfoEntity{
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private AddressEntity address;
+
+    private Date dateOfBirth;
+
+    private Date dateOfJoining;
 }
 

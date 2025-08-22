@@ -4,18 +4,18 @@ import io.backend.Backend.dto.ResponseDetails;
 import io.backend.Backend.entity.StudentEntity;
 import io.backend.Backend.exception.NotFoundException;
 import io.backend.Backend.repo.StudentRepo;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.swing.text.html.Option;
+import org.springframework.transaction.annotation.Transactional;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,12 +38,13 @@ public class StudentService {
         return responseDetails;
     }
 
-    public ResponseDetails getStudentByRollNo(String rollNo){
-        Optional<StudentEntity> student = studentRepo.findByRollNo(rollNo);
-        if(student.isPresent()){
+//    @Cacheable(value = "studentCache", key = "rollNo")
+    public ResponseDetails getStudentGrade(Integer rollNo){
+        List<StudentEntity> student = studentRepo.findByGrade(rollNo);
+        if(!student.isEmpty()){
             ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
                     "Student fetched successfully",
-                    student.get());
+                    student);
             log.info("Student with rollNo {} fetched", rollNo);
             return responseDetails;
         }
@@ -51,28 +52,90 @@ public class StudentService {
         throw new NotFoundException("Student not found");
     }
 
-    public ResponseDetails getStudentsByEmailId(String email){
-        List<StudentEntity> student = studentRepo.findByEmailId(email);
+//    @Cacheable(value = "studentCache", key = "'name'")
+    public ResponseDetails getStudentsByName(String name){
+        StudentEntity student = studentRepo.findByUserName(name);
+        if(student != null){
+            ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
+                    "Student fetched successfully",
+                    student);
+            log.info("Student with UserName {} fetched", name);
+            return responseDetails;
+        }
+        log.error("Student with UserName {} not found", name);
+        throw new NotFoundException("Student with this UserName not found");
+    }
+
+//    @Cacheable(value = "studentCache", key = "'allStudent'")
+    public ResponseDetails  getAllStudents(){
+        List<StudentEntity> student = studentRepo.findAll();
         if(!student.isEmpty()){
             ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
                     "Student fetched successfully",
                     student);
-            log.info("Student with email {} fetched", email);
             return responseDetails;
         }
-        log.error("Student with email {} not found", email);
         throw new NotFoundException("Student not found");
     }
-    public ResponseDetails getStudentId(Long id){
-        Optional<StudentEntity> student = studentRepo.findByUserId(id);
-        if(student.isPresent()){
-            ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
-                    "Student fetched successfully",
-                    student.get());
-            log.info("Student with id {} fetched", id);
-            return responseDetails;
+
+//    @Cacheable(value = "studentCache", key = "#id")
+    public ResponseDetails getStudentById(Long id){
+        StudentEntity student = studentRepo.findByUserId(id);
+        ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
+                "Student fetched successfully",
+                student);
+        return responseDetails;
+    }
+
+//    @CachePut(value = "studentCache", key = "#id")
+    @Transactional
+    public ResponseDetails updateStudent(StudentEntity student, Long id){
+           log.info("Fetching student by studentId {}",id);
+           StudentEntity studentEntity = studentRepo.findById(id).get();
+           try {
+               if (studentEntity != null) {
+                   studentEntity.setAge(student.getAge());
+                   studentEntity.setGrade(student.getGrade());
+                   studentEntity.setName(student.getName());
+                   studentEntity.setEmailId(student.getEmailId());
+                   studentEntity.setFatherName(student.getFatherName());
+                   studentEntity.setMobileNumber(student.getMobileNumber());
+                   studentEntity.setMotherName(student.getMotherName());
+                   studentEntity.setUserName(student.getUserName());
+                   studentEntity.setDateOfBirth(student.getDateOfBirth());
+                   studentEntity.setDateOfJoining(student.getDateOfJoining());
+                   studentEntity.setAddress(student.getAddress());
+                   log.info("Saved student by studentId {}", id);
+                   studentRepo.save(studentEntity);
+               }
+           } catch (Exception e) {
+               throw new RuntimeException(e);
+           }
+        ResponseDetails responseDetails = new ResponseDetails(Integer.toString(HttpStatus.OK.value()),
+                "Student fetched successfully",
+                studentEntity);
+           return responseDetails;
+    }
+
+//    @CacheEvict(value = "studentCache", key = "#id")
+    public boolean deleteStudent(Long id){
+        if (studentRepo.existsById(id)) {
+            studentRepo.deleteById(id);
+            return true;
+        } else {
+            return false;
         }
-        log.error("Student with id {} not found", id);
-        throw new NotFoundException("Student not found");
+    }
+
+    // Runs every year on January 1st at 12:00 AM
+    @Scheduled(cron = "0 0 0 1 1 *")
+    @Transactional
+    public void promoteStudents() {
+        List<StudentEntity> students = studentRepo.findAll() ;
+        for (StudentEntity student : students) {
+            student.setGrade(student.getGrade() + 1); // Increase class by 1
+        }
+        studentRepo.saveAll(students);
+        log.info("Students promoted to the next class!");
     }
 }

@@ -5,13 +5,13 @@ import SlowMotionVideoIcon from '@mui/icons-material/SlowMotionVideo';
 import { Box, Button, Grid2, Typography } from '@mui/material'
 import CarouselComponent from '../../materialUIComponents/carousel/CarouselComponent';
 import Navigate from '../../materialUIComponents/navigation/Navigate';
-import MediaCard from '../../materialUIComponents/mediaCard/mediaCard';
 import SchoolActivity from './SchoolActivity';
 import BelievableComponent from './BelievableComponent';
 import OurTeachers from './OurTeachers';
 import FAQ from '../FAQ/FAQ';
 import BlogCard from '../../materialUIComponents/blogCard/BlogCard';
 import Footer from '../footer/Footer';
+import MediaCard from '../../materialUIComponents/card/MediaCard';
 
 const HomePage = () => {
     
@@ -37,7 +37,6 @@ const HomePage = () => {
         }]
     return (
         <>
-            <ResponsiveAppBar isTransparent={true}/>
             <div className="HomePageContainer">
                 <div className="landingPage">
                     <p className='landedPara' style={{ marginTop: '60px' }}>Unleash Creativity,</p>
@@ -91,7 +90,6 @@ const HomePage = () => {
                 </Box>
             <Footer/>
             </div>
-            <Navigate />
         </>
     )
 }

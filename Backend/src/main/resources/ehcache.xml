@@ -1,0 +1,32 @@
+<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns='http://www.ehcache.org/v3'
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd">
+
+    <cache alias="examCache">
+        <expiry>
+            <ttl unit="seconds">300</ttl> <!-- Cache Time-to-Live: 300 seconds -->
+        </expiry>
+        <heap unit="entries">100</heap> <!-- In-memory entries limit -->
+    </cache>
+
+    <cache alias="questionCache">
+        <expiry>
+            <ttl unit="minutes">10</ttl> <!-- Cache Time-to-Live: 10 minutes -->
+        </expiry>
+        <heap unit="entries">500</heap>
+    </cache>
+
+    <cache alias="studentCache">
+        <expiry>
+            <ttl unit="minutes">10</ttl> <!-- Cache Time-to-Live: 10 minutes -->
+        </expiry>
+        <heap unit="entries">500</heap>
+    </cache>
+
+    <cache alias="teacherCache">
+        <expiry>
+            <ttl unit="minutes">1</ttl> <!-- Cache Time-to-Live: 10 minutes -->
+        </expiry>
+        <heap unit="entries">500</heap>
+    </cache>
+</config>

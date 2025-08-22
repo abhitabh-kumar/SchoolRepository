@@ -25,7 +25,7 @@ const BeliefsComponent = () => {
                     </Typography>
                 </Grid>
                 <Grid item size={{md:4}}>
-                    <Typography variant="body1" sx={{ mb: 4,justifyContent:'flex-end'}}>
+                    <Typography variant="text1" sx={{ mb: 4,justifyContent:'flex-end'}}>
                         Discover how our kindergarten fosters a love for learning through innovative early education.
                     </Typography>
                 </Grid>

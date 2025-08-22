@@ -5,9 +5,11 @@ import io.backend.Backend.entity.StudentEntity;
 import io.backend.Backend.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.tags.Param;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 
@@ -29,29 +31,51 @@ public class StudentController {
         return ResponseEntity.ok(responseDetails);
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_STUDENT','SCOPE_TEACHER')")
-    @GetMapping("/getStudentByRollNo")
-    public ResponseEntity<ResponseDetails> getStudentRollNo(@RequestParam String rollNo) {
-        log.info("Fetching Student with rollNo : {} ", rollNo);
-        ResponseDetails responseDetails = studentService.getStudentByRollNo(rollNo);
+//    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_STUDENT','SCOPE_TEACHER')")
+    @GetMapping("/{grade}")
+    public ResponseEntity<ResponseDetails> getStudentGrade(@PathVariable Integer grade) {
+        log.info("Fetching Student with rollNo : {} ", grade);
+        ResponseDetails responseDetails = studentService.getStudentGrade(grade);
         return ResponseEntity.ok(responseDetails);
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_TEACHER')")
-    @GetMapping("/getStudentsByEmail")
-    public ResponseEntity<ResponseDetails> getStudentsByEmailId(@RequestParam String email) {
-        log.info("Fetching Student with email : {} ", email);
-        ResponseDetails responseDetails = studentService.getStudentsByEmailId(email);
+//    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_TEACHER')")
+    @GetMapping("/name/{name}")
+    public ResponseEntity<ResponseDetails> getStudentsByUserName(@PathVariable String name) {
+        log.info("Fetching Student with UserName : {} ", name);
+        ResponseDetails responseDetails = studentService.getStudentsByName(name);
         return ResponseEntity.ok(responseDetails);
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_TEACHER')")
-    @GetMapping("/getStudentById/{id}")
-    public ResponseEntity<ResponseDetails> getStudentId(@PathVariable Long id) {
+    //    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN','SCOPE_TEACHER')")
+    @GetMapping("/get/{id}")
+    public ResponseEntity<ResponseDetails> getStudentId(@PathVariable("id") Long id) {
+        log.info("Fetching Student with Id : {} ", id);
+        ResponseDetails responseDetails = studentService.getStudentById(id);
+        return ResponseEntity.ok(responseDetails);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseDetails> updateStudent(@RequestBody StudentEntity student, @PathVariable("id") Long id) {
         log.info("Fetching Student with id : {} ", id);
-        ResponseDetails responseDetails = studentService.getStudentId(id);
+        ResponseDetails responseDetails = studentService.updateStudent(student, id);
         return ResponseEntity.ok(responseDetails);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<ResponseDetails> getAllStudents() {
+        ResponseDetails responseDetails = studentService.getAllStudents();
+        return ResponseEntity.ok(responseDetails);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteStudent(@PathVariable("id") Long id){
+        boolean isDeleted = studentService.deleteStudent(id);
+        if (isDeleted) {
+            return new ResponseEntity<>("Student deleted successfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Student not found", HttpStatus.NOT_FOUND);
+        }
+    }
 
 }

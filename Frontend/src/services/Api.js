@@ -1,0 +1,360 @@
+// src/services/api.js
+import axios from 'axios';
+import authHeader from './authHeader';
+const API_URL = 'http://localhost:8080'; // Base URL 
+
+const token=authHeader();
+
+// Function to log in a user
+export const loginUser = async (username, password, role) => {
+    try {
+      // Make the API request to log in
+      const credentials = btoa(`${username}:${password}`);
+      const response = await axios.get(`http://localhost:8080/sign-in`,{
+        headers: {
+          'Authorization': `Basic ${credentials}`
+        }
+      });
+  
+      // Return the response data if needed
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      // Throw an error with a message if the request fails
+      throw new Error(error.response?.data?.message || 'Error logging in');
+    }
+  };
+
+// Function to send the data from an user messages or welcome messages
+  export const requestMessageViaEmail = async (token1, formData) => {
+    console.log("Hi I am inside API");
+    console.log(token1);
+    try {
+      const response = await axios.post(`${API_URL}/api/emails/send-message`, formData, {
+        
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response ? error.response.data.message : 'Request failed');
+    }
+  };
+
+// Function to send a forgot password request
+export const requestPasswordReset = async (email, token1) => {
+  try {
+    const response = await axios.post(`${API_URL}/api/emails/send-reset-mail`, email, {
+      headers: {
+        Authorization: token1,
+        "Content-Type" : "text/plain",
+      }
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response ? error.response.data.message : 'Request failed');
+  }
+};
+
+// Function to reset the password
+export const resetPassword = async (email, password) => {
+  console.log(email);
+  try {
+    const API_URL = 'http://localhost:8080/api/emails/reset-password'; // Replace with your backend base URL
+    const response = await axios.post(
+      API_URL,
+      password, // `password` is sent in the request body
+      {
+        params: {
+          email: email, // `email` is sent as a query parameter
+        },
+        headers: {
+          'Content-Type': 'text/plain', // Specify the content type
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error resetting password:', error.response || error);
+    throw new Error(
+      error.response?.data?.message || 'Failed to reset password'
+    );
+  }
+};
+
+// Function to verify OTP
+export const verifyOtp = async (token, otp) => {
+    try {
+      // Make the API request to verify the OTP
+      const response = await axios.post(`${API_URL}/verify-otp`, {
+        token,
+        otp
+      });
+  
+      // Return the response data if needed
+      return response.data;
+    } catch (error) {
+      // Throw an error with a message if the request fails
+      throw new Error(error.response?.data?.message || 'Error verifying OTP');
+    }
+  };
+
+// Function to create a teacher
+export const createTeacher = async (teacherData, token1) => {
+  console.log(token1);
+  try {
+    const response = await axios.post(`${API_URL}/teacher/createTeacher`, teacherData, { headers: {
+      "Authorization": token1,
+    }});
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to create teacher.');
+  }
+};
+
+export const getAllTeacher = async (token1) => {
+  // console.log(type);
+  try{
+    const response =await axios.get(`${API_URL}/teacher/all`, { headers: {
+      "Authorization": token1,
+    }});
+    return response.data;
+  }
+  catch(error){
+    throw new Error(error.response?.data?.message || 'Failed to search teacher.');
+  }
+};
+
+export const getTeacherById = async (id, token1) => {
+  const response = await axios.get(`${API_URL}/teacher/get/${id}`, { headers: {
+    "Authorization": token1,
+  }});
+  return response;
+};
+// Function to get Teacher By Email No working
+export const getTeacherByName = async (searchValue, token1) => {
+  try{
+    const response =await axios.get(`http://localhost:8080/teacher/name/${searchValue}`, { headers: {
+      "Authorization": token1,
+    }});
+    console.log(response);
+    return response;
+  }
+  catch(error){
+    throw new Error(error.response?.data?.message || 'Failed to serach teacher.');
+  }
+};
+
+// Function to update the data of teacher
+export const updateTeacher = async (id, data, token1) => {
+  const response = await axios.put(`${API_URL}/teacher/${id}`, data, { headers: {
+    "Authorization": token1,
+  }});
+  
+  return response;
+};
+
+// Function to delete a teacher by ID
+export const deleteTeacher = async (id) => {
+  try {
+    const response = await axios.delete(`${API_URL}/teacher/${id}`, { headers: {
+      "Authorization": token,
+    }});
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting teacher:', error);
+    throw new Error('Failed to delete teacher');
+  }
+};
+
+// Function to create a student
+export const createStudent = async (studentData, token1)  => {
+  try {
+    if (!token1) {
+      throw new Error('Authorization token is missing');
+    }
+    const response = await axios.post(`${API_URL}/student/createStudent`, studentData,{ headers: {
+      "Authorization": token1,
+    }});
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || 'Failed to create student.');
+  }
+};
+
+export const getAllStudent = async (token1) => {
+  try{
+    const response =await axios.get(`${API_URL}/student/all`,{
+      headers: {
+        Authorization: `${token1}`
+      }
+    });
+    return response;
+  }
+  catch(error){
+    throw new Error(error.response?.data?.message || 'Failed to serach teacher.');
+  }
+};
+
+// Function to get student by ID
+export const getStudentById = async (studentId, token1) => {
+  console.log(studentId);
+  try {
+    const response = await axios.get(`${API_URL}/student/get/${studentId}`,{ headers: {
+      "Authorization": token1,
+    }});
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching student data:', error);
+    throw new Error('Failed to fetch student data.');
+  }
+};
+
+// Function to get student by name
+export const getStudentByName = async (name, token1) => {
+  try {
+    const response = await axios.get(`${API_URL}/student/name/${name}`,{
+      headers: {
+        Authorization: `${token1}`  // Send the token in Authorization header
+      }
+    });
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error('Error fetching student data:', error);
+    throw new Error('Failed to fetch student data.');
+  }
+};
+
+// Function to update a student by ID
+export const updateStudent = async (userId, updatedData) => {
+  try {
+    const response = await axios.put(`${API_URL}/student/${userId}`, updatedData, { headers: {
+      "Authorization": token,
+    }});
+    return response.data;
+  } catch (error) {
+    console.error('Error updating student:', error);
+    throw new Error('Failed to update student');
+  }
+};
+
+export const getStudentByGrade = async (grade, token1) => {
+  console.log(token1);
+  try {
+    const response = await axios.get(`${API_URL}/student/${grade}`, { headers: {
+      "Authorization": token1,
+    }});
+    // console.log(response);
+    return response;
+  } catch (error) {
+    console.error('Error fetching student data:', error);
+    throw new Error('Failed to fetch student data.');
+  }
+};
+
+
+// Function to delete a student by ID
+export const deleteStudent = async (id) => {
+  try {
+    const response = await axios.delete(`${API_URL}/student/${id}`, { headers: {
+      "Authorization": token,
+    }});
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting teacher:', error);
+    throw new Error('Failed to delete teacher');
+  }
+};
+
+// Function to create an exam
+export const createExam = async (examData, token1) => {
+  console.log(token1);
+  try {
+    if (!token1) {
+      throw new Error('Authorization token is missing');
+    }
+    const response = await axios.post(`${API_URL}/exam/createExam`, examData, {
+      headers: {
+        Authorization: token1,
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || 'Failed to create exam.');
+  }
+};
+
+
+// Function to add Subscriber
+export const addSubscriber = async (email) => {
+  try {
+    const response = await axios.post(`${API_URL}/api/emails/subscriber-message`, email, {
+      headers: {
+        // Authorization: token1,
+        "Content-Type" : "text/plain",
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || 'Failed to create exam.');
+  }
+}
+
+// Create Question From DashBoard
+export const createQuestion = async (formData,token) => {
+  try {
+    if (!token) {
+      throw new Error('Authorization token is missing');
+    }
+    const response = await axios.post(`${API_URL}/question/createQuestion`, formData, { 
+      headers: {
+        Authorization: token,
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.message || 'Failed to create Question.');
+  }
+}
+
+// Getting all questions for the DashBoard
+export const getAllQuestions = async (token1) => {
+  try {
+    if (!token1) {
+      throw new Error('Authorization token is missing');
+    }
+    const response = await axios.get(`${API_URL}/question/all`, { 
+      headers: {
+        Authorization: token1,
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || 'Failed to get questions.');
+  }
+}
+
+// Get all Exams for the Student DashBoard
+export const getAllExams = async (token1) => {
+  try {
+    if (!token1) {
+      throw new Error('Authorization token is missing');
+    }
+    const response = await axios.get(`${API_URL}/exam/getAll`, { 
+      headers: {
+        Authorization: token1,
+      }
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || 'Failed to get questions.');
+  }
+}
+
+

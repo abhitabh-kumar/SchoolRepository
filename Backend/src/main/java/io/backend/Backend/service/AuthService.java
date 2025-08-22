@@ -37,6 +37,7 @@ public class AuthService {
                     .accessToken(accessToken)
                     .accessTokenExpiry(15 * 60)
                     .userName(userInfoEntity.getUserName())
+                    .role(userInfoEntity.getRoles())
                     .tokenType(TokenType.Bearer)
                     .build();
 

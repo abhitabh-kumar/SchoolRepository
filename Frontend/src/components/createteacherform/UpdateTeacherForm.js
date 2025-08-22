@@ -1,24 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Import useParams and useNavigate
-import { getTeacherById, updateTeacher } from '../services/Api'; // Import API functions
-import '../formstyle/FormStyle.css'; // Ensure this CSS file includes the styles
+import { useParams, useNavigate } from 'react-router-dom';
+import { getTeacherById, updateTeacher } from '../../services/Api';
+import './createTeacherForm.css';
+import authHeader from '../../services/authHeader';
+
 
 const UpdateTeacherForm = () => {
-  const { id } = useParams(); // Get ID from URL parameters
-  console.log("gdgdgdgd");
-  console.log(id);
-  const navigate = useNavigate(); // For navigation
+  const { userId } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     password: '',
-    email: '',
+    emailId: '',
     age: '',
-    mobile_number: '',
-    address: '',
-    dateOfBirth: '',
+    roles: "student",
+    mobileNumber: '',
+    address: {
+      street: '',
+      city: '',
+      state: '',
+      zipCode: ''
+    },
     qualification: '',
-    description: '',
+    description: ''
   });
 
   const [error, setError] = useState('');
@@ -27,10 +31,9 @@ const UpdateTeacherForm = () => {
   useEffect(() => {
     const fetchTeacherData = async () => {
       try {
-        console.log(id);
-        const response = await getTeacherById(id); // Fetch teacher data by ID
-        console.log("Line No. 29")
-        setFormData(response.data);
+        const token = authHeader();
+        const response = await getTeacherById(userId, token);
+        setFormData(response.data.data);
       } catch (err) {
         console.error('Error fetching teacher data:', err);
         setError('Failed to fetch teacher data.');
@@ -38,7 +41,7 @@ const UpdateTeacherForm = () => {
     };
 
     fetchTeacherData();
-  }, [id]);
+  }, [userId]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -47,43 +50,51 @@ const UpdateTeacherForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await updateTeacher(id, formData); // Update teacher data by ID
+      const token = authHeader();
+      await updateTeacher(userId, formData, token);
       setSuccess('Teacher updated successfully!');
       setError('');
-      navigate('/admin/teachers'); // Redirect to teachers list or any other page
+      navigate(-1);
     } catch (err) {
       setError('Failed to update teacher.');
       setSuccess('');
     }
   };
 
+  const handleClose = () => {
+    navigate(-1);
+  };
+
   return (
-    <div className="form-container">
+    <div className="form-container2">
       <h2>Update Teacher</h2>
+      <button onClick={handleClose}>
+        Back{/* Cross sign */}
+      </button>
       <form onSubmit={handleSubmit} className="form">
         {error && <div className="error-message">{error}</div>}
         {success && <div className="success-message">{success}</div>}
 
         <div className="form-group">
-          <label htmlFor="firstName">First Name</label>
+          <label htmlFor="userName">User Name</label>
           <input
             type="text"
-            id="firstName"
-            name="firstName"
-            placeholder="John"
-            value={formData.firstName}
+            id="userName"
+            name="userName"
+            placeholder="JohnDoe"
+            value={formData.userName}
             onChange={handleChange}
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="lastName">Last Name</label>
+          <label htmlFor="name">Name</label>
           <input
             type="text"
-            id="lastName"
-            name="lastName"
-            placeholder="Doe"
-            value={formData.lastName}
+            id="name"
+            name="name"
+            placeholder="John Doe"
+            value={formData.name}
             onChange={handleChange}
             required
           />
@@ -137,13 +148,37 @@ const UpdateTeacherForm = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="address">Address</label>
+          <label htmlFor="address.state">State</label>
           <input
             type="text"
-            id="address"
-            name="address"
-            placeholder="123 Main St"
-            value={formData.address}
+            id="address.state"
+            name="address.state"
+            placeholder="Bihar"
+            value={formData.address.state}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="address.city">City</label>
+          <input
+            type="text"
+            id="address.city"
+            name="address.city"
+            placeholder="Arrah"
+            value={formData.address.city}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="address.zipCode">Zip Code</label>
+          <input
+            type="text"
+            id="address.zipCode"
+            name="address.zipCode"
+            placeholder="802301"
+            value={formData.address.zipCode}
             onChange={handleChange}
             required
           />
@@ -160,7 +195,7 @@ const UpdateTeacherForm = () => {
             required
           />
         </div>
-        <div className="form-group">
+        {/* <div className="form-group">
           <label htmlFor="dateOfBirth">Date of Birth</label>
           <input
             type="date"
@@ -170,7 +205,7 @@ const UpdateTeacherForm = () => {
             onChange={handleChange}
             required
           />
-        </div>
+        </div> */}
         <div className="form-group">
           <label htmlFor="description">Description</label>
           <textarea

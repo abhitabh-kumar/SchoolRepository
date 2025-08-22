@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import { createStudent } from '../services/Api';
-import '../formstyle/FormStyle.css'; // Ensure this CSS file includes the styles provided below
+import { createStudent } from '../../services/Api';
+import './CreateStudentForm.css';
+import authHeader from '../../services/authHeader';
+import { useNavigate } from 'react-router-dom'; // Import useHistory
 
 const CreateStudentPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     userName: '',
     name: '',
     password: '',
     emailId: '',
     rollNo: '',
-    grade: '', // Default grade
+    grade: '',
     motherName: '',
     fatherName: '',
     age: '',
@@ -17,7 +20,7 @@ const CreateStudentPage = () => {
     address: { state: '', zipCode: '', city: '' },
     dateOfBirth: '',
     dateOfJoining: '',
-    roles: 'STUDENT' // Default role
+    roles: 'STUDENT'
   });
 
   const [error, setError] = useState('');
@@ -25,9 +28,8 @@ const CreateStudentPage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
     if (name.startsWith('address.')) {
-      const [key] = name.split('.').slice(1); // Remove 'address' from name
+      const [key] = name.split('.').slice(1);
       setFormData(prevData => ({
         ...prevData,
         address: { ...prevData.address, [key]: value }
@@ -38,7 +40,7 @@ const CreateStudentPage = () => {
   };
 
   const validateForm = () => {
-    // Add validation logic if needed
+    // Validation logic if needed
     return '';
   };
 
@@ -50,11 +52,10 @@ const CreateStudentPage = () => {
       setSuccess('');
       return;
     }
-    
-    console.log('Student Created:', formData);
-    // Call API to create student
+
     try {
-      createStudent(formData);
+      const token = authHeader();
+      createStudent(formData, token);
       setSuccess('Student created successfully!');
       setError('');
     } catch (err) {
@@ -63,8 +64,36 @@ const CreateStudentPage = () => {
     }
   };
 
+  const handleClose = () => {
+    navigate(-1);
+  };
+
+
   return (
-    <div className="form-container">
+    <div className="form-container2">
+      <div
+        onClick={handleClose}
+        style={{
+          cursor: 'pointer',
+          color: 'white', // Change color of cross sign
+          fontSize: '24px',
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+          width: '40px',
+          height: '40px',
+          borderRadius: '50%', // Circular shape
+          backgroundColor: 'red', // Background color of the circle
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transition: 'background-color 0.3s',
+        }}
+        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'darkred'}
+        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'red'}
+      >
+        &times; {/* Cross sign */}
+      </div>
       <h2>Create Student</h2>
       <form onSubmit={handleSubmit} className="form">
         {error && <div className="error-message">{error}</div>}
@@ -82,6 +111,7 @@ const CreateStudentPage = () => {
             required
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="name">Full Name</label>
           <input
@@ -94,6 +124,7 @@ const CreateStudentPage = () => {
             required
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
@@ -106,6 +137,7 @@ const CreateStudentPage = () => {
             required
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="emailId">Email ID</label>
           <input
@@ -118,6 +150,7 @@ const CreateStudentPage = () => {
             required
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="rollNo">Roll Number</label>
           <input
@@ -130,6 +163,7 @@ const CreateStudentPage = () => {
             required
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="grade">Grade</label>
           <input
@@ -143,6 +177,7 @@ const CreateStudentPage = () => {
             required
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="motherName">Mother's Name</label>
           <input
@@ -154,6 +189,7 @@ const CreateStudentPage = () => {
             onChange={handleChange}
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="fatherName">Father's Name</label>
           <input
@@ -166,6 +202,7 @@ const CreateStudentPage = () => {
             required
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="age">Age</label>
           <input
@@ -179,6 +216,7 @@ const CreateStudentPage = () => {
             required
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="mobileNumber">Mobile Number</label>
           <input
@@ -188,10 +226,9 @@ const CreateStudentPage = () => {
             placeholder="+1234567890"
             value={formData.mobileNumber}
             onChange={handleChange}
-            // pattern="\d{10}"
-            // required
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="address.state">State</label>
           <input
@@ -204,6 +241,7 @@ const CreateStudentPage = () => {
             required
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="address.city">City</label>
           <input
@@ -216,6 +254,20 @@ const CreateStudentPage = () => {
             required
           />
         </div>
+
+        <div className="form-group">
+        <label htmlFor="address.street">Street</label>
+        <input
+          type="text"
+          id="address.street"
+          name="address.street"
+          placeholder="Arrah"
+          value={formData.address.street}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
         <div className="form-group">
           <label htmlFor="address.zipCode">Zip Code</label>
           <input
@@ -228,6 +280,7 @@ const CreateStudentPage = () => {
             required
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="dateOfBirth">Date of Birth</label>
           <input
@@ -239,6 +292,7 @@ const CreateStudentPage = () => {
             required
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="dateOfJoining">Date of Joining</label>
           <input
@@ -250,6 +304,7 @@ const CreateStudentPage = () => {
             required
           />
         </div>
+
         <button type="submit" className="submit-button">Create Student</button>
       </form>
     </div>

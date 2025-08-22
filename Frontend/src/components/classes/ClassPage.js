@@ -8,11 +8,8 @@ import UnderMaintenance from '../underMaintenance/underMaintenance'
 const ClassPage = () => {
   return (
     <>
-         <ResponsiveAppBar isTransparent={false} />
          <ComponentsHeading prevPath={"Home "} path={" / Classes"} comColor="rgb(255 225 225)" content={"Our Classes"} />
          <UnderMaintenance/>
-         <Footer />
-         <Navigate />
     </>
   )
 }

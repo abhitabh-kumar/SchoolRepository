@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Typography, TextField, IconButton, List, ListItem, ListItemText, Link, useMediaQuery } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { Facebook, Instagram, Twitter } from '@mui/icons-material';
 import girl from '../../assests/littleGirl.png'
 import './footer.css'
+import { addSubscriber } from '../../services/Api';
+import authHeader from '../../services/authHeader';
 
 const Footer = () => {
   const isTablet = useMediaQuery('(min-width:818px)');
 
   const links = ['Homepage v1', 'Homepage v2', 'Homepage v3', 'About', 'Teacher', 'Upcoming Events']
   const classes = ['Toddler Class', 'Early Learning', 'Art & Craft', 'Science & Nature', 'Music', 'Leadership'];
+  const [email,setEmail] = useState("");
+
+  function subscribe(email){
+           addSubscriber(email);
+  }
+
   return (
     <Box mt={10}>
       <Box sx={{ backgroundColor: '#1B1B3B', color: 'white', pt: 3 ,pb:4}}>
@@ -29,7 +37,7 @@ const Footer = () => {
             <Typography variant="h1" fontWeight="bold" textAlign='left' mb={1}>
               Get the best education
             </Typography>
-            <Typography variant="body1" sx={{ marginBottom: 2 }}>
+            <Typography variant="text1" sx={{ marginBottom: 2 }}>
               Join our Sushila Public School and watch your children soar to the newest height.
             </Typography>
             <Button variant="contained" className='footerJoinButton'>
@@ -97,6 +105,8 @@ const Footer = () => {
               variant="outlined"
               size="small"
               placeholder="Enter email address..."
+              value={email}
+              onChange={(e)=>setEmail(e.target.value)}
               sx={{ backgroundColor: 'white', borderRadius: '4px', mt: 1, mb: 2 }}
             />
 
@@ -110,7 +120,7 @@ const Footer = () => {
               <IconButton className='footerButton'>
                 <Facebook />
               </IconButton>
-              <Button variant="contained" sx={{ width: '100%' }} className='footerSubscribeButton'>
+              <Button variant="contained" sx={{ width: '100%' }} className='footerSubscribeButton' onClick={() => subscribe(email)}>
                 subscribe
               </Button>
             </Box>

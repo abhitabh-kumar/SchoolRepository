@@ -1,48 +1,25 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { getAllTeacher, getTeacherByEmail, getAllStudent, deleteTeacher, deleteStudent, updateTeacher, updateStudent } from '../services/Api';
-
-import './SearchBy.css'; // Ensure this CSS file includes card styles
-import UpdateStudentPage from '../createstudentform/UpdateStudentForm';
-import UpdateStudentForm from '../createstudentform/UpdateStudentForm';
+import React, { useState, useEffect } from 'react';
+import authHeader from '../../services/authHeader';
+import { useNavigate} from 'react-router-dom';
+import './SearchBy.css'; 
 
 const SearchBy = () => {
-  const [searchType, setSearchType] = useState(''); // 'teacher' or 'student'
-  const [searchCriteria, setSearchCriteria] = useState(''); // 'name', 'email', etc.
-  const [searchValue, setSearchValue] = useState(''); // User input
-  const [results, setResults] = useState([]); // Search results
-  const [loading, setLoading] = useState(false); // Loading state
-  const [error, setError] = useState(''); // Error state
-
+  const [searchType, setSearchType] = useState(''); 
+  const [searchCriteria, setSearchCriteria] = useState('');
+  const [searchValue, setSearchValue] = useState(''); 
   const navigate = useNavigate();
 
-  const handleSearch = async () => {
-    setLoading(true);
-    setError('');
-    try {
-      let response;
-      if (searchType === "teacher" && searchCriteria === "all") {
-        response = await getAllTeacher();
-      } else if (searchType === "teacher" && searchCriteria === "email") {
-        response = await getTeacherByEmail(searchValue);
-      } else if (searchType === "student" && searchCriteria === "all") {
-        response = await getAllStudent();
-      }
-      setResults(response.data);
-    } catch (error) {
-      console.error('Error fetching search results:', error);
-      setError('Failed to fetch data. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
+  const handleSearch = () => {
+    // Send the searchType, searchCriteria, and searchValue to the search results page
+    navigate('/admin/search-results', {
+      state: { searchType, searchCriteria, searchValue },
+    });
   };
 
   const handleTypeChange = (type) => {
     setSearchType(type);
-    setSearchCriteria(''); // Reset criteria when changing type
-    setSearchValue(''); // Reset search value when changing type
-    setResults([]); // Clear previous results
+    setSearchCriteria(''); 
+    setSearchValue('');
   };
 
   const criteriaOptions = () => {
@@ -58,16 +35,6 @@ const SearchBy = () => {
               onChange={(e) => setSearchCriteria(e.target.value)}
             />
             Name
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="searchCriteria"
-              value="email"
-              checked={searchCriteria === 'email'}
-              onChange={(e) => setSearchCriteria(e.target.value)}
-            />
-            Email
           </label>
           <label>
             <input
@@ -98,16 +65,6 @@ const SearchBy = () => {
             <input
               type="radio"
               name="searchCriteria"
-              value="rollNo"
-              checked={searchCriteria === 'rollNo'}
-              onChange={(e) => setSearchCriteria(e.target.value)}
-            />
-            Roll Number
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="searchCriteria"
               value="class"
               checked={searchCriteria === 'class'}
               onChange={(e) => setSearchCriteria(e.target.value)}
@@ -128,48 +85,6 @@ const SearchBy = () => {
       );
     }
     return null;
-  };
-
-  const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this item?')) {
-      try {
-        if (searchType === 'teacher') {
-          await deleteTeacher(id);
-        } else if (searchType === 'student') {
-          await deleteStudent(id);
-        }
-        // Refresh results after deletion
-        await handleSearch();
-      } catch (error) {
-        console.error('Error deleting item:', error);
-        setError('Failed to delete item. Please try again later.');
-      }
-    }
-  };
-
-  const handleUpdate = async (id) => {
-    // // Implement update functionality. Here we'll just use a placeholder.
-    // const updatedData = { /* data to update */ };
-
-    // try {
-    //   if (searchType === 'teacher') {
-    //     await updateTeacher(id, updatedData);
-    //   }
-     if (searchType === 'student') {
-        navigate(`/admin/search-by/update/student/${id}`);
-      }
-      if (searchType === "teacher"){
-        console.log("Line No. 162");
-        console.log(id);
-        navigate(`/admin/search-by/update/teacher/${id}`);
-
-      }
-    //   // Refresh results after update
-    //   await handleSearch();
-    // } catch (error) {
-    //   console.error('Error updating item:', error);
-    //   setError('Failed to update item. Please try again later.');
-    // }
   };
 
   return (
@@ -207,53 +122,13 @@ const SearchBy = () => {
             placeholder={`Search by ${searchCriteria}`}
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
-            disabled={!searchCriteria} // Disable input if no criteria is selected
+            disabled={!searchCriteria} 
           />
-          <button onClick={handleSearch} disabled={loading || !searchCriteria}>
-            {loading ? 'Searching...' : 'Search'}
+          <button onClick={handleSearch} disabled={!searchCriteria}>
+            Search
           </button>
         </>
       )}
-      {error && <p className="error-message">{error}</p>}
-      <div className="search-results">
-        {results.length > 0 ? (
-          <div className="cards-container">
-            {results.map((result) => (
-              <div className="card" key={result.id}>
-                <h3>{searchType === 'student' ? result.firstName : result.firstName + ' ' + result.lastName}</h3>
-                {searchType === 'student' ? (
-                  <>
-                    <p><strong>Class:</strong> {result.class}</p>
-                    <p><strong>RollNo:</strong> {result.rollNo}</p>
-                    <p><strong>Mother Name:</strong> {result.motherName}</p>
-                    <p><strong>Father Name:</strong> {result.fatherName}</p>
-                    <p><strong>Age:</strong> {result.age}</p>
-                    <p><strong>Mobile Number:</strong> {result.mobileNumber}</p>
-                    <p><strong>Parent Email Id:</strong> {result.parentEmailId}</p>
-                    <p><strong>Address:</strong> {result.address}</p>
-                  </>
-                ) : (
-                  <>
-                    <p><strong>Email:</strong> {result.email}</p>
-                    <p><strong>Mobile Number:</strong> {result.mobile_number}</p>
-                    <p><strong>Age:</strong> {result.age}</p>
-                    <p><strong>Address:</strong> {result.address}</p>
-                    <p><strong>Date of Birth:</strong> {result.dateofBirth}</p>
-                    <p><strong>Qualification:</strong> {result.qualification}</p>
-                    <p><strong>Description:</strong> {result.description}</p>
-                  </>
-                )}
-                <div className="card-actions">
-                  <button onClick={() => handleUpdate(result.id)}>Update</button>
-                  <button onClick={() => handleDelete(result.id)}>Delete</button>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>No results found</p>
-        )}
-      </div>
     </div>
   );
 };

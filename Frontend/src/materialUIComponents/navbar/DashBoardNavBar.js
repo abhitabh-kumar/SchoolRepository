@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react'
 import { styled, useTheme } from '@mui/material/styles';
 import {
   Box,
@@ -14,6 +14,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Badge,
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -26,9 +27,11 @@ import {
   Announcement as AnnouncementIcon,
   Assessment as AssessmentIcon,
   AccountBox as AccountBoxIcon,
+  QuestionAnswer,
 } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { data1, data2 } from '../../dummyData/metaData';
+import './NavBar.css'
+// import { data1, data2 } from '../../dummyData/studentMenuData';
 
 const drawerWidth = 240;
 
@@ -36,8 +39,10 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-end',
+  borderBottom:'1px solid white',
+  borderRight:'1px solid #1f2f4a',
   padding: theme.spacing(0, 1),
-  backgroundColor: "#f5f5f5", // Light background color
+  backgroundColor: "#1f2f4a", // Light background color
   ...theme.mixins.toolbar,
 }));
 
@@ -45,7 +50,8 @@ const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
-  backgroundColor: "#e0e0e0", // Light AppBar background color
+  backgroundColor: "#1f2f4a", // Light AppBar background color
+  borderBottom:'1px solid white',
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.enteringScreen,
@@ -66,12 +72,13 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
     ...(open && {
-      '& .MuiDrawer-paper': { width: drawerWidth, backgroundColor: "#f5f5f5" }, // Light drawer background color
+      '& .MuiDrawer-paper': { width: drawerWidth, backgroundColor: "#1f2f4a"}, // Light drawer background color
     }),
     ...(!open && {
       '& .MuiDrawer-paper': {
+        overflowX:'hidden',
         width: `calc(${theme.spacing(7)} + 1px)`,
-        backgroundColor: "#f5f5f5",
+        backgroundColor: "#1f2f4a",
         transition: theme.transitions.create('width', {
           easing: theme.transitions.easing.easeInOut,
           duration: theme.transitions.duration.leavingScreen,
@@ -81,21 +88,13 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const icons = {
-  color: '#757575', 
-  '&:hover': {
-    '& > path, use': {
-      fill: 'black',
-    },
-  },
-};
 
-export default function DashBoardNavBar({ children }) {
+export default function DashBoardNavBar({ children, menu1 ,menu2,notificationCount}) {
 
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => setOpen(true);
   const handleDrawerClose = () => setOpen(false);
@@ -113,35 +112,34 @@ export default function DashBoardNavBar({ children }) {
             sx={{
               width: '40px',
               marginRight: 5,
-              color: '#000',
+              color: 'white',
               ...(open && { display: 'none' }),
             }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ color: "#000" }}>
+          <Typography variant="h6" noWrap component="div" sx={{ color: "#3eb065" }}>
             Shushila Public School
           </Typography>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose} style={{ color: '#000', width: '40px' }}>
+          <IconButton onClick={handleDrawerClose} style={{ color: 'white', width: '40px' }}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
-          {data1.map((item) => (
+          {menu1.map((item) => (
             <ListItem
               key={item.text}
               disablePadding
-              onClick={() => navigate(`/student/${item.url}`)}
+              onClick={() => navigate(`${item.url}`)}
               sx={{
-                color: "#757575",
+                color: location.pathname === `${item.url}` ? "#3eb065" : "#b7b7b7",
                 display: 'block',
-                '&:hover': { color: "black" },
-                backgroundColor: location.pathname === `/student/${item.url}` ? '#d8d7d7' : "#f5f5f5"
+                backgroundColor: location.pathname === `${item.url}` ? '#152033' : "#1f2f4a"
               }}
             >
               <ListItemButton
@@ -158,28 +156,28 @@ export default function DashBoardNavBar({ children }) {
                     justifyContent: 'center',
                   }}
                 >
-                  {item.text === "Dashboard" && <SpaceDashboardIcon sx={icons} />}
-                  {item.text === "Time Table" && <AppsOutageIcon sx={icons} />}
-                  {item.text === "Attendance" && <AssessmentIcon sx={icons} />}
-                  {item.text === "Tests" && <LibraryAddCheckIcon sx={icons} />}
+                  {( item.url === "/teacher/dashHome" || item.url === "/student/dashHome") && <SpaceDashboardIcon sx={{color: location.pathname === `${item.url}` ? "#3eb065" : "#b7b7b7"}} />}
+                  {( item.url === "/teacher/timeTable" || item.url === "/student/timeTable") && <AppsOutageIcon sx={{color: location.pathname === `${item.url}` ? "#3eb065" : "#b7b7b7"}} />}
+                  {( item.url === "/teacher/markAttendance" || item.url === "/student/attendance") && <AssessmentIcon sx={{color: location.pathname === `${item.url}` ? "#3eb065" : "#b7b7b7"}} />}
+                  {( item.url === "/teacher/createTest" || item.url === "/student/tests") && <QuizIcon sx={{color: location.pathname === `${item.url}` ? "#3eb065" : "#b7b7b7"}} />}
+                  {item.url === "/teacher/createQuestions" && <QuestionAnswer sx={{color: location.pathname === `${item.url}` ? "#3eb065" : "#b7b7b7"}} />}
                 </ListItemIcon>
-                <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={item.text} variant="body2" sx={{ opacity: open ? 1 : 0}} />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
         <Divider />
         <List>
-          {data2.map((item) => (
+          {menu2.map((item) => (
             <ListItem
               key={item.text}
               disablePadding
-              onClick={() => navigate(`/student/${item.url}`)}
+              onClick={() => navigate(`${item.url}`)}
               sx={{
-                color: "#757575",
+                color: location.pathname === `${item.url}` ? "#3eb065" : "#b7b7b7",
                 display: 'block',
-                '&:hover': { color: "black" },
-                backgroundColor: location.pathname === `/student/${item.url}` ? '#d8d7d7' : "#f5f5f5"
+                backgroundColor: location.pathname === `${item.url}` ? '#152033' : "#1f2f4a"
               }}
             >
               <ListItemButton
@@ -195,10 +193,15 @@ export default function DashBoardNavBar({ children }) {
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
                   }}
-                >
-                  {item.text === "Announcement" && <AnnouncementIcon sx={icons} />}
-                  {item.text === "Report Card" && <QuizIcon sx={icons} />}
-                  {item.text === "My Profile" && <AccountBoxIcon sx={icons} />}
+                > 
+                
+                      {( item.url === "/teacher/announcement" || item.url === "/student/announcement") &&
+                        <Badge badgeContent={notificationCount} classes={{ badge: "customBadge" }}> 
+                              <AnnouncementIcon sx={{color: location.pathname === `${item.url}` ? "#3eb065" : "#b7b7b7"}} />
+                        </Badge>}
+                  
+                  {( item.url === "/teacher/result" || item.url === "/student/reportCard" ) && <LibraryAddCheckIcon sx={{color: location.pathname === `${item.url}` ? "#3eb065" : "#b7b7b7"}} />}
+                  {( item.url === "/teacher/myProfile" || item.url === "/student/myProfile")&& <AccountBoxIcon sx={{color: location.pathname === `${item.url}` ? "#3eb065" : "#b7b7b7"}} />}
                 </ListItemIcon>
                 <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
@@ -208,7 +211,6 @@ export default function DashBoardNavBar({ children }) {
       </Drawer>
       <Box component="main" sx={{
         flexGrow: 1, color: '#000', minHeight: "100vh", backgroundColor: "#ffffff",
-
         transition: theme.transitions.create('margin', {
           easing: theme.transitions.easing.easeInOut,
           duration: theme.transitions.duration.enteringScreen,
